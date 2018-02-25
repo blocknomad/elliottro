@@ -1,0 +1,13 @@
+/* CSS declarations go here */
+
+html, body {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
