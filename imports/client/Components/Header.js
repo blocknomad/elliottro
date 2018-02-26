@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 
-import config from '/imports/ui/config';
+import config from '/imports/client/config';
 
 // Styled components
 

@@ -5,7 +5,9 @@ export default {
 
   // Ascending Triangle
 
-  ascendingTriangle: {
+  AT: {
+    name: 'Ascending Triangle',
+    status: 1,
     min: 2,
     max: 5,
     rule: 'PTPTPT',
@@ -16,7 +18,9 @@ export default {
 
   /*** END: Triangles  ***/
 
-  flag: {
+  FL: {
+    name: 'Flag',
+    status: 1,
     min: 1,
     max: 6,
     rule: 'TPTPTPT',
@@ -26,6 +30,8 @@ export default {
   // Head and Shoulders
 
 	HS: {
+    name: 'Head & Shoulders',
+    status: 1,
     min: 2,
     max: 6,
     rule: 'TPTPTPT',
@@ -34,7 +40,9 @@ export default {
 
   // Inversed Head and Shoulders
 
-  inversedHS: {
+  IHS: {
+    name: 'Inversed Head & Shoulders',
+    status: 2,
     min: 2,
     max: 6,
     rule: 'PTPTPTP',

@@ -3,7 +3,7 @@ import Styled from 'styled-components';
 
 import Tile from './Tile';
 
-import config from '/imports/ui/config';
+import config from '/imports/client/config';
 
 // Styled components
 
@@ -16,7 +16,8 @@ const Results = Styled.section`
 
 const Tabs = Styled.section`
   width: 18%;
-  padding-right: 2%;
+  flex-shrink: 0;
+  padding-right: 4%;
 `
 
 const Tab = Styled.article`

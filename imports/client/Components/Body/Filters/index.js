@@ -3,7 +3,12 @@ import Styled from 'styled-components';
 
 import Tile from './Tile';
 
-import config from '/imports/ui/config';
+import config from '/imports/client/config';
+import BaseCurrencies from '/imports/both/fixtures/baseCurrencies';
+import Exchanges from '/imports/both/fixtures/exchanges';
+import Patterns from '/imports/both/fixtures/patterns';
+
+import Lodash from 'lodash';
 
 // Styled components
 
@@ -32,7 +37,7 @@ const Filter = Styled.article`
 const Title = Styled.h2`
   color: ${config.colors.secondaryContrast};
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: 15px;
   margin: 0 0 14px 14px;
 `
 
@@ -46,43 +51,60 @@ const SearchButton = Styled.div`
   font-weight: bold;
   padding: 1% 0;
   cursor: pointer;
-  box-shadow: 1px 1px 3px rgba(0,0,0,.2);
 
   &:hover {
-    background-color: #B0BEC5;
-    color: #455A64;
+    background-color: #c1cdd2;
+    color: #546E7A;
   }
 `
 
 export default class FiltersComponent extends Component {
   render() {
+    const { handleFilterToggle } = this.props;
+
     return (
       <Container>
         <Filters>
           <Filter>
             <Title>Exchange</Title>
 
-            <Tile label="Bittrex" checked={false} />
-            <Tile label="Binance" checked={false} />
-            <Tile label="Bitfinex" checked={false} />
+            {Lodash.map(Exchanges, (exchange, key) =>
+              <Tile
+                key={key}
+                label={exchange.name}
+                status={exchange.status}
+                option="exchanges"
+                value={key}
+                handleToggle={handleFilterToggle}
+              />)}
           </Filter>
 
           <Filter>
             <Title>Base currency</Title>
 
-            <Tile label="BTC" checked={false} />
-            <Tile label="ETH" checked={false} />
-            <Tile label="USD/USDT" checked={false} />
+            {Lodash.map(BaseCurrencies, (currency, key) =>
+              <Tile
+                key={key}
+                label={currency.name}
+                status={currency.status}
+                option="baseCurrencies"
+                value={key}
+                handleToggle={handleFilterToggle}
+              />)}
           </Filter>
 
           <Filter>
             <Title>Pattern</Title>
 
-            <Tile label="Head & Shoulders" checked={false} />
-            <Tile label="Inversed Head & Shoulders" checked={false} />
-            <Tile label="Falling Wedge" checked={false} />
-            <Tile label="Ascending Triangle" checked={false} />
-            <Tile label="Cup & Handle" checked={false} />
+            {Lodash.map(Patterns, (pattern, key) =>
+              <Tile
+                key={key}
+                label={pattern.name}
+                status={pattern.status}
+                option="patterns"
+                value={key}
+                handleToggle={handleFilterToggle}
+              />)}
           </Filter>
         </Filters>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 
-import config from '/imports/ui/config';
+import config from '/imports/client/config';
 
 // Styled components
 
@@ -9,23 +9,36 @@ const Tile = Styled.div`
   display: flex;
   padding: 3% 20px 3% 14px;
   border-box: box-sizing;
-  background-color: #FFF;
+  background-color: ${props => props.status === 1 ?  '#F5F5F5' : config.colors.primaryContrast};
   box-shadow: 0 0 0 rgba(0,0,0,.1);
   border-bottom: 1px solid #e2e2e4;
-  cursor: pointer;
   align-items: center;
 
-  &:hover {
-    background-color: ${config.colors.primary};
+  ${props => props.status === 2 && `
+    cursor: pointer;
 
+    &:hover {
+      background-color: ${config.colors.primary};
+
+      h3 {
+        color: ${config.colors.primaryContrast};
+      }
+
+      div {
+        border-color: ${config.colors.primaryContrast};
+      }
+    }
+  `}
+
+  ${props => props.status === 1 && `
     h3 {
-      color: ${config.colors.primaryContrast};
+      color: #607D8B;
     }
 
     div {
-      border-color: ${config.colors.primaryContrast};
+      background-color: #FCFCFC;
     }
-  }
+  `}
 `
 
 const Label = Styled.h3`
@@ -59,15 +72,29 @@ const ToggleMarker = Styled.div`
   background-color: ${config.colors.primary};
 `
 
+const Warning = Styled.i`
+  font-size: 16px;
+  color: #FFB300;
+  margin-right: 8px;
+`
+
 export default class FilterTileComponent extends Component {
   state = {
     toggled: false,
   }
 
+  componentDidMount() {
+    this.handleClick();
+  }
+
   render() {
+    const { status } = this.props;
+
     return (
-      <Tile onClick={this.handleClick}>
+      <Tile onClick={this.handleClick} status={status} title={status === 1 ? 'Not yet available. Coming soon.' : ''}>
+        {status === 1 && <Warning className="material-icons">warning</Warning>}
         <Label>{this.props.label}</Label>
+
         <Toggle toggled={this.state.toggled}>
           <ToggleMarker />
         </Toggle>
@@ -76,6 +103,12 @@ export default class FilterTileComponent extends Component {
   }
 
   handleClick = () => {
-    this.setState({ toggled: !this.state.toggled });
+    if (this.props.status === 2) {
+      this.setState({ toggled: !this.state.toggled });
+
+      const { handleToggle, option, value } = this.props;
+
+      handleToggle(option, value);
+    }
   }
 }
