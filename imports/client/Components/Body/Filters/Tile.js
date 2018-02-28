@@ -74,28 +74,24 @@ const ToggleMarker = Styled.div`
 
 const Warning = Styled.i`
   font-size: 16px;
-  color: #FFB300;
+  color: #888;
   margin-right: 8px;
 `
 
 export default class FilterTileComponent extends Component {
-  state = {
-    toggled: false,
-  }
-
   componentDidMount() {
     this.handleClick();
   }
 
   render() {
-    const { status } = this.props;
+    const { status, toggled } = this.props;
 
     return (
       <Tile onClick={this.handleClick} status={status} title={status === 1 ? 'Not yet available. Coming soon.' : ''}>
         {status === 1 && <Warning className="material-icons">warning</Warning>}
         <Label>{this.props.label}</Label>
 
-        <Toggle toggled={this.state.toggled}>
+        <Toggle toggled={toggled}>
           <ToggleMarker />
         </Toggle>
       </Tile>
@@ -104,8 +100,6 @@ export default class FilterTileComponent extends Component {
 
   handleClick = () => {
     if (this.props.status === 2) {
-      this.setState({ toggled: !this.state.toggled });
-
       const { handleToggle, option, value } = this.props;
 
       handleToggle(option, value);

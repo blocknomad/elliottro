@@ -60,7 +60,7 @@ const SearchButton = Styled.div`
 
 export default class FiltersComponent extends Component {
   render() {
-    const { handleFilterToggle } = this.props;
+    const { handleFilterToggle, filters } = this.props;
 
     return (
       <Container>
@@ -73,6 +73,7 @@ export default class FiltersComponent extends Component {
                 key={key}
                 label={exchange.name}
                 status={exchange.status}
+                toggled={Lodash.indexOf(filters.exchanges, key) !== -1}
                 option="exchanges"
                 value={key}
                 handleToggle={handleFilterToggle}
@@ -87,6 +88,7 @@ export default class FiltersComponent extends Component {
                 key={key}
                 label={currency.name}
                 status={currency.status}
+                toggled={Lodash.indexOf(filters.baseCurrencies, key) !== -1}
                 option="baseCurrencies"
                 value={key}
                 handleToggle={handleFilterToggle}
@@ -101,6 +103,7 @@ export default class FiltersComponent extends Component {
                 key={key}
                 label={pattern.name}
                 status={pattern.status}
+                toggled={Lodash.indexOf(filters.patterns, key) !== -1}
                 option="patterns"
                 value={key}
                 handleToggle={handleFilterToggle}

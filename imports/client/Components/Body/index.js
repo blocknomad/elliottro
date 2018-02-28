@@ -10,22 +10,29 @@ import Lodash from 'lodash';
 
 
 export default class BodyComponent extends Component {
-  filters = {
-    exchanges: [],
-    baseCurrencies: [],
-    patterns: [],
+  state = {
+    filters: {
+      exchanges: [],
+      baseCurrencies: [],
+      patterns: [],
+    }
   }
 
   render() {
     return (
       <section>
-        <Filters handleFilterToggle={this.handleFilterToggle} />
+        <Filters handleFilterToggle={this.handleFilterToggle} filters={this.state.filters} />
         <Results />
       </section>
     );
   }
 
   handleFilterToggle = (option, value) => {
-    this.filters[option] = Lodash.xor(this.filters[option], [value]);
+    setTimeout(() => {
+      const filters = { ...this.state.filters };
+
+      filters[option] = Lodash.xor(filters[option], [value]);
+      filters[option].length > 0 && this.setState({ filters });
+    }, 0);
   }
 }
