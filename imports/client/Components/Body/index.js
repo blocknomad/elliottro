@@ -15,13 +15,20 @@ export default class BodyComponent extends Component {
       exchanges: [],
       baseCurrencies: [],
       patterns: [],
-    }
+    },
+    timeframe: 'H1',
   }
 
   render() {
     return (
       <section>
-        <Filters handleFilterToggle={this.handleFilterToggle} filters={this.state.filters} />
+        <Filters
+          handleFilterToggle={this.handleFilterToggle}
+          handleSearch={this.handleSearch}
+          handleTimeframeChange={this.handleTimeframeChange}
+          filters={this.state.filters}
+          timeframe={this.state.timeframe}
+        />
         <Results />
       </section>
     );
@@ -34,5 +41,13 @@ export default class BodyComponent extends Component {
       filters[option] = Lodash.xor(filters[option], [value]);
       filters[option].length > 0 && this.setState({ filters });
     }, 0);
+  }
+
+  handleTimeframeChange = (timeframe) => {
+    this.setState({ timeframe });
+  }
+
+  handleSearch = () => {
+
   }
 }

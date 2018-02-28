@@ -72,12 +72,6 @@ const ToggleMarker = Styled.div`
   background-color: ${config.colors.primary};
 `
 
-const Warning = Styled.i`
-  font-size: 16px;
-  color: #888;
-  margin-right: 8px;
-`
-
 export default class FilterTileComponent extends Component {
   componentDidMount() {
     this.handleClick();
@@ -88,7 +82,6 @@ export default class FilterTileComponent extends Component {
 
     return (
       <Tile onClick={this.handleClick} status={status} title={status === 1 ? 'Not yet available. Coming soon.' : ''}>
-        {status === 1 && <Warning className="material-icons">warning</Warning>}
         <Label>{this.props.label}</Label>
 
         <Toggle toggled={toggled}>

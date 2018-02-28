@@ -7,6 +7,7 @@ import config from '/imports/client/config';
 import BaseCurrencies from '/imports/both/fixtures/baseCurrencies';
 import Exchanges from '/imports/both/fixtures/exchanges';
 import Patterns from '/imports/both/fixtures/patterns';
+import Timeframes from '/imports/both/fixtures/timeframes';
 
 import Lodash from 'lodash';
 
@@ -41,6 +42,38 @@ const Title = Styled.h2`
   margin: 0 0 14px 14px;
 `
 
+const TimeframesList = Styled.section`
+  padding: 3% 20% 0.5%;
+
+  label {
+    font-size: 14px;
+    color: ${config.colors.secondaryContrast};
+    font-weight: normal;
+  }
+`
+
+const Timeframe = Styled.span`
+  padding: 4px 6px;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #607D8B;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: #e2e2e2;
+  }
+
+  ${props => props.selected && `
+    color: ${config.colors.primary};
+    text-decoration: underline;
+    font-weight: 600;
+  `}
+`
+
 const SearchButton = Styled.div`
   background-color: #CFD8DC;
   color: #607D8B;
@@ -60,7 +93,13 @@ const SearchButton = Styled.div`
 
 export default class FiltersComponent extends Component {
   render() {
-    const { handleFilterToggle, filters } = this.props;
+    const {
+      handleFilterToggle,
+      handleSearch,
+      handleTimeframeChange,
+      filters,
+      timeframe,
+    } = this.props;
 
     return (
       <Container>
@@ -111,7 +150,21 @@ export default class FiltersComponent extends Component {
           </Filter>
         </Filters>
 
-        <SearchButton>
+        <TimeframesList>
+          <label>Timeframe: </label>
+
+          {Lodash.map(Timeframes, ({ name }, key) =>
+            <Timeframe
+              key={key}
+              selected={timeframe === key}
+              onClick={() => handleTimeframeChange(key)}
+            >
+              {name}
+            </Timeframe>
+          )}
+        </TimeframesList>
+
+        <SearchButton onClick={handleSearch}>
           Search
         </SearchButton>
       </Container>

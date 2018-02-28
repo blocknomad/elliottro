@@ -15,6 +15,13 @@ const Header = Styled.header`
 
   h1 {
     font-size: 34px;
+
+    sup {
+      font-size: .285em;
+      margin-left: .4em;
+      font-weight: 600;
+      color: #37474F;
+    }
   }
 
   p {
@@ -28,7 +35,7 @@ export default class HeaderComponent extends Component {
   render() {
     return (
       <Header>
-        <h1>Elliott&middot;ro</h1>
+        <h1>Elliott&middot;ro<sup>PRE-ALPHA</sup></h1>
         <p>A simple cryptocurrency chart pattern screener which uses AI methods.</p>
       </Header>
     );
