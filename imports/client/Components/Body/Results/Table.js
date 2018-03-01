@@ -9,8 +9,9 @@ import config from '/imports/client/config';
 const Table = Styled.table`
   width: 100%;
   background-color: ${config.colors.primaryContrast};
-  box-shadow: 4px 4px 2px #00796B;
+  box-shadow: 2px 2px 2px #eee;
   padding: 20px;
+  border: 1px solid #eee;
 
   th {
     text-align: left;

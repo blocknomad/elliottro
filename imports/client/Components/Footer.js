@@ -7,21 +7,28 @@ import config from '/imports/client/config';
 // Styled components
 
 const Footer = Styled.section`
-  width: 100%;
-  text-align: center;
-  padding: 4%;
-  font-size: 13px;
-  color: #fff;
-  background-color: ${config.colors.primary};
-  box-sizing: border-box;
+  padding: 0 ${config.padding.horizontal};
+  background-color: ${config.colors.primaryContrast};
 `
+
+const Content = Styled.div`
+  border-top: 1px solid #e3e3e3;
+  font-size: 13px;
+  color: #444;
+  padding: 4% 0;
+  text-align: center;
+`
+
+
 
 // App component - represents the whole app
 export default class FooterComponent extends Component {
   render() {
     return (
       <Footer>
-        <span>Copyright &copy; {new Date().getFullYear()} Elliottro. All Rights Reserved.</span>
+        <Content>
+          <span>Copyright &copy; {new Date().getFullYear()} Elliottro. All Rights Reserved.</span>
+        </Content>
       </Footer>
     );
   }

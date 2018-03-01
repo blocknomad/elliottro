@@ -90,11 +90,15 @@ const SearchButton = Styled.div`
   font-weight: bold;
   padding: 1% 0;
   cursor: pointer;
-  box-shadow: 3px 3px 3px #B0BEC5;
+  box-shadow: 2px 2px 2px #c3c3c3;
 
   &:hover {
     background-color: #c1cdd2;
     color: #546E7A;
+  }
+
+  &:active {
+    background-color: #B0BEC5;
   }
 `
 

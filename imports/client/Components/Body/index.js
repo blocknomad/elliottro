@@ -18,8 +18,8 @@ export default class BodyComponent extends Component {
       patterns: [],
     },
     timeframe: 'H1',
-    loading: false,
-    hasSearched: false,
+    loading: true,
+    hasSearched: true,
     results: [],
   }
 
