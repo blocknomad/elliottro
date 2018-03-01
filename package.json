@@ -13,6 +13,8 @@
     "node-binance-api": "^0.4.8",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-scrollbar": "^0.5.4",
+    "smoothscroll": "^0.4.0",
     "styled-components": "^3.1.6"
   }
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
+import ScrollArea from 'react-scrollbar';
+import Lodash from 'lodash';
 
 import Tile from './Tile';
 
@@ -8,8 +10,6 @@ import BaseCurrencies from '/imports/both/fixtures/baseCurrencies';
 import Exchanges from '/imports/both/fixtures/exchanges';
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
-
-import Lodash from 'lodash';
 
 // Styled components
 
@@ -40,6 +40,12 @@ const Title = Styled.h2`
   text-transform: uppercase;
   font-size: 15px;
   margin: 0 0 14px 14px;
+`
+
+const Tiles = Styled(ScrollArea).attrs({
+  smoothScrolling: true,
+})`
+  max-height: 50vh;
 `
 
 const TimeframesList = Styled.section`
@@ -84,6 +90,7 @@ const SearchButton = Styled.div`
   font-weight: bold;
   padding: 1% 0;
   cursor: pointer;
+  box-shadow: 3px 3px 3px #B0BEC5;
 
   &:hover {
     background-color: #c1cdd2;
@@ -107,46 +114,52 @@ export default class FiltersComponent extends Component {
           <Filter>
             <Title>Exchange</Title>
 
-            {Lodash.map(Exchanges, (exchange, key) =>
-              <Tile
-                key={key}
-                label={exchange.name}
-                status={exchange.status}
-                toggled={Lodash.indexOf(filters.exchanges, key) !== -1}
-                option="exchanges"
-                value={key}
-                handleToggle={handleFilterToggle}
-              />)}
+            <Tiles>
+              {Lodash.map(Exchanges, (exchange, key) =>
+                <Tile
+                  key={key}
+                  label={exchange.name}
+                  status={exchange.status}
+                  toggled={Lodash.indexOf(filters.exchanges, key) !== -1}
+                  option="exchanges"
+                  value={key}
+                  handleToggle={handleFilterToggle}
+                />)}
+              </Tiles>
           </Filter>
 
           <Filter>
             <Title>Base currency</Title>
 
-            {Lodash.map(BaseCurrencies, (currency, key) =>
-              <Tile
-                key={key}
-                label={currency.name}
-                status={currency.status}
-                toggled={Lodash.indexOf(filters.baseCurrencies, key) !== -1}
-                option="baseCurrencies"
-                value={key}
-                handleToggle={handleFilterToggle}
-              />)}
+            <Tiles>
+              {Lodash.map(BaseCurrencies, (currency, key) =>
+                <Tile
+                  key={key}
+                  label={currency.name}
+                  status={currency.status}
+                  toggled={Lodash.indexOf(filters.baseCurrencies, key) !== -1}
+                  option="baseCurrencies"
+                  value={key}
+                  handleToggle={handleFilterToggle}
+                />)}
+              </Tiles>
           </Filter>
 
           <Filter>
             <Title>Pattern</Title>
 
-            {Lodash.map(Patterns, (pattern, key) =>
-              <Tile
-                key={key}
-                label={pattern.name}
-                status={pattern.status}
-                toggled={Lodash.indexOf(filters.patterns, key) !== -1}
-                option="patterns"
-                value={key}
-                handleToggle={handleFilterToggle}
-              />)}
+            <Tiles>
+              {Lodash.map(Patterns, (pattern, key) =>
+                <Tile
+                  key={key}
+                  label={pattern.name}
+                  status={pattern.status}
+                  toggled={Lodash.indexOf(filters.patterns, key) !== -1}
+                  option="patterns"
+                  value={key}
+                  handleToggle={handleFilterToggle}
+                />)}
+              </Tiles>
           </Filter>
         </Filters>
 

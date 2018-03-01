@@ -5,10 +5,10 @@ export default {
   },
   ETH: {
     name: 'ETH',
-    status: 1,
+    status: 2,
   },
   USD: {
     name: 'USD/USDT',
-    status: 1,
+    status: 2,
   },
 };

@@ -10,9 +10,9 @@ const Tile = Styled.div`
   padding: 3% 20px 3% 14px;
   border-box: box-sizing;
   background-color: ${props => props.status === 1 ?  '#F5F5F5' : config.colors.primaryContrast};
-  box-shadow: 0 0 0 rgba(0,0,0,.1);
   border-bottom: 1px solid #e2e2e4;
   align-items: center;
+  box-shadow: 2.5px 2.5px 3px #CFD8DC;
 
   ${props => props.status === 2 && `
     cursor: pointer;
@@ -44,7 +44,7 @@ const Tile = Styled.div`
 const Label = Styled.h3`
   color: #37474F;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: 300;
   flex-grow: 100;
 `
 

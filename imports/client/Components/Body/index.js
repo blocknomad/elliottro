@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
+import smoothScroll from 'smoothscroll';
 
 import config from '/imports/client/config';
 
@@ -17,19 +18,35 @@ export default class BodyComponent extends Component {
       patterns: [],
     },
     timeframe: 'H1',
+    loading: false,
+    hasSearched: false,
+    results: [],
   }
 
   render() {
+    const {
+      filters,
+      timeframe,
+      loading,
+      hasSearched,
+      results,
+    } = this.state;
+
     return (
       <section>
         <Filters
           handleFilterToggle={this.handleFilterToggle}
           handleSearch={this.handleSearch}
           handleTimeframeChange={this.handleTimeframeChange}
-          filters={this.state.filters}
-          timeframe={this.state.timeframe}
+          filters={filters}
+          timeframe={timeframe}
         />
-        <Results />
+
+        <Results
+          loading={loading}
+          hasSearched={hasSearched}
+          results={results}
+        />
       </section>
     );
   }
@@ -48,6 +65,20 @@ export default class BodyComponent extends Component {
   }
 
   handleSearch = () => {
+    smoothScroll(document.getElementById('results'));
+    this.setState({
+      loading: true,
+      hasSearched: true,
+    });
 
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+        results: [
+          { symbol: 'EOS', baseCurrency: 'BTC', exchange: 'Binance', pattern: 'Head and Shoulders Bottom' },
+          { symbol: 'VIB', baseCurrency: 'BTC', exchange: 'Binance', pattern: 'Head and Shoulders Bottom' },
+        ],
+      });
+    }, 2000)
   }
 }
