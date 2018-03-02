@@ -21,6 +21,8 @@ export default class BodyComponent extends Component {
     loading: false,
     hasSearched: false,
     matches: [],
+    downloadTime: undefined,
+    processingTime: undefined,
   }
 
   render() {
@@ -30,6 +32,8 @@ export default class BodyComponent extends Component {
       loading,
       hasSearched,
       matches,
+      downloadTime,
+      processingTime,
     } = this.state;
 
     return (
@@ -46,6 +50,8 @@ export default class BodyComponent extends Component {
           loading={loading}
           hasSearched={hasSearched}
           matches={matches}
+          downloadTime={downloadTime}
+          processingTime={processingTime}
         />
       </section>
     );
@@ -74,10 +80,10 @@ export default class BodyComponent extends Component {
     Meteor.call('searchPattern', {
       filters: this.state.filters,
       timeframe: this.state.timeframe,
-    }, (err, matches) => {
+    }, (error, response) => {
       this.setState({
         loading: false,
-        matches,
+        ...response,
       });
     });
   }

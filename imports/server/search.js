@@ -34,21 +34,25 @@ Meteor.methods({
 		const Binance = new BinanceAPI.BinanceRest({});
 		const DTW = new dtw();
 
+		// Variables to measure download and processing times
+
+		let downloadTimeStart = new Date().getTime();
+		let downloadTimeEnd;
+		let processingTimeStart;
+
+
 		return new Promise(
 
 			// 1 - Fetch exchange info
 
-			(resolve, reject) => {
-				console.time('fetchData');
-
+			(resolve, reject) =>
 				Binance.exchangeInfo((error, response) => {
 					if (error) {
 						reject(error);
 					} else {
 						resolve(response);
 					}
-				});
-			}
+				})
 
 		).then(
 
@@ -93,8 +97,12 @@ Meteor.methods({
 			// 5 - Sweep out recently added symbols
 
 			data => {
-				console.timeEnd('fetchData');
-				return Lodash.filter(data, ({ klines }) => klines.length >= 30)
+
+				downloadTimeEnd = new Date().getTime();
+				processingTimeStart = new Date().getTime();
+
+				return Lodash.filter(data, ({ klines }) => klines.length >= 30);
+
 			}
 
 		).then(
@@ -102,8 +110,6 @@ Meteor.methods({
 			// 6 - Match patterns
 
 			data => {
-
-				console.time('processData');
 
 				const matches = [];
 				const selectedPatterns = filterPatterns(filters.patterns);
@@ -200,9 +206,12 @@ Meteor.methods({
 
 				});
 
-				console.timeEnd('processData');
 
-				return matches;
+				return {
+					matches,
+					downloadTime: downloadTimeEnd - downloadTimeStart,
+					processingTime: new Date().getTime() - processingTimeStart,
+				};
 			}
 
 		).catch(

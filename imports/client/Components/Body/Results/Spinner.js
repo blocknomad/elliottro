@@ -12,7 +12,10 @@ const BounceDelay = keyframes`
 `
 
 const Spinner = Styled.div`
-  margin: 50px auto;
+  width: 100%;
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
 `
 
 const Bounce = Styled.div`

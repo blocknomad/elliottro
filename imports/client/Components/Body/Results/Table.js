@@ -22,12 +22,16 @@ const Table = Styled.table`
     font-weight: 600;
     padding: 5px 0 10px;
     color: #263238;
+
+    &:first-child {
+      padding-right: 5px;
+    }
   }
 
   td {
     font-size: 14px;
     font-weight: 300;
-    padding: 5px 0;
+    padding: 7px 0;
     color: #37474F;
   }
 
@@ -56,7 +60,12 @@ export default class TableResultsComponent extends Component {
 
         <tbody>
           {Lodash.map(
-            Lodash.orderBy(matches, ['baseAsset', 'quoteAsset', 'exchange', 'pattern']),
+
+            Lodash.sortBy(
+              matches,
+              ['pattern', 'exchange', 'quoteAsset', 'baseAsset']
+            ),
+
             (match, key) =>
               <tr key={key}>
                 <td>{key + 1}</td>
