@@ -14,13 +14,13 @@ export default class BodyComponent extends Component {
   state = {
     filters: {
       exchanges: [],
-      baseCurrencies: [],
+      quoteAssets: [],
       patterns: [],
     },
     timeframe: 'H1',
-    loading: true,
-    hasSearched: true,
-    results: [],
+    loading: false,
+    hasSearched: false,
+    matches: [],
   }
 
   render() {
@@ -29,7 +29,7 @@ export default class BodyComponent extends Component {
       timeframe,
       loading,
       hasSearched,
-      results,
+      matches,
     } = this.state;
 
     return (
@@ -45,7 +45,7 @@ export default class BodyComponent extends Component {
         <Results
           loading={loading}
           hasSearched={hasSearched}
-          results={results}
+          matches={matches}
         />
       </section>
     );
@@ -71,14 +71,14 @@ export default class BodyComponent extends Component {
       hasSearched: true,
     });
 
-    setTimeout(() => {
+    Meteor.call('searchPattern', {
+      filters: this.state.filters,
+      timeframe: this.state.timeframe,
+    }, (err, matches) => {
       this.setState({
         loading: false,
-        results: [
-          { symbol: 'EOS', baseCurrency: 'BTC', exchange: 'Binance', pattern: 'Head and Shoulders Bottom' },
-          { symbol: 'VIB', baseCurrency: 'BTC', exchange: 'Binance', pattern: 'Head and Shoulders Bottom' },
-        ],
+        matches,
       });
-    }, 2000)
+    });
   }
 }

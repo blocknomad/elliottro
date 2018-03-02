@@ -15,136 +15,202 @@
 **/
 
 import { Meteor } from 'meteor/meteor';
-import Binance from 'node-binance-api';
+import BinanceAPI from 'binance';
 import Lodash from 'lodash';
-import DTW from 'dtw';
-import Future from 'fibers/future';
-import Symbols from './static/symbols';
-import Patterns from '/imports/both/fixtures/patterns';
+import dtw from 'dtw';
+
+import filterPatterns from './functions/filterPatterns';
 import normalizeInput from './functions/normalizeInput';
 import normalizeTemplate from './functions/normalizeTemplate';
+import prepareInput from './functions/prepareInput';
+
+import Patterns from '/imports/both/fixtures/patterns';
+import Timeframes from '/imports/both/fixtures/timeframes';
+
 
 
 Meteor.methods({
-	searchPattern(patterns = ['inversedHS'], timeframe) {
-    // const future = new Future();
+	searchPattern({ filters, timeframe } = {}) {
+		const Binance = new BinanceAPI.BinanceRest({});
+		const DTW = new dtw();
+
+		return new Promise(
+
+			// 1 - Fetch exchange info
+
+			(resolve, reject) => {
+				console.time('fetchData');
+
+				Binance.exchangeInfo((error, response) => {
+					if (error) {
+						reject(error);
+					} else {
+						resolve(response);
+					}
+				});
+			}
+
+		).then(
+
+			// 2 - Treat exchange info and filter symbols with desired quote assets
+
+			data =>
+				Lodash.filter(
+					data.symbols,
+					symbol => Lodash.includes(filters.quoteAssets, symbol.quoteAsset)
+				)
+
+		).then(
+
+			// 3 - Create list of promises
+
+			data =>
+				Lodash.map(
+					data,
+					({ symbol, baseAsset, quoteAsset }) =>
+						new Promise(resolve =>
+							Binance.klines({
+								symbol,
+								interval: Timeframes[timeframe].value,
+								limit: 30,
+							}, (error, klines) => resolve({
+								baseAsset,
+								quoteAsset,
+								exchange: 'BINA',
+								klines,
+							}))
+						)
+				)
+
+		).then(
+
+			// 4 - Run list of promises
+
+			data => Promise.all(data)
+
+		).then(
+
+			// 5 - Sweep out recently added symbols
+
+			data => {
+				console.timeEnd('fetchData');
+				return Lodash.filter(data, ({ klines }) => klines.length >= 30)
+			}
+
+		).then(
+
+			// 6 - Match patterns
+
+			data => {
+
+				console.time('processData');
+
+				const matches = [];
+				const selectedPatterns = filterPatterns(filters.patterns);
 
 
-    // Create DTW class
+				// Loops through symbols
 
-    const dtw = new DTW();
+				Lodash.forEach(data, ({
+					quoteAsset,
+					baseAsset,
+					exchange,
+					klines
+				}) => {
 
-    const limit = 30;
+					// Prepare input series
 
-
-		// START: Loop through symbols array
-
-    Symbols.forEach(symbol => {
-      // START: Fetch current symbol kline/candlestick data
-
-      const Cmin = {
-        warpingDistance: Number.POSITIVE_INFINITY,
-      };
+					const input = prepareInput(klines);
 
 
-      // Binance.candlesticks('BCCBTC', '1d', (error, ticks, symbol) => {
-  		Binance.candlesticks(symbol, '1w', (error, ticks, xsymbol) => {
+					// Intialize match variable
 
-        const template = Patterns[pattern];
-
-        if (Lodash.isEmpty(ticks) || ticks.length < template.series.length) return;
-
-        // Extract close value from kline/candlestick
-        const input = {
-          series: Lodash.map(ticks, v => Lodash.toNumber(v[4])),
-          closeTime: Lodash.map(ticks, v => Lodash.toNumber(v[6])),
-        };
-
-        const inputLength = input.series.length;
+					const match = {
+				    cost: Number.POSITIVE_INFINITY,
+				  };
 
 
+					// Loops through selected patterns
 
-        // Increment window size by 1 up to input series length
+					Lodash.forEach(selectedPatterns, pattern => {
 
-        for (let wSize = template.series.length; wSize <= input.series.length; wSize++) {
+						// Increment window size
 
-          // Normalize template series
-          // const normalizedTemplate = wSize > template.series.length * 2 ?
-          //   normalizeTemplate(template, wSize) : template.series;
+						for (
+							let wSize = pattern.series.length;
+							wSize <= input.length;
+							wSize++
+						) {
 
-          const normalizedTemplate = normalizeTemplate(template, wSize);
+							// Normalize template series to window size (wSize)
 
-          // Slid window through input series
-
-          for (let wOffset = 0; wOffset < 5 && wSize + wOffset < input.series.length; wOffset++) {
-            const wStart = inputLength - wOffset - wSize - 1;
-            const wEnd = inputLength - wOffset - 1;
-
-            // Normalize input series
-
-            const normalizedInput = normalizeInput(
-              Lodash.slice(input.series, wStart, wEnd),
-              Patterns[pattern].min,
-              Patterns[pattern].max
-            );
+							const normalizedTemplate = normalizeTemplate(pattern, wSize);
 
 
-            // Compute the similarity cost between the normalized input and the template series
-            const cost = dtw.compute(normalizedInput, normalizedTemplate);
+							// Slid window through input series.
+
+							// Offset starts at 0 and goes up to 5 or max offset allowed
+							// in input series for given window size (wSize) lesser than 5
+
+						  for (
+								let wOffset = 0;
+								wOffset < 5 && wSize + wOffset < input.length;
+								wOffset++
+							) {
+
+								// Compute windows start and end in input series
+
+							  const wStart = input.length - wOffset - wSize - 1;
+						    const wEnd = input.length - wOffset - 1;
 
 
-            if (cost < Cmin.warpingDistance) {
-              Cmin.symbol = symbol;
-              Cmin.warpingDistance = cost;
-              Cmin.pattern = pattern;
-              Cmin.start = new Date(input.closeTime[wStart]).toLocaleString();
-              Cmin.end = new Date(input.closeTime[wEnd]).toLocaleString();
-            }
-          }
-        }
+						    // Normalize input window to template height
 
-        if (Cmin.warpingDistance < 5) {
-          console.log(Cmin);
-        }
-
-        // Fetch optmal path for the two series
-        // const path = dtw.path();
+						    const normalizedInput = normalizeInput(
+						      Lodash.slice(input, wStart, wEnd),
+						      pattern.min,
+						      pattern.max
+						    );
 
 
-        // future.return(normalizedInput)
-        // if (cost < 15) {
-          // console.log(xsymbol, cost)
-        // }
+						    // Compute the similarity cost between the normalized input
+								// and the nomalized template series
 
-  			// const [
-  			//   time,
-  			//   open,
-  			//   high,
-  			//   low,
-  			//   close,
-  			//   volume,
-  			//   closeTime,
-  			//   assetVolume,
-  			//   trades,
-  			//   buyBaseVolume,
-  			//   buyAssetVolume,
-  			//   ignored,
-  			// ] = lastTick;
-      // }, { startTime: 1510444800000, endTime: 1515542400000 });
-      // }, { startTime: 1517464800000, endTime: 1518451200000 });
-  		}, { limit });
+						    const cost = DTW.compute(normalizedInput, normalizedTemplate);
 
-      // END: Fetch current symbol kline/candlestick data
-    });
+						    if (cost < match.cost) {
+									match.cost = cost;
+									match.pattern = pattern.acronym;
+									match.start = klines[wStart].closeTime;
+									match.end = klines[wEnd].closeTime;
+						    }
+						  }
+						}
+					});
 
 
-		// END: Loop through symbols array
+					// Push optimal match to matches array if its cost is lesser than 4
 
-    // return future.wait();
+					match.cost < 4 &&	matches.push({
+						quoteAsset,
+						baseAsset,
+						exchange,
+						...match,
+					});
+
+				});
+
+				console.timeEnd('processData');
+
+				return matches;
+			}
+
+		).catch(
+
+			error => {
+				console.log('ERROR: ', error);
+			}
+
+		);
 	},
-
 })
-
-
-
-//Meteor.call('searchPattern')

@@ -6,7 +6,7 @@ import Lodash from 'lodash';
 import Tile from './Tile';
 
 import config from '/imports/client/config';
-import BaseCurrencies from '/imports/both/fixtures/baseCurrencies';
+import QuoteAssets from '/imports/both/fixtures/quoteAssets';
 import Exchanges from '/imports/both/fixtures/exchanges';
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
@@ -133,16 +133,16 @@ export default class FiltersComponent extends Component {
           </Filter>
 
           <Filter>
-            <Title>Base currency</Title>
+            <Title>Quote asset</Title>
 
             <Tiles>
-              {Lodash.map(BaseCurrencies, (currency, key) =>
+              {Lodash.map(QuoteAssets, (quoteAsset, key) =>
                 <Tile
                   key={key}
-                  label={currency.name}
-                  status={currency.status}
-                  toggled={Lodash.indexOf(filters.baseCurrencies, key) !== -1}
-                  option="baseCurrencies"
+                  label={quoteAsset.name}
+                  status={quoteAsset.status}
+                  toggled={Lodash.indexOf(filters.quoteAssets, key) !== -1}
+                  option="quoteAssets"
                   value={key}
                   handleToggle={handleFilterToggle}
                 />)}

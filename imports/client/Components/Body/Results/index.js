@@ -22,7 +22,7 @@ export default class ResultsComponent extends Component {
     const {
       loading,
       hasSearched,
-      results,
+      matches,
     } = this.props;
 
     return (
@@ -31,7 +31,7 @@ export default class ResultsComponent extends Component {
         hasSearched={hasSearched}
       >
         {loading && <Spinner />}
-        {hasSearched && !loading && <Table results={results} />}
+        {hasSearched && !loading && <Table matches={matches} />}
       </Results>
     );
   }

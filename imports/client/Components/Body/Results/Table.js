@@ -4,6 +4,9 @@ import Lodash from 'lodash';
 
 import config from '/imports/client/config';
 
+import Patterns from '/imports/both/fixtures/patterns';
+
+
 // Styled components
 
 const Table = Styled.table`
@@ -35,14 +38,15 @@ const Table = Styled.table`
 
 export default class TableResultsComponent extends Component {
   render() {
-    const { results } = this.props;
+    const { matches } = this.props;
 
     return (
       <Table>
         <thead>
           <tr>
-            <th>Symbol</th>
-            <th>Base Currency</th>
+            <th>#</th>
+            <th>Base Asset</th>
+            <th>Quote Asset</th>
             <th>Exchange</th>
             <th>Pattern</th>
             <th>Starts in</th>
@@ -51,13 +55,18 @@ export default class TableResultsComponent extends Component {
         </thead>
 
         <tbody>
-          {Lodash.map(results, (result, key) =>
-            <tr key={key}>
-              <td>{result.symbol}</td>
-              <td>{result.baseCurrency}</td>
-              <td>{result.exchange}</td>
-              <td>{result.pattern}</td>
-            </tr>
+          {Lodash.map(
+            Lodash.orderBy(matches, ['baseAsset', 'quoteAsset', 'exchange', 'pattern']),
+            (match, key) =>
+              <tr key={key}>
+                <td>{key + 1}</td>
+                <td>{match.baseAsset}</td>
+                <td>{match.quoteAsset}</td>
+                <td>{match.exchange}</td>
+                <td>{Patterns[match.pattern].name}</td>
+                <td>{new Date(match.start).toLocaleString()}</td>
+                <td>{new Date(match.end).toLocaleString()}</td>
+              </tr>
           )}
         </tbody>
       </Table>
