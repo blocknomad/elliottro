@@ -50,6 +50,7 @@ const Tiles = Styled(ScrollArea).attrs({
 
 const TimeframesList = Styled.section`
   padding: 3% 20% 0.5%;
+  text-align: center;
 
   label {
     font-size: 14px;

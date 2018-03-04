@@ -9,6 +9,6 @@ export default {
   },
   USD: {
     name: 'USD/USDT',
-    status: 2,
+    status: 1,
   },
 };

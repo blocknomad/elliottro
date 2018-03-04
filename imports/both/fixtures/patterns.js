@@ -14,7 +14,11 @@ export default {
     name: 'Double Bottom Reversal',
     acronym: 'DBR',
     type: 'Reversal',
-    status: 1,
+    status: 2,
+    min: 2,
+    max: 6,
+    rule: 'PTPTP',
+    series: [6, 2, 4, 2, 4],
   },
 
   HST: {

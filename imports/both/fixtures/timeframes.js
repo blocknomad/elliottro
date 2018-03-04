@@ -1,12 +1,4 @@
 export default {
-  M1: {
-    name: '1 min',
-    value: '1m',
-  },
-  M5: {
-    name: '5 mins',
-    value: '5m',
-  },
   M15: {
     name: '15 mins',
     value: '15m',

@@ -73,8 +73,8 @@ export default class TableResultsComponent extends Component {
                 <td>{match.quoteAsset}</td>
                 <td>{match.exchange}</td>
                 <td>{Patterns[match.pattern].name}</td>
-                <td>{new Date(match.start).toLocaleString()}</td>
-                <td>{new Date(match.end).toLocaleString()}</td>
+                <td>{new Date(match.start + 1000).toLocaleString()}</td>
+                <td>{new Date(match.end + 1000).toLocaleString()}</td>
               </tr>
           )}
         </tbody>
