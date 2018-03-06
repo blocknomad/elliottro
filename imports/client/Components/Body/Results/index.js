@@ -45,7 +45,7 @@ export default class ResultsComponent extends Component {
           <Table matches={matches} key={0} />,
 
           <Stats key={1}>
-            Download time: {downloadTime}ms &nbsp;-&nbsp; Processing time: {processingTime}ms &nbsp;-&nbsp; Matches: {matches.length}
+            Processing time: {processingTime}ms &nbsp;-&nbsp; Matches: {matches.length}
           </Stats>
 
         ]}
