@@ -13,6 +13,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scrollbar": "^0.5.4",
+    "simpl-schema": "^1.4.2",
     "smoothscroll": "^0.4.0",
     "styled-components": "^3.1.6"
   }
