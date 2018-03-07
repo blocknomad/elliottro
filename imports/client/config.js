@@ -4,8 +4,10 @@ export default {
     primaryContrast: '#fff',
     secondary: '#ECEFF1',
     secondaryContrast: '#37474F',
+    border: 'rgba(0, 0, 0, .14)',
+    text: '#37474F',
   },
   padding: {
-    horizontal: '12%',
+    horizontal: '1vw',
   },
 };

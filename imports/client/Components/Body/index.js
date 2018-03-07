@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
-import smoothScroll from 'smoothscroll';
 
 import config from '/imports/client/config';
 
@@ -9,6 +8,15 @@ import Results from './Results';
 
 import Lodash from 'lodash';
 
+
+// Styled components
+
+const Copyright = Styled.p`
+  color: ${config.colors.text};
+  padding: 15px ${config.padding.horizontal} 0;
+  font-size: 12px;
+  text-align: center;
+`
 
 export default class BodyComponent extends Component {
   state = {
@@ -21,7 +29,6 @@ export default class BodyComponent extends Component {
     loading: false,
     hasSearched: false,
     matches: [],
-    downloadTime: undefined,
     processingTime: undefined,
   }
 
@@ -38,13 +45,19 @@ export default class BodyComponent extends Component {
 
     return (
       <section>
-        <Filters
-          handleFilterToggle={this.handleFilterToggle}
-          handleSearch={this.handleSearch}
-          handleTimeframeChange={this.handleTimeframeChange}
-          filters={filters}
-          timeframe={timeframe}
-        />
+        <div style={{width: '25%'}}>
+          <Filters
+            handleFilterToggle={this.handleFilterToggle}
+            handleSearch={this.handleSearch}
+            handleTimeframeChange={this.handleTimeframeChange}
+            filters={filters}
+            timeframe={timeframe}
+          />
+
+          <Copyright>
+            &copy; {new Date().getFullYear()} Elliottro. All rights reserved.
+          </Copyright>
+        </div>
 
         <Results
           loading={loading}
@@ -58,11 +71,11 @@ export default class BodyComponent extends Component {
   }
 
   handleFilterToggle = (option, value) => {
-    setTimeout(() => {
+    Meteor.setTimeout(() => {
       const filters = { ...this.state.filters };
 
       filters[option] = Lodash.xor(filters[option], [value]);
-      filters[option].length > 0 && this.setState({ filters });
+      this.setState({ filters });
     }, 0);
   }
 
@@ -71,7 +84,6 @@ export default class BodyComponent extends Component {
   }
 
   handleSearch = () => {
-    smoothScroll(document.getElementById('results'));
     this.setState({
       loading: true,
       hasSearched: true,
