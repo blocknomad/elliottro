@@ -9,14 +9,15 @@ const Header = Styled.header`
   display: flex;
   align-items: center;
   width: 100%;
+  height: 55px;
   box-sizing: border-box;
   padding: 1% ${config.padding.horizontal};
-  border-bottom: 1px solid ${config.colors.border};
+  background-color: ${config.colors.primary};
 `
 
 const Logo = Styled.img`
-  width: 111px;
-  height: 21px;
+  width: 107px;
+  height: 20.5px;
 `
 
 const Menu = Styled.div`
@@ -25,7 +26,7 @@ const Menu = Styled.div`
   a {
     margin-right: 35px;
     font-size: 12px;
-    color: ${config.colors.text};
+    color: ${config.colors.primaryContrast};
     text-decoration: none;
     opacity: .7;
 

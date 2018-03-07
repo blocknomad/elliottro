@@ -13,7 +13,7 @@ import Lodash from 'lodash';
 
 const Screener = Styled.section`
   display: flex;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 55px);
 `;
 
 export default class BodyComponent extends Component {
