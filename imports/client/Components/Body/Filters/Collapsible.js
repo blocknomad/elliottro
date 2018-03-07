@@ -31,7 +31,7 @@ const Icon = Styled.i`
 `;
 
 const Content = Styled.div`
-  background-color: #f5f5f5;
+  background-color: ${config.colors.secondary};
   overflow: hidden;
   transition: .3s ease-in-out;
   height: 0;

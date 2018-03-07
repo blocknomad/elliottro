@@ -12,6 +12,6 @@ export default {
   USD: {
     name: 'USD/USDT',
     value: ['USD', 'USDT'],
-    status: 1,
+    status: 2,
   },
 };

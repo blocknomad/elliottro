@@ -13,9 +13,9 @@ const BounceDelay = keyframes`
 
 const Spinner = Styled.div`
   width: 100%;
-  padding: 50px 0;
   display: flex;
   justify-content: center;
+  margin-top: 10%;
 `
 
 const Bounce = Styled.div`
@@ -38,8 +38,9 @@ const Bounce = Styled.div`
   }
 `
 
-export default () => <Spinner>
-  <Bounce />
-  <Bounce />
-  <Bounce />
-</Spinner>
+export default () =>
+  <Spinner>
+    <Bounce />
+    <Bounce />
+    <Bounce />
+  </Spinner>

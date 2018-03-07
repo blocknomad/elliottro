@@ -11,12 +11,10 @@ import Lodash from 'lodash';
 
 // Styled components
 
-const Copyright = Styled.p`
-  color: ${config.colors.text};
-  padding: 15px ${config.padding.horizontal} 0;
-  font-size: 12px;
-  text-align: center;
-`
+const Screener = Styled.section`
+  display: flex;
+  min-height: calc(100vh - 50px);
+`;
 
 export default class BodyComponent extends Component {
   state = {
@@ -44,20 +42,15 @@ export default class BodyComponent extends Component {
     } = this.state;
 
     return (
-      <section>
-        <div style={{width: '25%'}}>
-          <Filters
-            handleFilterToggle={this.handleFilterToggle}
-            handleSearch={this.handleSearch}
-            handleTimeframeChange={this.handleTimeframeChange}
-            filters={filters}
-            timeframe={timeframe}
-          />
-
-          <Copyright>
-            &copy; {new Date().getFullYear()} Elliottro. All rights reserved.
-          </Copyright>
-        </div>
+      <Screener>
+        <Filters
+          handleFilterToggle={this.handleFilterToggle}
+          handleSearch={this.handleSearch}
+          handleTimeframeChange={this.handleTimeframeChange}
+          filters={filters}
+          timeframe={timeframe}
+          loading={loading}
+        />
 
         <Results
           loading={loading}
@@ -66,7 +59,7 @@ export default class BodyComponent extends Component {
           downloadTime={downloadTime}
           processingTime={processingTime}
         />
-      </section>
+      </Screener>
     );
   }
 

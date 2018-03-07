@@ -10,39 +10,34 @@ import Exchanges from '/imports/both/fixtures/exchanges';
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
+
 // Styled components
 
 const Container = Styled.section`
-  width: 100%;
+  width: 25%;
+  flex-shrink: 0;
   border-right: 1px solid ${config.colors.border};
-  border-bottom: 1px solid ${config.colors.border};
-  margin-bottom: 20px;
 `;
 
-const Filters = Styled.section`
-  display: flex;
-  width: 20%;
-  box-sizing: border-box;
-`
+const TimeframesMenu = Styled.article`
+  border-top: 1px solid ${config.colors.border};
+  color: ${config.colors.secondaryContrast};
+  padding: 12px ${config.padding.horizontal};
 
-const Filter = Styled.article`
-  width: 100%;
-  box-sizing: border-box;
-  margin-right: 2%;
-
-  &:last-child {
-    margin-right: 0%;
+  p {
+    font-size: 13px;
+    margin-bottom: 18px;
   }
-`
 
-const TimeframesList = Styled.section`
-  padding: 3% 20% 0.5%;
-  text-align: center;
+  div {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px;
+  }
 
   label {
-    font-size: 14px;
-    color: ${config.colors.secondaryContrast};
-    font-weight: normal;
+    color: ${config.colors.text};
+    font-size: 13px;
   }
 `
 
@@ -59,23 +54,37 @@ const Title = Styled.h2`
   flex-grow: 100;
 `;
 
-const SearchButton = Styled.div`
+const SearchButton = Styled.button`
   background-color: ${config.colors.primary};
+  border: none;
   color: ${config.colors.primaryContrast};
   text-transform: uppercase;
   font-size: 12px;
   padding: 6px 24px;
   cursor: pointer;
 
-  &:disabled {
-    background-color: #c1cdd2;
-    color: #546E7A;
+  &:hover {
+    background-color: #008274;
   }
 
   &:active {
+    background-color: #007b6e;
+  }
+
+  &:disabled {
     background-color: #B0BEC5;
+    cursor: initial;
   }
 `;
+
+const Copyright = Styled.div`
+  color: ${config.colors.text};
+  padding: 35px ${config.padding.horizontal};
+  border-top: 1px solid ${config.colors.border};
+  font-size: 12px;
+  text-align: center;
+`
+
 
 export default class FiltersComponent extends Component {
   render() {
@@ -85,6 +94,7 @@ export default class FiltersComponent extends Component {
       handleTimeframeChange,
       filters,
       timeframe,
+      loading,
     } = this.props;
 
     return (
@@ -92,10 +102,30 @@ export default class FiltersComponent extends Component {
         <Header>
           <Title>Search</Title>
 
-          <SearchButton onClick={handleSearch}>
+          <SearchButton
+            onClick={handleSearch}
+            disabled={loading}
+          >
             Submit
           </SearchButton>
         </Header>
+
+        <TimeframesMenu>
+          <p>Timeframe</p>
+
+          {Lodash.map(Timeframes, (timeframe, key) =>
+            <div key={key}>
+              <input
+                type="radio"
+                name="timeframe"
+                onClick={() => handleTimeframeChange(key)}
+                value={key}
+                id={key}
+                defaultChecked={key === 'H1'}
+              /> <label htmlFor={key}>{timeframe.name}</label>
+            </div>
+          )}
+        </TimeframesMenu>
 
         <Collapsible
           label={`Exchanges (${filters.exchanges.length})`}
@@ -116,6 +146,10 @@ export default class FiltersComponent extends Component {
           items={Patterns}
           handleToggle={handleFilterToggle}
         />
+
+        <Copyright>
+          &copy; {new Date().getFullYear()} Elliottro. All rights reserved.
+        </Copyright>
       </Container>
     );
   }

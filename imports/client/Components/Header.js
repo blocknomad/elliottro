@@ -47,8 +47,8 @@ export default class HeaderComponent extends Component {
 
         <Menu>
           <a href="">Home</a>
-          <a href="">About</a>
           <a href="">Screener</a>
+          <a href="">What comes next</a>
           <a href="">Contact</a>
         </Menu>
       </Header>

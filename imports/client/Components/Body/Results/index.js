@@ -9,18 +9,20 @@ import config from '/imports/client/config';
 // Styled components
 
 const Results = Styled.section`
-  width: 100%;
+  width: 75%;
   box-sizing: border-box;
-  background-color: ${config.colors.primaryContrast};
-  padding: ${props => props.hasSearched ? '4%' : 0} ${config.padding.horizontal};
-  transition: .3s;
+`
+
+const Header = Styled.div`
+  height: 53.31px;
+  display: flex;
+  align-items: center;
+  padding: 0 1vw;
 `
 
 const Stats = Styled.p`
   font-size: 13px;
-  margin: 20px 0 0 21px;
-  color: #37474F;
-  font-weight: 300;
+  color: ${config.colors.text};
 `
 
 export default class ResultsComponent extends Component {
@@ -34,19 +36,18 @@ export default class ResultsComponent extends Component {
     } = this.props;
 
     return (
-      <Results
-        id="results"
-        hasSearched={hasSearched}
-      >
+      <Results>
         {loading && <Spinner />}
 
         {hasSearched && !loading && [
 
-          <Table matches={matches} key={0} />,
+          <Header key={1}>
+            <Stats>
+              Viewing <b>{matches.length}</b> of {matches.length} matches ({processingTime}ms)
+            </Stats>
+          </Header>,
 
-          <Stats key={1}>
-            Processing time: {processingTime}ms &nbsp;-&nbsp; Matches: {matches.length}
-          </Stats>
+          <Table matches={matches} key={2} />
 
         ]}
       </Results>

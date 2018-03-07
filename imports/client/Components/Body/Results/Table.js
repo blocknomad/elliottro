@@ -11,33 +11,37 @@ import Patterns from '/imports/both/fixtures/patterns';
 
 const Table = Styled.table`
   width: 100%;
-  background-color: ${config.colors.primaryContrast};
-  box-shadow: 2px 2px 2px #eee;
-  padding: 20px;
-  border: 1px solid #eee;
+  border-collapse: collapse;
+  border-top: 1px solid ${config.colors.border};
+  border-bottom: 1px solid ${config.colors.border};
 
   th {
     text-align: left;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    padding: 5px 0 10px;
+    padding: 24px 0 5px;
     color: #263238;
 
     &:first-child {
-      padding-right: 5px;
+      padding-right: 10px;
+      padding-left: 1vw;
     }
   }
 
   td {
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 13px;
     padding: 7px 0;
-    color: #37474F;
+    color: ${config.colors.text};
+
+    &:first-child {
+      padding-left: 1vw;
+    }
   }
 
-  tbody tr:not(:last-child) td {
-    border-bottom: 1px solid #ddd;
+  tr:nth-child(even) {
+    background-color: ${config.colors.secondary};
   }
+
 `
 
 export default class TableResultsComponent extends Component {
