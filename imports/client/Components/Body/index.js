@@ -12,22 +12,24 @@ import Lodash from 'lodash';
 // Styled components
 
 const Screener = Styled.section`
-  display: flex;
-  min-height: calc(100vh - 55px);
 `;
 
 export default class BodyComponent extends Component {
   state = {
     filters: {
-      exchanges: [],
-      quoteAssets: [],
-      patterns: [],
+      timeframe: 'H1',
+      pattern: 'HSB',
+      exchanges: ['BINA'],
+      quoteAssets: ['BTC', 'ETH', 'USD'],
     },
-    timeframe: 'H1',
     loading: false,
     hasSearched: false,
     matches: [],
     processingTime: undefined,
+  }
+
+  componentDidMount() {
+    this.handleSearch();
   }
 
   render() {
@@ -35,57 +37,42 @@ export default class BodyComponent extends Component {
       filters,
       timeframe,
       loading,
-      hasSearched,
       matches,
-      downloadTime,
       processingTime,
     } = this.state;
 
     return (
       <Screener>
-        <Filters
-          handleFilterToggle={this.handleFilterToggle}
-          handleSearch={this.handleSearch}
-          handleTimeframeChange={this.handleTimeframeChange}
-          filters={filters}
-          timeframe={timeframe}
-          loading={loading}
-        />
-
         <Results
           loading={loading}
-          hasSearched={hasSearched}
           matches={matches}
-          downloadTime={downloadTime}
           processingTime={processingTime}
+        />
+
+        <Filters
+          handleChange={this.handleChange}
+          filters={filters}
+          loading={loading}
         />
       </Screener>
     );
   }
 
-  handleFilterToggle = (option, value) => {
-    Meteor.setTimeout(() => {
-      const filters = { ...this.state.filters };
+  handleChange = ({ target }) => {
+    const value = target.type === 'checkbox' ?
+      Lodash.xor(this.state.filters[target.name], [target.value]) :
+      target.value;
 
-      filters[option] = Lodash.xor(filters[option], [value]);
-      this.setState({ filters });
-    }, 0);
-  }
+    const filters = this.state.filters;
+    filters[target.name] = value
 
-  handleTimeframeChange = (timeframe) => {
-    this.setState({ timeframe });
+    this.setState({ filters }, this.handleSearch);
   }
 
   handleSearch = () => {
-    this.setState({
-      loading: true,
-      hasSearched: true,
-    });
+    this.setState({ loading: true });
 
-    Meteor.call('searchPattern', {
-      filters: this.state.filters,
-      timeframe: this.state.timeframe,
-    }, (error, response) => {
+    Meteor.call('searchPattern', { ...this.state.filters }, (error, response) => {
       this.setState({
         loading: false,
         ...response,

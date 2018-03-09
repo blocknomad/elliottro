@@ -12,7 +12,10 @@ const Header = Styled.header`
   height: 55px;
   box-sizing: border-box;
   padding: 1% ${config.padding.horizontal};
-  background-color: ${config.colors.primary};
+  border: 1px solid ${config.colors.border};
+  position: fixed;
+  top: 0;
+  left: 0;
 `
 
 const Logo = Styled.img`
@@ -26,7 +29,7 @@ const Menu = Styled.div`
   a {
     margin-right: 35px;
     font-size: 12px;
-    color: ${config.colors.primaryContrast};
+    color: ${config.colors.text};
     text-decoration: none;
     opacity: .7;
 
@@ -49,7 +52,7 @@ export default class HeaderComponent extends Component {
         <Menu>
           <a href="">Home</a>
           <a href="">Screener</a>
-          <a href="">What comes next</a>
+          <a href="">Breakout alerts</a>
           <a href="">Contact</a>
         </Menu>
       </Header>

@@ -22,7 +22,6 @@ import { Meteor } from 'meteor/meteor';
 import Lodash from 'lodash';
 import dtw from 'dtw';
 
-import filterPatterns from './functions/filterPatterns';
 import normalizeInput from './functions/normalizeInput';
 import normalizeTemplate from './functions/normalizeTemplate';
 import prepareInput from './functions/prepareInput';
@@ -34,7 +33,7 @@ import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
-	searchPattern({ filters, timeframe } = {}) {
+	searchPattern(filters) {
 
 		// Create instance of DTW class
 
@@ -44,10 +43,14 @@ Meteor.methods({
 		// Fetch symbols
 
 		const data = Symbols.find({
-			timeframe,
+			timeframe: filters.timeframe,
 			exchange: { $in: filters.exchanges },
 			quoteAsset: { $in: filters.quoteAssets },
 		}).fetch();
+
+		//
+
+		const pattern = Patterns[filters.pattern];
 
 
 		// Variable to measure processing time
@@ -58,7 +61,6 @@ Meteor.methods({
 		// Match patterns
 
 		const matches = [];
-		const selectedPatterns = filterPatterns(filters.patterns);
 
 
 		// Loops through symbols
@@ -82,63 +84,57 @@ Meteor.methods({
 		  };
 
 
-			// Loops through selected patterns
+			// Increment window size
 
-			Lodash.forEach(selectedPatterns, pattern => {
+			for (
+				let wSize = pattern.series.length;
+				wSize <= input.length;
+				wSize++
+			) {
 
-				// Increment window size
+				// Normalize template series to window size (wSize)
 
-				for (
-					let wSize = pattern.series.length;
-					wSize <= input.length;
-					wSize++
+				const normalizedTemplate = normalizeTemplate(pattern, wSize);
+
+
+				// Slid window through input series.
+
+				// Offset starts at 0 and goes up to 5 or max offset allowed
+				// in input series for given window size (wSize) lesser than 5
+
+			  for (
+					let wOffset = 0;
+					wOffset < 5 && wSize + wOffset < input.length;
+					wOffset++
 				) {
 
-					// Normalize template series to window size (wSize)
+					// Compute windows start and end in input series
 
-					const normalizedTemplate = normalizeTemplate(pattern, wSize);
-
-
-					// Slid window through input series.
-
-					// Offset starts at 0 and goes up to 5 or max offset allowed
-					// in input series for given window size (wSize) lesser than 5
-
-				  for (
-						let wOffset = 0;
-						wOffset < 5 && wSize + wOffset < input.length;
-						wOffset++
-					) {
-
-						// Compute windows start and end in input series
-
-					  const wStart = input.length - wOffset - wSize - 1;
-				    const wEnd = input.length - wOffset - 1;
+				  const wStart = input.length - wOffset - wSize - 1;
+			    const wEnd = input.length - wOffset - 1;
 
 
-				    // Normalize input window to template height
+			    // Normalize input window to template height
 
-				    const normalizedInput = normalizeInput(
-				      Lodash.slice(input, wStart, wEnd),
-				      pattern.min,
-				      pattern.max
-				    );
+			    const normalizedInput = normalizeInput(
+			      Lodash.slice(input, wStart, wEnd),
+			      pattern.min,
+			      pattern.max
+			    );
 
 
-				    // Compute the similarity cost between the normalized input
-						// and the nomalized template series
+			    // Compute the similarity cost between the normalized input
+					// and the nomalized template series
 
-				    const cost = DTW.compute(normalizedInput, normalizedTemplate);
+			    const cost = DTW.compute(normalizedInput, normalizedTemplate);
 
-				    if (cost < match.cost) {
-							match.cost = cost;
-							match.pattern = pattern.acronym;
-							match.start = klines[wStart].closeTime;
-							match.end = klines[wEnd].closeTime;
-				    }
-				  }
-				}
-			});
+			    if (cost < match.cost) {
+						match.cost = cost;
+						match.start = klines[wStart].closeTime;
+						match.end = klines[wEnd].closeTime;
+			    }
+			  }
+			}
 
 
 			// Push optimal match to matches array if its cost is lesser than 4
@@ -155,7 +151,6 @@ Meteor.methods({
 
 		return {
 			matches,
-			downloadTime: 0,
 			processingTime: new Date().getTime() - processingTimeStart,
 		};
 

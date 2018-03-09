@@ -15,141 +15,123 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 
 const Container = Styled.section`
   width: 25%;
+  height: calc(100vh - 55px);
+  padding: 20px 24px;
+  box-sizing: border-box;
   flex-shrink: 0;
-  border-right: 1px solid ${config.colors.border};
+  border-left: 1px solid ${config.colors.border};
+  position: fixed;
+  top: 55px;
+  right: 0;
+  overflow-y: auto;
 `;
 
-const TimeframesMenu = Styled.article`
-  border-top: 1px solid ${config.colors.border};
+const Section = Styled.section`
   color: ${config.colors.secondaryContrast};
-  padding: 12px ${config.padding.horizontal};
+  padding: 0 0 24px;
 
   p {
     font-size: 13px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   div {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    margin-right: 5px;
+    padding: 3px 0;
   }
 
   label {
-    color: ${config.colors.text};
     font-size: 13px;
+    color: ${config.colors.text};
   }
-`
-
-const Header = Styled.div`
-  padding: ${config.padding.horizontal};
-  display: flex;
-  align-items: center;
-`;
-
-const Title = Styled.h2`
-  text-transform: uppercase;
-  color: ${config.colors.text};
-  font-size: 14px;
-  flex-grow: 100;
-`;
-
-const SearchButton = Styled.button`
-  background-color: ${config.colors.primary};
-  border: none;
-  color: ${config.colors.primaryContrast};
-  text-transform: uppercase;
-  font-size: 12px;
-  padding: 6px 24px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #008274;
-  }
-
-  &:active {
-    background-color: #007b6e;
-  }
-
-  &:disabled {
-    background-color: #B0BEC5;
-    cursor: initial;
-  }
-`;
-
-const Copyright = Styled.div`
-  color: ${config.colors.text};
-  padding: 35px ${config.padding.horizontal};
-  border-top: 1px solid ${config.colors.border};
-  font-size: 12px;
-  text-align: center;
 `
 
 
 export default class FiltersComponent extends Component {
   render() {
     const {
-      handleFilterToggle,
       handleSearch,
-      handleTimeframeChange,
       filters,
-      timeframe,
       loading,
+      handleChange,
     } = this.props;
 
     return (
       <Container>
-        <Header>
-          <Title>Search</Title>
+        <form>
+          <Section>
+            <p>Timeframe</p>
 
-          <SearchButton
-            onClick={handleSearch}
-            disabled={loading}
-          >
-            Submit
-          </SearchButton>
-        </Header>
+            <select
+              name="timeframe"
+              defaultValue={filters.timeframe}
+              onChange={handleChange}
+            >
+              {Lodash.map(Timeframes, (timeframe, key) =>
+                <option value={key} key={key}>
+                  {timeframe.name}
+                </option>
+              )}
+            </select>
+          </Section>
 
-        <TimeframesMenu>
-          <p>Timeframe</p>
+          <Section>
+            <p>Pattern</p>
 
-          {Lodash.map(Timeframes, (timeframe, key) =>
-            <div key={key}>
-              <input
-                type="radio"
-                name="timeframe"
-                onClick={() => handleTimeframeChange(key)}
-                value={key}
-                id={key}
-                defaultChecked={key === 'H1'}
-              /> <label htmlFor={key}>{timeframe.name}</label>
-            </div>
-          )}
-        </TimeframesMenu>
+            <select
+              name="pattern"
+              defaultValue={filters.pattern}
+              onChange={handleChange}
+            >
+              {Lodash.map(Patterns, (pattern, key) =>
+                <option value={key} key={key} disabled={pattern.status === 1}>
+                  {pattern.name}
+                </option>
+              )}
+            </select>
+          </Section>
 
-        <Collapsible
-          label={`Exchanges (${filters.exchanges.length})`}
-          name="exchanges"
-          items={Exchanges}
-          toggled={true}
-          handleToggle={handleFilterToggle}
-        />
-        <Collapsible
-          label={`Quote assets (${filters.quoteAssets.length})`}
-          name="quoteAssets"
-          items={QuoteAssets}
-          handleToggle={handleFilterToggle}
-        />
-        <Collapsible
-          label={`Patterns (${filters.patterns.length})`}
-          name="patterns"
-          items={Patterns}
-          handleToggle={handleFilterToggle}
-        />
+          <Section>
+            <p>Exchanges</p>
 
-        <Copyright>
-          &copy; {new Date().getFullYear()} Elliottro. All rights reserved.
-        </Copyright>
+            {Lodash.map(Exchanges, (exchange, key) =>
+              <div key={key}>
+                <input
+                  type="checkbox"
+                  name="exchanges"
+                  value={key}
+                  id={key}
+                  defaultChecked={Lodash.includes(filters.exchanges, key)}
+                  disabled={exchange.status === 1}
+                  onChange={handleChange}
+                />
+                &nbsp;<label htmlFor={key}>{exchange.name}</label>
+              </div>
+            )}
+          </Section>
+
+          <Section>
+            <p>Quote assets</p>
+
+            {Lodash.map(QuoteAssets, (quoteAsset, key) =>
+              <div key={key}>
+                <input
+                  type="checkbox"
+                  name="quoteAssets"
+                  value={key}
+                  id={key}
+                  defaultChecked={Lodash.includes(filters.quoteAssets, key)}
+                  disabled={quoteAsset.status === 1}
+                  onChange={handleChange}
+                />
+                &nbsp;<label htmlFor={key}>{quoteAsset.name}</label>
+              </div>
+            )}
+          </Section>
+        </form>
       </Container>
     );
   }

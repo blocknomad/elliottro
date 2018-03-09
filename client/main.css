@@ -5,9 +5,25 @@ html, body {
   margin: 0;
   position: absolute;
   width: 100%;
-  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+  font-family: Roboto, 'Open Sans', sans-serif;
+  letter-spacing: .5px;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p, input {
   margin: 0;
+}
+
+select {
+  background: #FFF;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .14);
+  padding: 7px 0;
+  font-size: 13px;
+  color: #37474F;
+}
+
+input[type="checkbox"],
+select,
+label {
+  cursor: pointer;
 }

@@ -8,6 +8,6 @@ export default {
     text: '#37474F',
   },
   padding: {
-    horizontal: '1vw',
+    horizontal: '2vw',
   },
 };
