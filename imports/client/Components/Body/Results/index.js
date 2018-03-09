@@ -9,11 +9,11 @@ import config from '/imports/client/config';
 // Styled components
 
 const Results = Styled.section`
-  position: fixed;
+  position: relative;
   top: 55px;
   width: 75%;
   box-sizing: border-box;
-  padding: 0 ${config.padding.horizontal};
+  padding: 0 ${config.padding.horizontal} 20px;
 `;
 
 const Header = Styled.div`
@@ -51,34 +51,29 @@ export default class ResultsComponent extends Component {
 
     return (
       <Results>
+        <Header>
+          <Stats>
+            Viewing <b>{matches.length}</b> of {matches.length} matches {!loading && `(${processingTime}ms)`}
+          </Stats>
+
+          <Icon
+            className="material-icons"
+            active={true}
+            title="List view"
+          >
+            view_list
+          </Icon>
+          <Icon
+            className="material-icons"
+            active={false}
+            title="Grid view with charts"
+          >
+            view_module
+          </Icon>
+        </Header>
+
         {loading ?
-
-          <Spinner /> :
-
-          [
-            <Header key={1}>
-              <Stats>
-                Viewing <b>{matches.length}</b> of {matches.length} matches ({processingTime}ms)
-              </Stats>
-
-              <Icon
-                className="material-icons"
-                active={true}
-                title="List view"
-              >
-                view_list
-              </Icon>
-              <Icon
-                className="material-icons"
-                active={false}
-                title="Grid view with charts"
-              >
-                view_module
-              </Icon>
-            </Header>,
-
-            <Table matches={matches} key={2} />
-          ]
+          <Spinner /> : <Table matches={matches} />
         }
       </Results>
     );

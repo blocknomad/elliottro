@@ -6,9 +6,13 @@ import config from '/imports/client/config';
 
 // Styled components
 
-const BounceDelay = keyframes`
-  3%, 30% { transform: translateY(0) }
-  13% { transform: translateY(-100%) }
+const initialColor = '#ccc';
+const animationDuration = .9;
+
+const Transition = keyframes`
+  0% { background-color: ${config.colors.primary} }
+  33% { background-color: ${config.colors.primary} }
+  33.33% { background-color: ${initialColor} }
 `
 
 const Spinner = Styled.div`
@@ -18,29 +22,29 @@ const Spinner = Styled.div`
   margin-top: 10%;
 `
 
-const Bounce = Styled.div`
-  width: 18px;
-  height: 18px;
-  background-color: ${config.colors.primary};
-  margin-right: 10px;
+const Dot = Styled.div`
+  width: 14px;
+  height: 14px;
+  background-color: ${initialColor};
+  margin-right: 14px;
 
   border-radius: 100%;
   display: inline-block;
-  animation: ${BounceDelay} 1.5s infinite ease-in-out both;
+  animation: ${Transition} ${animationDuration}s infinite;
 
   &:nth-child(2) {
-    animation-delay: .5s;
+    animation-delay: ${animationDuration * .33}s;
   }
 
   &:last-child {
-    animation-delay: 1s;
+    animation-delay: ${animationDuration * .66}s;
     margin-right: 0;
   }
 `
 
 export default () =>
   <Spinner>
-    <Bounce />
-    <Bounce />
-    <Bounce />
+    <Dot />
+    <Dot />
+    <Dot />
   </Spinner>

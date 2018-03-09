@@ -12,10 +12,12 @@ const Header = Styled.header`
   height: 55px;
   box-sizing: border-box;
   padding: 1% ${config.padding.horizontal};
-  border: 1px solid ${config.colors.border};
+  border-bottom: 1px solid ${config.colors.border};
+  background-color: ${config.colors.primaryContrast};
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 100;
 `
 
 const Logo = Styled.img`

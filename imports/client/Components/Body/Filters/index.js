@@ -34,18 +34,14 @@ const Section = Styled.section`
     font-size: 13px;
     margin-bottom: 12px;
     font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  div {
-    display: flex;
-    align-items: center;
-    padding: 3px 0;
   }
 
   label {
     font-size: 13px;
     color: ${config.colors.text};
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
   }
 `
 
@@ -98,7 +94,7 @@ export default class FiltersComponent extends Component {
             <p>Exchanges</p>
 
             {Lodash.map(Exchanges, (exchange, key) =>
-              <div key={key}>
+              <label key={key} htmlFor={key}>
                 <input
                   type="checkbox"
                   name="exchanges"
@@ -107,9 +103,8 @@ export default class FiltersComponent extends Component {
                   defaultChecked={Lodash.includes(filters.exchanges, key)}
                   disabled={exchange.status === 1}
                   onChange={handleChange}
-                />
-                &nbsp;<label htmlFor={key}>{exchange.name}</label>
-              </div>
+                />&nbsp;&nbsp;{exchange.name}
+              </label>
             )}
           </Section>
 
@@ -117,7 +112,7 @@ export default class FiltersComponent extends Component {
             <p>Quote assets</p>
 
             {Lodash.map(QuoteAssets, (quoteAsset, key) =>
-              <div key={key}>
+              <label key={key} htmlFor={key}>
                 <input
                   type="checkbox"
                   name="quoteAssets"
@@ -126,9 +121,8 @@ export default class FiltersComponent extends Component {
                   defaultChecked={Lodash.includes(filters.quoteAssets, key)}
                   disabled={quoteAsset.status === 1}
                   onChange={handleChange}
-                />
-                &nbsp;<label htmlFor={key}>{quoteAsset.name}</label>
-              </div>
+                />&nbsp;&nbsp;{quoteAsset.name}
+              </label>
             )}
           </Section>
         </form>

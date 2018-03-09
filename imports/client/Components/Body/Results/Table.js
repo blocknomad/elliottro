@@ -30,16 +30,19 @@ const Table = Styled.table`
     font-size: 13px;
     padding: 7px 0;
     color: ${config.colors.text};
-
-    &:last-child {
-      width: 1%;
-      white-space: nowrap;
-      padding: 0 10px;
-    }
   }
 
-  th:first-child, td:first-child {
+  th:first-child, td:first-child, td:last-child {
     padding-left: 10px;
+    padding-right: 10px;
+    text-align: right;
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   tr:nth-child(even) {
@@ -51,6 +54,7 @@ const Visit = Styled.a`
   i {
     color: ${config.colors.primary};
     font-size: 18px;
+    vertical-align: top;
   }
 `
 
@@ -90,7 +94,7 @@ export default class TableResultsComponent extends Component {
                 <td>{new Date(match.end + 1000).toLocaleString()}</td>
                 <td>
                   <Visit
-                    title="Access symbol on exchange"
+                    title="Access this symbol on exchange"
                     href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
                     target="_blank"
                   >
