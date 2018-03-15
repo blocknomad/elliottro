@@ -98,7 +98,6 @@ Meteor.methods({
 
 
 				// Slid window through input series.
-
 				// Offset starts at 0 and goes up to 5 or max offset allowed
 				// in input series for given window size (wSize) lesser than 5
 
@@ -114,10 +113,15 @@ Meteor.methods({
 			    const wEnd = input.length - wOffset - 1;
 
 
+					// Slice window from input series
+
+					const slicedInput = Lodash.slice(input, wStart, wEnd);
+
+
 			    // Normalize input window to template height
 
 			    const normalizedInput = normalizeInput(
-			      Lodash.slice(input, wStart, wEnd),
+			      slicedInput,
 			      pattern.min,
 			      pattern.max
 			    );
@@ -132,6 +136,11 @@ Meteor.methods({
 						match.cost = cost;
 						match.start = klines[wStart].closeTime;
 						match.end = klines[wEnd].closeTime;
+						match.klines = klines;
+						/*match.klines = Lodash.slice(
+							klines,
+							Lodash.clamp(wStart - 4, 0, wStart)
+						);*/
 			    }
 			  }
 			}
@@ -150,10 +159,11 @@ Meteor.methods({
 
 
 		return {
-			matches,
+			matches: Lodash.sortBy(
+				matches,
+				['quoteAsset', 'exchange', 'baseAsset']
+			),
 			processingTime: new Date().getTime() - processingTimeStart,
 		};
-
 	},
-
 });

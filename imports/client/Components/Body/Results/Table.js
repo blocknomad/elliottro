@@ -79,10 +79,7 @@ export default class TableResultsComponent extends Component {
         <tbody>
           {Lodash.map(
 
-            Lodash.sortBy(
-              matches,
-              ['pattern', 'exchange', 'quoteAsset', 'baseAsset']
-            ),
+            matches,
 
             (match, key) =>
               <tr key={key}>

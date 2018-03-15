@@ -5,8 +5,10 @@ html, body {
   margin: 0;
   position: absolute;
   width: 100%;
+  min-width: 1000px;
   font-family: Roboto, 'Open Sans', sans-serif;
   letter-spacing: .5px;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6, p, input {
@@ -15,9 +17,8 @@ h1, h2, h3, h4, h5, h6, p, input {
 
 select {
   background: #FFF;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .14);
-  padding: 7px 0;
+  border: 1px solid rgba(0, 0, 0, .14);
+  padding: 7px;
   font-size: 13px;
   color: #37474F;
 }

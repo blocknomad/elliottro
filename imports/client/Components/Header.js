@@ -12,8 +12,7 @@ const Header = Styled.header`
   height: 55px;
   box-sizing: border-box;
   padding: 1% ${config.padding.horizontal};
-  border-bottom: 1px solid ${config.colors.border};
-  background-color: ${config.colors.primaryContrast};
+  background-color: ${config.colors.primary};
   position: fixed;
   top: 0;
   left: 0;
@@ -31,9 +30,9 @@ const Menu = Styled.div`
   a {
     margin-right: 35px;
     font-size: 12px;
-    color: ${config.colors.text};
+    color: ${config.colors.primaryContrast};
     text-decoration: none;
-    opacity: .7;
+    opacity: .9;
 
     &:last-child {
       margin-right: 0;

@@ -4,8 +4,6 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 
 
 Meteor.startup(() => {
-  //fetchKlinesBinance('M15');
-
   for (timeframe in Timeframes) {
     fetchKlinesBinance(timeframe);
   }

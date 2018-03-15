@@ -25,7 +25,7 @@ export default class BodyComponent extends Component {
     loading: false,
     hasSearched: false,
     matches: [],
-    processingTime: undefined,
+    processingTime: 0,
   }
 
   componentDidMount() {

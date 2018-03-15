@@ -20,6 +20,8 @@ const Container = Styled.section`
   box-sizing: border-box;
   flex-shrink: 0;
   border-left: 1px solid ${config.colors.border};
+  background-color: ${config.colors.primaryContrast};
+  z-index: 99;
   position: fixed;
   top: 55px;
   right: 0;
@@ -28,7 +30,10 @@ const Container = Styled.section`
 
 const Section = Styled.section`
   color: ${config.colors.secondaryContrast};
-  padding: 0 0 24px;
+
+  &:not(:last-child) {
+    padding: 0 0 24px;
+  }
 
   p {
     font-size: 13px;
