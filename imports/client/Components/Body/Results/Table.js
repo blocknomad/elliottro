@@ -5,6 +5,7 @@ import Lodash from 'lodash';
 import config from '/imports/client/config';
 
 import Patterns from '/imports/both/fixtures/patterns';
+import Exchanges from '/imports/both/fixtures/exchanges';
 
 
 // Styled components
@@ -18,7 +19,7 @@ const Table = Styled.table`
     text-align: left;
     font-size: 13px;
     font-weight: 600;
-    padding: 0 0 5px;
+    padding: 0 0 12px;
     color: ${config.colors.text};
 
     &:first-child {
@@ -28,16 +29,8 @@ const Table = Styled.table`
 
   td {
     font-size: 13px;
-    padding: 7px 0;
-    color: ${config.colors.text};
-  }
-
-  th:first-child, td:first-child, td:last-child {
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: right;
-    width: 1%;
-    white-space: nowrap;
+    padding: 12px 0;
+    color: ${config.colors.textLighter};
   }
 
   td:last-child {
@@ -45,15 +38,26 @@ const Table = Styled.table`
     padding-bottom: 0;
   }
 
-  tr:nth-child(even) {
+  th:first-child,
+  th:last-child,
+  td:first-child,
+  td:last-child {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: right;
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(odd) {
     background-color: ${config.colors.secondary};
   }
 `
 
 const Visit = Styled.a`
   i {
-    color: ${config.colors.primary};
-    font-size: 18px;
+    color: ${config.colors.textLighter};
+    font-size: 17px;
     vertical-align: top;
   }
 `
@@ -70,8 +74,8 @@ export default class TableResultsComponent extends Component {
             <th>Base Asset</th>
             <th>Quote Asset</th>
             <th>Exchange</th>
-            <th>Starts in</th>
-            <th>Ends in</th>
+            <th>Starts at</th>
+            <th>Ends at</th>
             <th />
           </tr>
         </thead>
@@ -86,7 +90,7 @@ export default class TableResultsComponent extends Component {
                 <td>{key + 1}</td>
                 <td>{match.baseAsset}</td>
                 <td>{match.quoteAsset}</td>
-                <td>{match.exchange}</td>
+                <td>{Exchanges[match.exchange].name}</td>
                 <td>{new Date(match.start + 1000).toLocaleString()}</td>
                 <td>{new Date(match.end + 1000).toLocaleString()}</td>
                 <td>

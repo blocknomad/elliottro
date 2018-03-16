@@ -29,7 +29,7 @@ const Container = Styled.section`
 `;
 
 const Section = Styled.section`
-  color: ${config.colors.secondaryContrast};
+  color: ${config.colors.text};
 
   &:not(:last-child) {
     padding: 0 0 24px;
@@ -43,10 +43,14 @@ const Section = Styled.section`
 
   label {
     font-size: 13px;
-    color: ${config.colors.text};
     display: flex;
     align-items: center;
     padding: 3px 0;
+    color: ${config.colors.textLighter};
+
+    span {
+      margin-left: 10px;
+    }
   }
 `
 
@@ -108,7 +112,8 @@ export default class FiltersComponent extends Component {
                   defaultChecked={Lodash.includes(filters.exchanges, key)}
                   disabled={exchange.status === 1}
                   onChange={handleChange}
-                />&nbsp;&nbsp;{exchange.name}
+                />
+                <span>{exchange.name}</span>
               </label>
             )}
           </Section>
@@ -126,7 +131,8 @@ export default class FiltersComponent extends Component {
                   defaultChecked={Lodash.includes(filters.quoteAssets, key)}
                   disabled={quoteAsset.status === 1}
                   onChange={handleChange}
-                />&nbsp;&nbsp;{quoteAsset.name}
+                />
+                <span>{quoteAsset.name}</span>
               </label>
             )}
           </Section>

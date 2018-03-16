@@ -13,7 +13,7 @@ const Grid = Styled.section`
   grid-template-columns: calc(50% - 17px) calc(50% - 17px);
   grid-auto-rows: min-content;
   grid-column-gap: 30px;
-  grid-row-gap: 50px;
+  grid-row-gap: 55px;
   box-sizing: border-box;
   margin-top: 24px;
 `;

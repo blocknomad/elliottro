@@ -32,14 +32,9 @@ const Menu = Styled.div`
     font-size: 12px;
     color: ${config.colors.primaryContrast};
     text-decoration: none;
-    opacity: .9;
 
     &:last-child {
       margin-right: 0;
-    }
-
-    &:hover {
-      opacity: 1;
     }
   }
 `;

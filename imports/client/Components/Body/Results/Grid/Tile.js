@@ -4,37 +4,45 @@ import Lodash from 'lodash';
 
 import config from '/imports/client/config';
 
+import Exchanges from '/imports/both/fixtures/exchanges';
+
 // Styled components
 
 const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
-
-  h3 {
-    color: ${config.colors.text};
-  }
 `;
 
 const Chart = Styled.canvas`
   border: 1px solid #ECEFF1;
 `;
 
+const Header = Styled.div`
+  margin-bottom: 8px;
+
+  p {
+    margin-top: 2px;
+    color: #777;
+    font-size: 11px;
+  }
+`;
+
 const Title = Styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 7px;
 
   h3 {
+    color: ${config.colors.text};
     font-size: 15px;
     flex-grow: 100;
+    text-transform: uppercase;
   }
 `;
 
 const Visit = Styled.a`
   i {
-    color: ${config.colors.primary};
-    font-size: 18px;
-    vertical-align: top;
+    color: ${config.colors.textLighter};
+    font-size: 17px;
   }
 `
 
@@ -192,17 +200,25 @@ export default class GridTileComponent extends Component {
 
     return (
       <Tile>
-        <Title>
-          <h3>{match.exchange}:{match.baseAsset}{match.quoteAsset}</h3>
+        <Header>
+          <Title>
+            <h3>{Exchanges[match.exchange].name}:{match.baseAsset}{match.quoteAsset}</h3>
 
-          <Visit
-            title="Access this symbol on exchange"
-            href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
-            target="_blank"
-          >
-            <i className="material-icons">launch</i>
-          </Visit>
-        </Title>
+            <Visit
+              title="Access this symbol on exchange"
+              href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
+              target="_blank"
+            >
+              <i className="material-icons">launch</i>
+            </Visit>
+          </Title>
+
+          <p>
+            Starts at: {new Date(match.start + 1000).toLocaleString()}
+            &nbsp;&nbsp;&nbsp;&nbsp;Ends at: {new Date(match.end + 1000).toLocaleString()}
+          </p>
+        </Header>
+
 
         <Chart innerRef={ref => this.chart = ref} />
       </Tile>

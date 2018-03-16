@@ -6,8 +6,7 @@ html, body {
   position: absolute;
   width: 100%;
   min-width: 1000px;
-  font-family: Roboto, 'Open Sans', sans-serif;
-  letter-spacing: .5px;
+  font-family: 'Lato', 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -24,16 +24,15 @@ const Header = Styled.div`
 `;
 
 const Stats = Styled.p`
-  font-size: 12px;
-  color: ${config.colors.text};
-  opacity: .7;
+  font-size: 13px;
+  color: ${config.colors.textLighter};
   flex-grow: 100;
 `;
 
 const Icon = Styled.i`
   font-size: 24px;
   cursor: pointer;
-  color: ${config.colors.text};
+  color: ${config.colors.textLighter};
   opacity: ${props => props.active ? .85 : .2};
 
   &:not(:last-child) {
