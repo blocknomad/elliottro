@@ -14,12 +14,12 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 // Styled components
 
 const Container = Styled.section`
-  width: 25%;
+  width: 250px;
   height: calc(100vh - 55px);
   padding: 20px 24px;
   box-sizing: border-box;
   flex-shrink: 0;
-  border-left: 1px solid ${config.colors.border};
+  box-shadow: -2px -2px 2px ${config.colors.border};
   background-color: ${config.colors.primaryContrast};
   z-index: 99;
   position: fixed;

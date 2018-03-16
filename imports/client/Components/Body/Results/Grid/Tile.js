@@ -8,22 +8,35 @@ import Exchanges from '/imports/both/fixtures/exchanges';
 
 // Styled components
 
+const tileHorizontalPadding = 15;
+
 const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
+  padding: ${tileHorizontalPadding}px;
+  box-shadow: 2px 2px 3px ${config.colors.border};
+
+  &:nth-child(odd) {
+    border-right: 1px solid ${config.colors.border};
+  }
+
+  &:nth-child(odd), &:nth-child(even) {
+    border-bottom: 1px solid ${config.colors.border};
+  }
 `;
 
 const Chart = Styled.canvas`
-  border: 1px solid #ECEFF1;
+  border: 1px solid ${config.colors.border};
+  box-sizing: border-box;
 `;
 
 const Header = Styled.div`
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 
   p {
-    margin-top: 2px;
+    margin-top: 3px;
     color: #777;
-    font-size: 11px;
+    font-size: 12px;
   }
 `;
 
@@ -33,7 +46,7 @@ const Title = Styled.div`
 
   h3 {
     color: ${config.colors.text};
-    font-size: 15px;
+    font-size: 14px;
     flex-grow: 100;
     text-transform: uppercase;
   }
@@ -63,8 +76,8 @@ export default class GridTileComponent extends Component {
     const windowTop = maxInWindow.high * 1.007;
     const windowBottom = minInWindow.low - (minInWindow.low % stepper);
 
-    this.chart.width = this.chart.parentElement.clientWidth;
-    this.chart.height = 250;
+    this.chart.width = this.chart.parentElement.scrollWidth - 2 - tileHorizontalPadding * 2;
+    this.chart.height = this.chart.width / 2;
 
     const context = this.chart.getContext('2d');
 
@@ -160,7 +173,7 @@ export default class GridTileComponent extends Component {
     windowTop,
     windowBottom
   ) {
-    const color = '#ECEFF1';
+    const color = config.colors.border;
 
     context.font = '10px Arial';
     context.fillStyle = '#37474F';

@@ -10,22 +10,25 @@ import config from '/imports/client/config';
 // Styled components
 
 const Results = Styled.section`
+  background-color: #fafafa;
   position: relative;
   top: 55px;
-  width: 75%;
+  width: calc(100% - 250px);
+  min-height: calc(100vh - 55px);
   box-sizing: border-box;
   padding: 0 ${config.padding.horizontal} 20px;
 `;
 
-const Header = Styled.div`
+const Header = Styled.section`
   display: flex;
   align-items: center;
-  padding: 24px 0;
+  padding: 24px 15px 24px 16px;
 `;
 
 const Stats = Styled.p`
   font-size: 13px;
-  color: ${config.colors.textLighter};
+  color: #333;
+  font-weight: 200;
   flex-grow: 100;
 `;
 
@@ -59,7 +62,7 @@ export default class ResultsComponent extends Component {
       <Results>
         <Header>
           <Stats>
-            {!loading && <span><b>{matches.length}</b> matches found in {processingTime}ms</span>}
+            {!loading && <span>{matches.length} matches found in {processingTime}ms</span>}
           </Stats>
 
           <Icon

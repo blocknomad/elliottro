@@ -10,12 +10,13 @@ import config from '/imports/client/config';
 
 const Grid = Styled.section`
   display: grid;
-  grid-template-columns: calc(50% - 17px) calc(50% - 17px);
+  grid-template-columns: calc(50% - 1px) calc(50% - 1px);
   grid-auto-rows: min-content;
-  grid-column-gap: 30px;
-  grid-row-gap: 55px;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
   box-sizing: border-box;
-  margin-top: 24px;
+  border-top: 1px solid ${config.colors.border};
+  border-left: 1px solid ${config.colors.border};
 `;
 
 

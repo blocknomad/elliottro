@@ -17,6 +17,7 @@ const Header = Styled.header`
   top: 0;
   left: 0;
   z-index: 100;
+  border-bottom: 1px solid #00b7c4;
 `
 
 const Logo = Styled.img`

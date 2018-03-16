@@ -13,23 +13,22 @@ import Exchanges from '/imports/both/fixtures/exchanges';
 const Table = Styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-top: 24px;
+  border-top: 1px solid ${config.colors.border};
+  border-left: 1px solid ${config.colors.border};
+  background-color: #FFF;
+  box-shadow: 2px 2px 3px ${config.colors.border};
 
   th {
     text-align: left;
     font-size: 13px;
     font-weight: 600;
-    padding: 0 0 12px;
+    padding: 15px 0;
     color: ${config.colors.text};
-
-    &:first-child {
-      padding-right: 10px;
-    }
   }
 
   td {
     font-size: 13px;
-    padding: 12px 0;
+    padding: 10px 0;
     color: ${config.colors.textLighter};
   }
 
@@ -42,14 +41,14 @@ const Table = Styled.table`
   th:last-child,
   td:first-child,
   td:last-child {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     text-align: right;
     width: 1%;
     white-space: nowrap;
   }
 
-  tbody tr:nth-child(odd) {
+  tbody tr:nth-child(even) {
     background-color: ${config.colors.secondary};
   }
 `

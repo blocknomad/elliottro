@@ -16,10 +16,10 @@ h1, h2, h3, h4, h5, h6, p, input {
 
 select {
   background: #FFF;
-  border: 1px solid rgba(0, 0, 0, .14);
+  border: 1px solid #ECEFF1;
   padding: 7px;
   font-size: 13px;
-  color: #37474F;
+  color: #555;
 }
 
 input[type="checkbox"],
