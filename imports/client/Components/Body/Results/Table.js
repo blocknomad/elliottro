@@ -12,12 +12,12 @@ import Exchanges from '/imports/both/fixtures/exchanges';
 
 const Table = Styled.table`
   width: 100%;
-  border-collapse: collapse;
   border-top: 1px solid ${config.colors.border};
   border-left: 1px solid ${config.colors.border};
   background-color: #FFF;
   box-shadow: 2px 2px 3px ${config.colors.border};
   animation: ${config.animations.fadeIn};
+  padding: 0 15px;
 
   th {
     text-align: left;
@@ -31,32 +31,33 @@ const Table = Styled.table`
     font-size: 13px;
     padding: 10px 0;
     color: ${config.colors.textLighter};
-  }
 
-  td:last-child {
-    padding-top: 0;
-    padding-bottom: 0;
+    &:last-child {
+      padding: 0 0 0 15px;
+    }
   }
 
   th:first-child,
   th:last-child,
   td:first-child,
   td:last-child {
-    padding-left: 15px;
-    padding-right: 15px;
     text-align: right;
     width: 1%;
     white-space: nowrap;
   }
 
-  tbody tr:nth-child(even) {
-    background-color: ${config.colors.secondary};
+  th:first-child, td:first-child {
+    padding-right: 15px;
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: 1px solid ${config.colors.border};
   }
 `
 
 const Visit = Styled.a`
   i {
-    color: ${config.colors.textLighter};
+    color: ${config.colors.icon};
     font-size: 17px;
     vertical-align: top;
   }

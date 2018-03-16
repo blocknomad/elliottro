@@ -57,7 +57,7 @@ const Title = Styled.div`
 
 const Visit = Styled.a`
   i {
-    color: ${config.colors.textLighter};
+    color: ${config.colors.icon};
     font-size: 17px;
   }
 `

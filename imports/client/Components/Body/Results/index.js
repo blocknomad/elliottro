@@ -35,8 +35,7 @@ const Stats = Styled.p`
 const Icon = Styled.i`
   font-size: 24px;
   cursor: pointer;
-  color: ${config.colors.textLighter};
-  opacity: .8;
+  color: ${config.colors.icon};
   display: ${props => props.active ? 'none' : 'initial'};
 `;
 
