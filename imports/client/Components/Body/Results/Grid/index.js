@@ -8,15 +8,15 @@ import config from '/imports/client/config';
 
 // Styled components
 
+/*
+display: grid;
+grid-template-columns: calc(50% - 21px) calc(50% - 21px);
+grid-auto-rows: min-content;
+grid-column-gap: 20px;
+grid-row-gap: 20px;*/
+
 const Grid = Styled.section`
-  display: grid;
-  grid-template-columns: calc(50% - 1px) calc(50% - 1px);
-  grid-auto-rows: min-content;
-  grid-column-gap: 0;
-  grid-row-gap: 0;
-  box-sizing: border-box;
-  border-top: 1px solid ${config.colors.border};
-  border-left: 1px solid ${config.colors.border};
+  animation: ${config.animations.fadeIn};
 `;
 
 

@@ -14,14 +14,17 @@ const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
   padding: ${tileHorizontalPadding}px;
-  box-shadow: 2px 2px 3px ${config.colors.border};
+  border: 1px solid ${config.colors.border};
+  box-shadow: 2px 2px 2px ${config.colors.border};
+  display: inline-block;
+  width: calc(50% - 10px);
 
   &:nth-child(odd) {
-    border-right: 1px solid ${config.colors.border};
+    margin-right: 20px;
   }
 
   &:nth-child(odd), &:nth-child(even) {
-    border-bottom: 1px solid ${config.colors.border};
+    margin-bottom: 20px;
   }
 `;
 
@@ -81,7 +84,7 @@ export default class GridTileComponent extends Component {
 
     const context = this.chart.getContext('2d');
 
-    const canvasWidth = this.chart.width - 75;
+    const canvasWidth = this.chart.width - 70;
     const canvasHeight = this.chart.height - 20;
 
     this.drawGridLines(

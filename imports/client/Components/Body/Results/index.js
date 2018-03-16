@@ -36,11 +36,8 @@ const Icon = Styled.i`
   font-size: 24px;
   cursor: pointer;
   color: ${config.colors.textLighter};
-  opacity: ${props => props.active ? .85 : .2};
-
-  &:not(:last-child) {
-    margin-right: 6px;
-  }
+  opacity: .8;
+  display: ${props => props.active ? 'none' : 'initial'};
 `;
 
 

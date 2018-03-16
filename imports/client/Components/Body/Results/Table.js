@@ -17,6 +17,7 @@ const Table = Styled.table`
   border-left: 1px solid ${config.colors.border};
   background-color: #FFF;
   box-shadow: 2px 2px 3px ${config.colors.border};
+  animation: ${config.animations.fadeIn};
 
   th {
     text-align: left;
