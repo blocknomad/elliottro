@@ -71,6 +71,16 @@ export default class GridTileComponent extends Component {
   componentDidMount() {
     const { match } = this.props;
 
+    this.drawChart(match);
+
+    window.addEventListener('resize', () => this.drawChart(match));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.drawChart);
+  }
+
+  drawChart(match) {
     const maxInWindow = Lodash.maxBy(match.klines, 'high');
     const minInWindow = Lodash.minBy(match.klines, 'low');
 

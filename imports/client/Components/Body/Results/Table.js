@@ -73,8 +73,8 @@ export default class TableResultsComponent extends Component {
         <thead>
           <tr>
             <th>#</th>
-            <th>Base Asset</th>
-            <th>Quote Asset</th>
+            <th>Base asset</th>
+            <th>Quote asset</th>
             <th>Exchange</th>
             <th>Starts at</th>
             <th>Ends at</th>
