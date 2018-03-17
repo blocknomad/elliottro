@@ -5,6 +5,8 @@ import Lodash from 'lodash';
 import config from '/imports/client/config';
 
 import Exchanges from '/imports/both/fixtures/exchanges';
+import drawKlines from './functions/drawKlines';
+import drawGridLines from './functions/drawGridLines';
 
 // Styled components
 
@@ -72,7 +74,6 @@ export default class GridTileComponent extends Component {
     const { match } = this.props;
 
     this.drawChart(match);
-
     window.addEventListener('resize', () => this.drawChart(match));
   }
 
@@ -97,7 +98,7 @@ export default class GridTileComponent extends Component {
     const canvasWidth = this.chart.width - 70;
     const canvasHeight = this.chart.height - 20;
 
-    this.drawGridLines(
+    drawGridLines(
       context,
       stepper,
       canvasWidth,
@@ -106,7 +107,7 @@ export default class GridTileComponent extends Component {
       windowBottom
     );
 
-    this.drawKlines(
+    drawKlines(
       context,
       canvasWidth,
       canvasHeight,
@@ -114,111 +115,6 @@ export default class GridTileComponent extends Component {
       windowTop,
       windowBottom
     );
-  }
-
-  drawKlines(
-    context,
-    canvasWidth,
-    canvasHeight,
-    match,
-    windowTop,
-    windowBottom
-  ) {
-    // x * numberOfCandlesticks + x / 2 * (numberOfCandlesticks + 1) = canvasWidth
-    // y
-
-    const { klines } = match;
-
-    const x = canvasWidth / (klines.length + (klines.length + 1) / 2);
-    const ratio = canvasHeight / (windowTop - windowBottom);
-
-    Lodash.forEach(klines, (kline, index) => {
-      /*const color = kline.closeTime > match.start && kline.closeTime < match.end ?
-        (kline.close < kline.open ? '#C2185B': '#689F38') :
-        (kline.close < kline.open ? '#E91E63' : '#8BC34A');*/
-
-      const color = kline.close < kline.open ? '#E91E63' : '#8BC34A';
-
-      const bodyLeftOffset = x / 2 + x * index + x / 2 * index;
-      const wickLeftOffset = bodyLeftOffset + x / 2;
-
-      this.drawKline({
-        context,
-        body: {
-          startX: bodyLeftOffset,
-          startY: (windowTop - Math.max(kline.open, kline.close)) * ratio,
-          width: x,
-          height: Math.abs(kline.open - kline.close) * ratio,
-        },
-        wick: {
-          startX: wickLeftOffset,
-          startY: (windowTop - kline.high) * ratio,
-          endX: wickLeftOffset,
-          endY: (windowTop - kline.low) * ratio,
-        },
-        color,
-      });
-    });
-  }
-
-  drawKline({ context, body, wick, color}) {
-    context.save();
-
-    // kline body
-    context.fillStyle = color;
-    context.fillRect(body.startX, body.startY, body.width, body.height);
-
-    // kline wick
-    context.strokeStyle = color;
-    context.beginPath();
-    context.moveTo(wick.startX, wick.startY);
-    context.lineTo(wick.endX, wick.endY);
-    context.stroke();
-
-    context.restore();
-  }
-
-  drawGridLines(
-    context,
-    stepper,
-    canvasWidth,
-    canvasHeight,
-    windowTop,
-    windowBottom
-  ) {
-    const color = config.colors.border;
-
-    context.font = '10px Arial';
-    context.fillStyle = '#37474F';
-
-    // vertical border
-    this.drawLine(context, canvasWidth, 0, canvasWidth, canvasHeight, color);
-
-    // horizontal border
-    this.drawLine(context, 0, canvasHeight, canvasWidth, canvasHeight, color);
-
-    const ratio = canvasHeight / (windowTop - windowBottom);
-
-    for (
-      let step = windowBottom + stepper;
-      step <= windowTop;
-      step += stepper
-    ) {
-      const y = (windowTop - step) * ratio;
-
-      this.drawLine(context, 0, y, canvasWidth + 5, y, color);
-      context.fillText(step.toFixed(8), canvasWidth + 10, y + 4);
-    }
-  }
-
-  drawLine(context, startX, startY, endX, endY, color) {
-    context.save();
-    context.strokeStyle = color;
-    context.beginPath();
-    context.moveTo(startX, startY);
-    context.lineTo(endX, endY);
-    context.stroke();
-    context.restore();
   }
 
   render() {
@@ -240,8 +136,8 @@ export default class GridTileComponent extends Component {
           </Title>
 
           <p>
-            Starts at: {new Date(match.start + 1000).toLocaleString()}
-            &nbsp;&nbsp;&nbsp;&nbsp;Ends at: {new Date(match.end + 1000).toLocaleString()}
+            Starts at: {new Date(match.start).toLocaleString()}
+            &nbsp;&nbsp;&nbsp;&nbsp;Ends at: {new Date(match.end).toLocaleString()}
           </p>
         </Header>
 

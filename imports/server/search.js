@@ -48,7 +48,7 @@ Meteor.methods({
 			quoteAsset: { $in: filters.quoteAssets },
 		}).fetch();
 
-		//
+		// Get selected pattern
 
 		const pattern = Patterns[filters.pattern];
 
@@ -134,8 +134,8 @@ Meteor.methods({
 
 			    if (cost < match.cost) {
 						match.cost = cost;
-						match.start = klines[wStart].closeTime;
-						match.end = klines[wEnd].closeTime;
+						match.start = klines[wStart].closeTime + 1000;
+						match.end = klines[wEnd].openTime;
 						match.klines = klines;
 						/*match.klines = Lodash.slice(
 							klines,

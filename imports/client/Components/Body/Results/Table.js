@@ -93,8 +93,8 @@ export default class TableResultsComponent extends Component {
                 <td>{match.baseAsset}</td>
                 <td>{match.quoteAsset}</td>
                 <td>{Exchanges[match.exchange].name}</td>
-                <td>{new Date(match.start + 1000).toLocaleString()}</td>
-                <td>{new Date(match.end + 1000).toLocaleString()}</td>
+                <td>{new Date(match.start).toLocaleString()}</td>
+                <td>{new Date(match.end).toLocaleString()}</td>
                 <td>
                   <Visit
                     title="Access this symbol on exchange"
