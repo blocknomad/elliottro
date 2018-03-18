@@ -2,18 +2,19 @@ import config from '/imports/client/config';
 import drawGridLine from './drawGridLine';
 
 export default function drawGridLines(
-  context,
+  canvas,
   stepper,
+  ratio,
   canvasWidth,
   canvasHeight,
   windowTop,
   windowBottom
 ) {
+  const context = canvas.getContext('2d');
   const color = config.colors.border;
-  const ratio = canvasHeight / (windowTop - windowBottom);
 
   context.font = '10px Arial';
-  context.fillStyle = '#37474F';
+  context.fillStyle = config.colors.text;
 
   // vertical border
   drawGridLine(context, canvasWidth, 0, canvasWidth, canvasHeight, color);

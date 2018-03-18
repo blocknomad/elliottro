@@ -33,10 +33,10 @@ export default {
     acronym: 'HSB',
     type: 'Reversal',
     status: 2,
-    min: 2,
+    min: 1,
     max: 6,
     rule: 'PTPTPTP',
-    series: [6, 4, 6, 2, 6, 4, 6],
+    series: [6, 4, 6, 1, 6, 4, 6],
   },
 
   FW: {

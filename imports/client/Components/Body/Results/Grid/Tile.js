@@ -7,15 +7,15 @@ import config from '/imports/client/config';
 import Exchanges from '/imports/both/fixtures/exchanges';
 import drawKlines from './functions/drawKlines';
 import drawGridLines from './functions/drawGridLines';
+import drawPointerLines from './functions/drawPointerLines';
+import removePointerLines from './functions/removePointerLines';
 
 // Styled components
-
-const tileHorizontalPadding = 15;
 
 const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
-  padding: ${tileHorizontalPadding}px;
+  padding: 15px;
   border: 1px solid ${config.colors.border};
   box-shadow: 2px 2px 2px ${config.colors.border};
   display: inline-block;
@@ -30,9 +30,16 @@ const Tile = Styled.article`
   }
 `;
 
-const Chart = Styled.canvas`
+const Chart = Styled.div`
+  position: relative;
+  width: 100%;
   border: 1px solid ${config.colors.border};
-  box-sizing: border-box;
+`;
+
+const Canvas = Styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const Header = Styled.div`
@@ -85,35 +92,66 @@ export default class GridTileComponent extends Component {
     const maxInWindow = Lodash.maxBy(match.klines, 'high');
     const minInWindow = Lodash.minBy(match.klines, 'low');
 
-    const stepper = Number(((maxInWindow.high - minInWindow.low) / 5).toPrecision(1));
+    const verticalStepper = Number(((maxInWindow.high - minInWindow.low) / 5).toPrecision(1));
 
     const windowTop = maxInWindow.high * 1.007;
-    const windowBottom = minInWindow.low - (minInWindow.low % stepper);
+    const windowBottom = minInWindow.low - (minInWindow.low % verticalStepper);
 
-    this.chart.width = this.chart.parentElement.scrollWidth - 2 - tileHorizontalPadding * 2;
-    this.chart.height = this.chart.width / 2;
+    const labelsWidth = 67;
+    const labelsHeight = 20;
 
-    const context = this.chart.getContext('2d');
+    const chartWidth = this.gridLines.parentElement.scrollWidth;
+    const chartHeight = chartWidth / 2;
 
-    const canvasWidth = this.chart.width - 70;
-    const canvasHeight = this.chart.height - 20;
+    this.gridLines.parentElement.style.height = `${chartHeight}px`;
+
+    this.gridLines.width = chartWidth;
+    this.gridLines.height = chartHeight;
+
+    this.klines.width = chartWidth - labelsWidth;
+    this.klines.height = chartHeight - labelsHeight;
+
+    this.pointerLines.width = chartWidth;
+    this.pointerLines.height = chartHeight;
+
+    const klineWidth = this.klines.width / (match.klines.length + (match.klines.length + 1) / 2);
+    const ratio = this.klines.height / (windowTop - windowBottom);
 
     drawGridLines(
-      context,
-      stepper,
-      canvasWidth,
-      canvasHeight,
+      this.gridLines,
+      verticalStepper,
+      ratio,
+      this.klines.width,
+      this.klines.height,
       windowTop,
       windowBottom
     );
 
     drawKlines(
-      context,
-      canvasWidth,
-      canvasHeight,
+      this.klines,
       match,
+      ratio,
+      klineWidth,
+      this.klines.width,
+      this.klines.height,
       windowTop,
       windowBottom
+    );
+
+    this.pointerLines.addEventListener('mousemove', event =>
+      drawPointerLines(
+        this.pointerLines,
+        event,
+        match,
+        ratio,
+        klineWidth,
+        this.klines.width,
+        this.klines.height
+      )
+    );
+
+    this.pointerLines.addEventListener('mouseout', event =>
+      removePointerLines(this.pointerLines)
     );
   }
 
@@ -142,7 +180,11 @@ export default class GridTileComponent extends Component {
         </Header>
 
 
-        <Chart innerRef={ref => this.chart = ref} />
+        <Chart>
+          <Canvas innerRef={ref => this.gridLines = ref} />
+          <Canvas innerRef={ref => this.klines = ref} />
+          <Canvas innerRef={ref => this.pointerLines = ref} />
+        </Chart>
       </Tile>
     );
   }

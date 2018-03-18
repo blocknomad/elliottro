@@ -58,7 +58,7 @@ export default class ResultsComponent extends Component {
       <Results>
         <Header>
           <Stats>
-            {!loading && <span>{matches.length} matches found in {processingTime}ms</span>}
+            {!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found in {processingTime}ms</span>}
           </Stats>
 
           <Icon

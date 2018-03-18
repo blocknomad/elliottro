@@ -4,20 +4,19 @@ import drawPatternWindow from './drawPatternWindow';
 
 
 export default function drawKlines(
-  context,
+  canvas,
+  match,
+  ratio,
+  klineWidth,
   canvasWidth,
   canvasHeight,
-  match,
   windowTop,
   windowBottom
 ) {
+  const context = canvas.getContext('2d');
   const { klines } = match;
 
-  // x * numberOfCandlesticks + x / 2 * (numberOfCandlesticks + 1) = canvasWidth
-  const x = canvasWidth / (klines.length + (klines.length + 1) / 2);
-  const ratio = canvasHeight / (windowTop - windowBottom);
-
-  drawPatternWindow(context, x, ratio, match, windowTop, canvasHeight);
+  drawPatternWindow(context, klineWidth, ratio, match, windowTop, canvasHeight);
 
   Lodash.forEach(klines, (kline, index) => {
     /*const color = kline.closeTime > match.start && kline.closeTime < match.end ?
@@ -26,15 +25,15 @@ export default function drawKlines(
 
     const color = kline.close < kline.open ? '#E91E63' : '#8BC34A';
 
-    const bodyLeftOffset = x / 2 + x * index + x / 2 * index;
-    const wickLeftOffset = bodyLeftOffset + x / 2;
+    const bodyLeftOffset = klineWidth / 2 + klineWidth * index + klineWidth / 2 * index;
+    const wickLeftOffset = bodyLeftOffset + klineWidth / 2;
 
     drawKline({
       context,
       body: {
         startX: bodyLeftOffset,
         startY: (windowTop - Math.max(kline.open, kline.close)) * ratio,
-        width: x,
+        width: klineWidth,
         height: Math.abs(kline.open - kline.close) * ratio,
       },
       wick: {
