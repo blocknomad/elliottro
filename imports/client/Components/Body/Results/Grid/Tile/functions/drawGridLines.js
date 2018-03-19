@@ -3,6 +3,7 @@ import drawGridLine from './drawGridLine';
 
 export default function drawGridLines(
   canvas,
+  match,
   stepper,
   ratio,
   canvasWidth,
@@ -22,6 +23,7 @@ export default function drawGridLines(
   // horizontal border
   drawGridLine(context, 0, canvasHeight, canvasWidth, canvasHeight, color);
 
+  // draw vertical gridlines
   for (
     let step = windowBottom + stepper;
     step <= windowTop;
@@ -32,4 +34,20 @@ export default function drawGridLines(
     drawGridLine(context, 0, y, canvasWidth + 5, y, color);
     context.fillText(step.toFixed(8), canvasWidth + 10, y + 4);
   }
+
+  // draw horizontal gridlines
+
+  const { klines } = match;
+
+  const start = new Date(klines[0].openTime);
+  const end = new Date(klines[klines.length - 1].openTime);
+
+  if (start.getFullYear() !== end.getFullYear()) {
+
+  } else if (start.getMonth() !== end.getMonth()) {
+
+  } else if (start.getDate() !== end.getDate()) {
+
+  }
+
 }

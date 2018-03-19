@@ -119,6 +119,7 @@ export default class GridTileComponent extends Component {
 
     drawGridLines(
       this.gridLines,
+      match,
       verticalStepper,
       ratio,
       this.klines.width,

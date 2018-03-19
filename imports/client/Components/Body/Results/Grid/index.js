@@ -8,13 +8,6 @@ import config from '/imports/client/config';
 
 // Styled components
 
-/*
-display: grid;
-grid-template-columns: calc(50% - 21px) calc(50% - 21px);
-grid-auto-rows: min-content;
-grid-column-gap: 20px;
-grid-row-gap: 20px;*/
-
 const Grid = Styled.section`
   animation: ${config.animations.fadeIn};
 `;
