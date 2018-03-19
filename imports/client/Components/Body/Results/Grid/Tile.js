@@ -146,7 +146,8 @@ export default class GridTileComponent extends Component {
         ratio,
         klineWidth,
         this.klines.width,
-        this.klines.height
+        this.klines.height,
+        windowTop
       )
     );
 
