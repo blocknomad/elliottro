@@ -15,12 +15,15 @@ const Grid = Styled.section`
 
 export default class GridComponent extends Component {
   render() {
-    const { matches } = this.props;
+    const {
+      matches,
+      timeframe,
+    } = this.props;
 
     return (
       <Grid>
         {Lodash.map(matches, (match, key) =>
-          <Tile key={key} match={match} />
+          <Tile key={key} match={match} timeframe={timeframe} />
         )}
       </Grid>
     );

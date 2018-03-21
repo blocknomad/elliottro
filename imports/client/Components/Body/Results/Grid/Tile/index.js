@@ -9,6 +9,7 @@ import drawKlines from './functions/drawKlines';
 import drawGridLines from './functions/drawGridLines';
 import drawPointerLines from './functions/drawPointerLines';
 import removePointerLines from './functions/removePointerLines';
+import formatDate from './functions/formatDate';
 
 // Styled components
 
@@ -43,12 +44,12 @@ const Canvas = Styled.canvas`
 `;
 
 const Header = Styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 
   p {
-    margin-top: 3px;
-    color: #777;
-    font-size: 12px;
+    margin-top: 4px;
+    color: #888;
+    font-size: 11px;
   }
 `;
 
@@ -78,17 +79,21 @@ export default class GridTileComponent extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const {
+      match,
+      timeframe,
+    } = this.props;
 
-    this.drawChart(match);
-    window.addEventListener('resize', () => this.drawChart(match));
+    this.drawChart(match, timeframe);
+    window.addEventListener('resize',
+      () => this.drawChart(match, timeframe));
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.drawChart);
   }
 
-  drawChart(match) {
+  drawChart(match, timeframe) {
     const maxInWindow = Lodash.maxBy(match.klines, 'high');
     const minInWindow = Lodash.minBy(match.klines, 'low');
 
@@ -115,13 +120,15 @@ export default class GridTileComponent extends Component {
     this.pointerLines.height = chartHeight;
 
     const klineWidth = this.klines.width / (match.klines.length + (match.klines.length + 1) / 2);
-    const ratio = this.klines.height / (windowTop - windowBottom);
+    const vRatio = this.klines.height / (windowTop - windowBottom);
 
     drawGridLines(
       this.gridLines,
       match,
       verticalStepper,
-      ratio,
+      vRatio,
+      klineWidth,
+      timeframe,
       this.klines.width,
       this.klines.height,
       windowTop,
@@ -131,7 +138,7 @@ export default class GridTileComponent extends Component {
     drawKlines(
       this.klines,
       match,
-      ratio,
+      vRatio,
       klineWidth,
       this.klines.width,
       this.klines.height,
@@ -144,7 +151,8 @@ export default class GridTileComponent extends Component {
         this.pointerLines,
         event,
         match,
-        ratio,
+        vRatio,
+        timeframe,
         klineWidth,
         this.klines.width,
         this.klines.height,
@@ -158,7 +166,10 @@ export default class GridTileComponent extends Component {
   }
 
   render() {
-    const { match } = this.props;
+    const {
+      match,
+      timeframe,
+    } = this.props;
 
     return (
       <Tile>
@@ -176,8 +187,7 @@ export default class GridTileComponent extends Component {
           </Title>
 
           <p>
-            Starts at: {new Date(match.start).toLocaleString()}
-            &nbsp;&nbsp;&nbsp;&nbsp;Ends at: {new Date(match.end).toLocaleString()}
+            {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}
           </p>
         </Header>
 

@@ -1,11 +1,13 @@
 import Lodash from 'lodash';
 import config from '/imports/client/config';
+import formatDate from './formatDate';
 
 export default function drawPointerLines(
   canvas,
   event,
   match,
   ratio,
+  timeframe,
   klineWidth,
   klinesWidth,
   klinesHeight,
@@ -24,7 +26,6 @@ export default function drawPointerLines(
   if (x < klinesWidth && y < klinesHeight) {
     // set crosshair cursor
     canvas.style.cursor = 'crosshair';
-
 
     // setup stroke color and line dash
     context.strokeStyle = '#999';
@@ -56,39 +57,43 @@ export default function drawPointerLines(
 
     context.font = '10px Arial';
     context.fillStyle = '#666';
-    context.fillText(`O:${kline.open}  H:${kline.high}  L:${kline.low}  C:${kline.close}`, 3, 13, klinesWidth);
+    context.fillText(`O:${kline.open.toFixed(8)}  H:${kline.high.toFixed(8)}  L:${kline.low.toFixed(8)}  C:${kline.close.toFixed(8)}`, 3, 13, klinesWidth);
 
 
     // vertical marker
     const markerColor = '#444';
     const markerTextColor = '#FFF';
-    const rectYOffset = Lodash.clamp(y - 8, 0, klinesHeight - 16);
+    const boxHeight = 20;
+    const rectYOffset = Lodash.clamp(y - boxHeight / 2, 0, klinesHeight - boxHeight);
 
     context.fillStyle = markerColor;
-    context.fillRect(klinesWidth + 1, rectYOffset, canvas.width - klinesWidth, 16);
+    context.textBaseline = 'middle';
+    context.fillRect(klinesWidth + 1, rectYOffset, canvas.width - klinesWidth, boxHeight);
     context.fillStyle = markerTextColor;
 
     const yText = (windowTop - y / ratio).toFixed(8);
-    context.fillText(yText, klinesWidth + 11, rectYOffset + 11);
+    context.fillText(yText, klinesWidth + 11, rectYOffset + boxHeight / 2);
 
     // horizontal marker
-    const xText = new Date(kline.openTime).toLocaleString();
+    let xText = formatDate(kline.openTime, timeframe);
+
     const textWidth = context.measureText(xText).width;
+    const boxPadding = 12;
     const rectXOffset = Lodash.clamp(
-      xpos - textWidth / 2 - 4,
+      xpos - textWidth / 2 - boxPadding / 2,
       0,
-      klinesWidth - textWidth - 8
+      klinesWidth - textWidth - boxPadding + 1
     );
 
     context.fillStyle = markerColor;
     context.fillRect(
       rectXOffset,
       klinesHeight + 1,
-      textWidth + 8,
-      16
+      textWidth + boxPadding,
+      boxHeight
     );
     context.fillStyle = markerTextColor;
-    context.fillText(xText, rectXOffset + 4, klinesHeight + 13);
+    context.fillText(xText, rectXOffset + boxPadding / 2, klinesHeight + 1 + boxHeight / 2);
   }
 
   context.restore();

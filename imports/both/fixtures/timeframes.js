@@ -1,9 +1,9 @@
 export default {
-  M15: {
+  m15: {
     name: '15 mins',
     value: '15m',
   },
-  M30: {
+  m30: {
     name: '30 mins',
     value: '30m',
   },

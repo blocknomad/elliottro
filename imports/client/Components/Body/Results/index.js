@@ -49,6 +49,7 @@ export default class ResultsComponent extends Component {
     const {
       loading,
       matches,
+      timeframe,
       processingTime,
     } = this.props;
 
@@ -82,7 +83,9 @@ export default class ResultsComponent extends Component {
         {loading ?
           <Spinner /> :
 
-          viewType === 'grid' ? <Grid matches={matches} /> : <Table matches={matches} />
+          viewType === 'grid' ?
+            <Grid matches={matches} timeframe={timeframe} /> :
+            <Table matches={matches} />
         }
       </Results>
     );

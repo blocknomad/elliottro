@@ -17,7 +17,7 @@ const Screener = Styled.section`
 export default class BodyComponent extends Component {
   state = {
     filters: {
-      timeframe: 'H1',
+      timeframe: 'M1',
       pattern: 'HSB',
       exchanges: ['BINA'],
       quoteAssets: ['BTC', 'ETH', 'USD'],
@@ -46,6 +46,7 @@ export default class BodyComponent extends Component {
         <Results
           loading={loading}
           matches={matches}
+          timeframe={filters.timeframe}
           processingTime={processingTime}
         />
 

@@ -136,11 +136,11 @@ Meteor.methods({
 						match.cost = cost;
 						match.start = klines[wStart].closeTime + 1000;
 						match.end = klines[wEnd].openTime;
-						match.klines = klines;
-						/*match.klines = Lodash.slice(
+						//match.klines = klines;
+						match.klines = Lodash.slice(
 							klines,
 							Lodash.clamp(wStart - 4, 0, wStart)
-						);*/
+						);
 			    }
 			  }
 			}
@@ -148,7 +148,7 @@ Meteor.methods({
 
 			// Push optimal match to matches array if its cost is lesser than 4
 
-			match.cost < 4 &&	matches.push({
+			match.cost < 14 &&	matches.push({
 				quoteAsset,
 				baseAsset,
 				exchange,

@@ -23,7 +23,7 @@ export default function fetchKlinesBinance(interval) {
         high: Number(kline[2]),
         low: Number(kline[3]),
         close: Number(kline[4]),
-        openTime: Number(kline[0]),
+        openTime: kline[0],
         closeTime: kline[6],
       })
     );
