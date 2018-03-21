@@ -4,24 +4,41 @@ import drawGridLine from './drawGridLine';
 import Lodash from 'lodash';
 
 const getMonthsDiff = (s, e) => {
+  const yDiff = e.getUTCFullYear() - s.getUTCFullYear();
   let diff;
-  const yDiff = e.getFullYear() - s.getFullYear();
 
   if (yDiff > 0) {
-    const a = 11 - s.getMonth();
+    const a = 11 - s.getUTCMonth();
     const b = 12 * (yDiff > 1 ? yDiff - 1 : 0);
-    const c = e.getMonth();
+    const c = e.getUTCMonth() + 1;
 
     diff = a + b + c;
   } else {
-    const a = s.getMonth();
-    const b = e.getMonth();
+    const a = s.getUTCMonth();
+    const b = e.getUTCMonth();
 
     diff = b - a;
   }
 
   return diff;
 };
+
+const isBeginningOfBigger = (date, scale) => {
+  let isBeginning = false;
+  date = new Date(date);
+
+  switch (scale) {
+    case 'Y':
+      break;
+    case 'M':
+      isBeginning = date.getUTCMonth() === 0;
+      break;
+    default:
+      isBeginning = false;
+  }
+
+  return isBeginning;
+}
 
 export default function drawGridLines(
   canvas,
@@ -65,16 +82,16 @@ export default function drawGridLines(
 
   const start = new Date(klines[0].openTime);
   const end = new Date(klines[klines.length - 1].openTime);
-  const yDiff = end.getFullYear() - start.getFullYear();
+  const yDiff = end.getUTCFullYear() - start.getUTCFullYear();
 
-  const limit = 4;
+  const limit = 5;
   const hRatio = (canvasWidth - klineWidth * 2) / (end.getTime() - start.getTime());
 
   let used = 0;
   let primary = true;
 
-  const drawAtTime = (text, time) => {
-    const textWidth = context.measureText(text.toString()).width;
+  const drawAtTime = (text, time, scale) => {
+    const textWidth = context.measureText(text).width;
     let xOffset;
 
     if (timeframe === 'M1') {
@@ -92,7 +109,10 @@ export default function drawGridLines(
       context.font = '10px Arial';
     }
 
-    if (xPos >= 5 && xPos + textWidth <= canvasWidth - 5) {
+    if (
+      (xPos >= 5 && xPos + textWidth <= canvasWidth - 5) &&
+      !isBeginningOfBigger(time, scale)
+    ) {
       const grid = canvasHeight + 5;
 
       context.fillText(text, xPos,  grid + (canvas.height - grid) / 2);
@@ -108,14 +128,31 @@ export default function drawGridLines(
     console.log(yDiff, step);*/
   } else if (yDiff > 0) {
     for (
-      let i = start.getFullYear() + 1;
-      i <= end.getFullYear();
+      let i = start.getUTCFullYear() + 1;
+      i <= end.getUTCFullYear();
       i++
     ) {
-      drawAtTime(i, Date.UTC(i, 0, 1));
+      drawAtTime(i, Date.UTC(i, 0, 1), 'Y');
     }
 
     primary = false;
+
+    const mDiff = getMonthsDiff(start, end);
+
+    if (mDiff >= limit - used) {
+      const mStepper = Math.round(mDiff / limit);
+      const rest = start.getUTCMonth() % mStepper;
+      const startGap = rest === 0 ? 0 : mStepper - rest;
+
+      for (
+        let step = startGap;
+        step <= mDiff;
+        step += mStepper
+      ) {
+        const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + step, 1);
+        drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
+      }
+    }
   }
   /*if (yDiff >= limit) {
     const step = Math.round(yDiff / limit);

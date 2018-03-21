@@ -17,7 +17,7 @@ export default {
     border: '#ECEFF1',
     text: '#333',
     textLighter: '#555',
-    icon: '#777',
+    icon: '#666',
   },
   padding: {
     horizontal: '2vw',

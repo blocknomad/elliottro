@@ -34,7 +34,7 @@ export default function drawPatternWindow(
     xOffset,
     Lodash.clamp(yOffset, 0, canvasHeight),
     width,
-    Lodash.clamp(height, 0, canvasHeight)
+    Lodash.clamp(height, canvasHeight - 1)
   );
 
   context.restore();
