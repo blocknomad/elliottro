@@ -59,7 +59,6 @@ const overlpsBigger = (date, scale, stepper) => {
       const span = Math.floor(stepper * .75);
 
       overlaps = cDiff < span || nDiff < span;
-      console.log(cDiff, nDiff, span, overlaps, date)
       break;
     default:
       break;
@@ -170,6 +169,12 @@ export default function drawGridLines(
       drawAtTime(i, Date.UTC(i, 0, 1), 'Y');
     }
 
+    primary = false;
+  } else if (
+    new Date(start.getTime() - 1).getUTCFullYear() !==
+    start.getUTCFullYear()
+  ) {
+    drawAtTime(start.getUTCFullYear(), Date.UTC(start.getUTCFullYear(), 0), 'Y');
     primary = false;
   }
 
