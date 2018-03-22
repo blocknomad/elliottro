@@ -3,6 +3,9 @@ import drawGridLine from './drawGridLine';
 
 import Lodash from 'lodash';
 
+
+// months diff
+
 const getMonthsDiff = (s, e) => {
   const yDiff = e.getUTCFullYear() - s.getUTCFullYear();
   let diff;
@@ -23,21 +26,46 @@ const getMonthsDiff = (s, e) => {
   return diff;
 };
 
-const isBeginningOfBigger = (date, scale) => {
-  let isBeginning = false;
+
+// days diff
+
+const getDaysDiff = (s, e) => {
+  const start = Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate());
+  const end = Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate());
+
+  return Math.floor((end - start) / 86400000);
+};
+
+
+// test if the app is trying to overlap grid guides
+
+const overlpsBigger = (date, scale, stepper) => {
+  let overlaps = false;
   date = new Date(date);
 
   switch (scale) {
     case 'Y':
       break;
     case 'M':
-      isBeginning = date.getUTCMonth() === 0;
+      overlaps = date.getUTCMonth() === 0;
+      break;
+    case 'D':
+      const currentMonth = new Date(date.getUTCFullYear(), date.getUTCMonth());
+      const nextMonth = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1);
+
+      const cDiff = getDaysDiff(currentMonth, date);
+      const nDiff = getDaysDiff(date, nextMonth);
+
+      const span = Math.floor(stepper * .75);
+
+      overlaps = cDiff < span || nDiff < span;
+      console.log(cDiff, nDiff, span, overlaps, date)
       break;
     default:
-      isBeginning = false;
+      break;
   }
 
-  return isBeginning;
+  return overlaps;
 }
 
 export default function drawGridLines(
@@ -90,15 +118,20 @@ export default function drawGridLines(
   let used = 0;
   let primary = true;
 
-  const drawAtTime = (text, time, scale) => {
+  context.textBaseline = 'middle';
+
+
+  // draw function
+
+  const drawAtTime = (text, date, scale, stepper) => {
     const textWidth = context.measureText(text).width;
     let xOffset;
 
     if (timeframe === 'M1') {
-      const index = Lodash.findIndex(klines, ['openTime', time]);
+      const index = Lodash.findIndex(klines, ['openTime', date]);
       xOffset = klineWidth * (index + 1) + klineWidth / 2 * index;
     } else {
-      xOffset = (time - start.getTime()) * hRatio + klineWidth;
+      xOffset = (date - start.getTime()) * hRatio + klineWidth;
     }
 
     const xPos = xOffset - textWidth / 2;
@@ -110,8 +143,8 @@ export default function drawGridLines(
     }
 
     if (
-      (xPos >= 5 && xPos + textWidth <= canvasWidth - 5) &&
-      !isBeginningOfBigger(time, scale)
+      (xPos >= 0 && xPos + textWidth <= canvasWidth - 5) &&
+      !overlpsBigger(date, scale, stepper)
     ) {
       const grid = canvasHeight + 5;
 
@@ -121,14 +154,16 @@ export default function drawGridLines(
     }
   };
 
-  context.textBaseline = 'middle';
+
+  // draw years
 
   if (yDiff >= limit) {
+    primary = false;
     /*const step = Math.round(yDiff / limit);
     console.log(yDiff, step);*/
   } else if (yDiff > 0) {
     for (
-      let i = start.getUTCFullYear() + 1;
+      let i = start.getUTCFullYear();
       i <= end.getUTCFullYear();
       i++
     ) {
@@ -136,59 +171,75 @@ export default function drawGridLines(
     }
 
     primary = false;
+  }
 
-    const mDiff = getMonthsDiff(start, end);
 
-    if (mDiff >= limit - used) {
-      const mStepper = Math.round(mDiff / limit);
-      const rest = start.getUTCMonth() % mStepper;
-      const startGap = rest === 0 ? 0 : mStepper - rest;
+  // draw months
 
-      for (
-        let step = startGap;
-        step <= mDiff;
-        step += mStepper
-      ) {
-        const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + step, 1);
-        drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
-      }
+  const mDiff = getMonthsDiff(start, end);
+
+  if (mDiff >= limit - used) {
+    primary = false;
+
+    const mStepper = Math.round(mDiff / limit);
+    const rest = start.getUTCMonth() % mStepper;
+    const startGap = rest === 0 ? 0 : mStepper - rest;
+
+    for (
+      let step = startGap;
+      step <= mDiff;
+      step += mStepper
+    ) {
+      const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + step, 1);
+      drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
+    }
+  } else if (limit - used > 0) {
+    for (
+      let i = 0;
+      i <= mDiff;
+      i++
+    ) {
+      const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1);
+      drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
     }
   }
-  /*if (yDiff >= limit) {
-    const step = Math.round(yDiff / limit);
 
-  } else {
-    const mDiff = getMonthsDiff(start, end);
-    console.log('diff: ', mDiff);
 
-    if (mDiff > limit) {
-      const hStepper = Math.round(mDiff / limit);
-      console.log('step: ', step);
+  // draw days
 
-      for (
-        let step = hStepper;
-        start.getMonth() > step;
-        step += hStepper
-      )
-      end.getMonth() - step;
-      // align months to year
-    } else {
+  const dDiff = getDaysDiff(start, end);
 
+  if (dDiff >= limit - used) {
+    primary = false;
+
+    const limitPerMonth = Math.round(30 / Math.round(dDiff / limit));
+
+    if (limitPerMonth > 1) {
+      let month = 0;
+
+      do {
+        const daysInMonth = new Date(start.getUTCFullYear(), start.getUTCMonth() + 1, -1).getUTCDate();
+        const dStepper = Math.round(daysInMonth / limitPerMonth);
+
+        for (let step = dStepper; step < daysInMonth; step += dStepper) {
+          const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + month, 1 + step);
+          drawAtTime(new Date(date).getUTCDate(), date, 'D', dStepper);
+        }
+
+        month++;
+      } while (month <= mDiff)
+    }
+  }
+
+
+  /*else if (limit - used > 0) {
+    for (
+      let i = 0;
+      i <= mDiff;
+      i++
+    ) {
+      const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1);
+      drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
     }
   }*/
-
-  /*
-
-  if (start.getFullYear() !== end.getFullYear()) {
-    const diff = end.getFullYear() - start.getFullYear();
-
-    if (diff < 5) {
-
-    }
-  } else if (start.getMonth() !== end.getMonth()) {
-
-  } else if (start.getDate() !== end.getDate()) {
-
-  }*/
-
 }

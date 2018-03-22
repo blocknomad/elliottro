@@ -13,7 +13,7 @@ const Results = Styled.section`
   background-color: #fafafa;
   position: relative;
   top: 55px;
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
   min-height: calc(100vh - 55px);
   box-sizing: border-box;
   padding: 0 ${config.padding.horizontal} 20px;
@@ -85,7 +85,7 @@ export default class ResultsComponent extends Component {
 
           viewType === 'grid' ?
             <Grid matches={matches} timeframe={timeframe} /> :
-            <Table matches={matches} />
+            <Table matches={matches} timeframe={timeframe} />
         }
       </Results>
     );

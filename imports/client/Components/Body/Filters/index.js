@@ -14,7 +14,7 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 // Styled components
 
 const Container = Styled.section`
-  width: 250px;
+  width: 270px;
   height: calc(100vh - 55px);
   padding: 20px 24px;
   box-sizing: border-box;
@@ -91,11 +91,21 @@ export default class FiltersComponent extends Component {
               defaultValue={filters.pattern}
               onChange={handleChange}
             >
-              {Lodash.map(Patterns, (pattern, key) =>
-                <option value={key} key={key} disabled={pattern.status === 1}>
-                  {pattern.name}
-                </option>
-              )}
+              <optgroup label="Reversal">
+                {(Lodash.filter(Patterns, ['type', 'reversal'])).map((pattern, key) =>
+                  <option value={key} key={key} disabled={pattern.status === 1}>
+                    {pattern.name}
+                  </option>
+                )}
+              </optgroup>
+
+              <optgroup label="Continuation">
+                {(Lodash.filter(Patterns, ['type', 'continuation'])).map((pattern, key) =>
+                  <option value={key} key={key} disabled={pattern.status === 1}>
+                    {pattern.name}
+                  </option>
+                )}
+              </optgroup>
             </select>
           </Section>
 

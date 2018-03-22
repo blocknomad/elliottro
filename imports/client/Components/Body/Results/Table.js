@@ -7,6 +7,7 @@ import config from '/imports/client/config';
 import Patterns from '/imports/both/fixtures/patterns';
 import Exchanges from '/imports/both/fixtures/exchanges';
 
+import formatDate from './functions/formatDate';
 
 // Styled components
 
@@ -66,7 +67,10 @@ const Visit = Styled.a`
 
 export default class TableResultsComponent extends Component {
   render() {
-    const { matches } = this.props;
+    const {
+      matches,
+      timeframe,
+    } = this.props;
 
     return (
       <Table>
@@ -76,8 +80,8 @@ export default class TableResultsComponent extends Component {
             <th>Base asset</th>
             <th>Quote asset</th>
             <th>Exchange</th>
-            <th>Starts at</th>
-            <th>Ends at</th>
+            <th>From</th>
+            <th>To</th>
             <th />
           </tr>
         </thead>
@@ -93,8 +97,8 @@ export default class TableResultsComponent extends Component {
                 <td>{match.baseAsset}</td>
                 <td>{match.quoteAsset}</td>
                 <td>{Exchanges[match.exchange].name}</td>
-                <td>{new Date(match.start).toLocaleString()}</td>
-                <td>{new Date(match.end).toLocaleString()}</td>
+                <td>{formatDate(match.start, timeframe)}</td>
+                <td>{formatDate(match.end, timeframe)}</td>
                 <td>
                   <Visit
                     title="Access this symbol on exchange"

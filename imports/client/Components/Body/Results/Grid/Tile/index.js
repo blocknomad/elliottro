@@ -9,7 +9,7 @@ import drawKlines from './functions/drawKlines';
 import drawGridLines from './functions/drawGridLines';
 import drawPointerLines from './functions/drawPointerLines';
 import removePointerLines from './functions/removePointerLines';
-import formatDate from './functions/formatDate';
+import formatDate from './../../functions/formatDate';
 
 // Styled components
 
@@ -18,7 +18,7 @@ const Tile = Styled.article`
   background-color: #fff;
   padding: 15px;
   border: 1px solid ${config.colors.border};
-  box-shadow: 2px 2px 2px ${config.colors.border};
+  box-shadow: 1px 1px 1px ${config.colors.border};
   display: inline-block;
   width: calc(50% - 10px);
 

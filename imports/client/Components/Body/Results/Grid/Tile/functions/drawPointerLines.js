@@ -1,6 +1,6 @@
 import Lodash from 'lodash';
 import config from '/imports/client/config';
-import formatDate from './formatDate';
+import formatDate from './../../../functions/formatDate';
 
 export default function drawPointerLines(
   canvas,
