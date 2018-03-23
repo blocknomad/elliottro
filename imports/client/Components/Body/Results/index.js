@@ -3,53 +3,96 @@ import Styled from 'styled-components';
 
 import Spinner from './Spinner';
 import Table from './Table';
+import Grid from './Grid';
 
 import config from '/imports/client/config';
 
 // Styled components
 
 const Results = Styled.section`
-  width: 100%;
+  /*background-color: #fafafa;*/
+  background-color: #fff;
+  position: relative;
+  top: 55px;
+  width: calc(100% - 270px);
+  min-height: calc(100vh - 54px);
   box-sizing: border-box;
-  background-color: ${config.colors.primaryContrast};
-  padding: ${props => props.hasSearched ? '4%' : 0} ${config.padding.horizontal};
-  transition: .3s;
-`
+  padding: 0 ${config.padding.horizontal} 20px;
+`;
+
+const Header = Styled.section`
+  display: flex;
+  align-items: center;
+  padding: 24px 15px 24px 16px;
+`;
 
 const Stats = Styled.p`
   font-size: 13px;
-  margin: 20px 0 0 21px;
-  color: #37474F;
-  font-weight: 300;
-`
+  color: #333;
+  font-weight: 200;
+  flex-grow: 100;
+`;
+
+const Icon = Styled.i`
+  font-size: 24px;
+  cursor: pointer;
+  color: ${config.colors.icon};
+  display: ${props => props.active ? 'none' : 'initial'};
+`;
+
 
 export default class ResultsComponent extends Component {
+  state = {
+    viewType: 'grid',
+  }
+
   render() {
     const {
       loading,
-      hasSearched,
       matches,
-      downloadTime,
+      timeframe,
       processingTime,
     } = this.props;
 
+    const { viewType } = this.state;
+
     return (
-      <Results
-        id="results"
-        hasSearched={hasSearched}
-      >
-        {loading && <Spinner />}
-
-        {hasSearched && !loading && [
-
-          <Table matches={matches} key={0} />,
-
-          <Stats key={1}>
-            Processing time: {processingTime}ms &nbsp;-&nbsp; Matches: {matches.length}
+      <Results>
+        <Header>
+          <Stats>
+            {!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found in {processingTime}ms</span>}
           </Stats>
 
-        ]}
+          <Icon
+            className="material-icons"
+            active={viewType === 'grid'}
+            onClick={() => this.handleViewTypeChange('grid')}
+            title="Grid view with charts"
+          >
+            view_module
+          </Icon>
+          <Icon
+            className="material-icons"
+            active={viewType === 'list'}
+            onClick={() => this.handleViewTypeChange('list')}
+            title="List view"
+          >
+            view_list
+          </Icon>
+        </Header>
+
+        {loading ?
+          <Spinner /> :
+
+          viewType === 'grid' ?
+            <Grid matches={matches} timeframe={timeframe} /> :
+            <Table matches={matches} timeframe={timeframe} />
+        }
       </Results>
     );
+  }
+
+  handleViewTypeChange = viewType => {
+    this.setState({ viewType });
   }
 }

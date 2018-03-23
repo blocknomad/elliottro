@@ -12,7 +12,6 @@ const Footer = Styled.section`
 `
 
 const Content = Styled.div`
-  border-top: 1px solid #e3e3e3;
   font-size: 13px;
   color: #444;
   padding: 4% 0;

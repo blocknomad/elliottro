@@ -29,6 +29,7 @@ const SymbolSchema = new SimpleSchema({
   'klines.$.high': Number,
   'klines.$.low': Number,
   'klines.$.close': Number,
+  'klines.$.openTime': Number,
   'klines.$.closeTime': Number,
 
   createdAt: {

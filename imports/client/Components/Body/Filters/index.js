@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
-import ScrollArea from 'react-scrollbar';
 import Lodash from 'lodash';
 
-import Tile from './Tile';
+import Collapsible from './Collapsible';
 
 import config from '/imports/client/config';
 import QuoteAssets from '/imports/both/fixtures/quoteAssets';
@@ -11,180 +10,144 @@ import Exchanges from '/imports/both/fixtures/exchanges';
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
+
 // Styled components
 
 const Container = Styled.section`
-  padding: 4% ${config.padding.horizontal};
-  box-shadow: inset 2px 1px 5px #CFD8DC;
-  background-color: ${config.colors.secondary};
+  width: 270px;
+  height: calc(100vh - 55px);
+  padding: 20px 24px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  /*box-shadow: -2px -2px 2px ${config.colors.border};*/
+  border-left: 1px solid ${config.colors.border};
+  background-color: ${config.colors.primaryContrast};
+  z-index: 99;
+  position: fixed;
+  top: 55px;
+  right: 0;
+  overflow-y: auto;
 `;
 
-const Filters = Styled.section`
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-`
+const Section = Styled.section`
+  color: ${config.colors.text};
 
-const Filter = Styled.article`
-  width: 100%;
-  box-sizing: border-box;
-  margin-right: 2%;
-
-  &:last-child {
-    margin-right: 0%;
+  &:not(:last-child) {
+    padding: 0 0 24px;
   }
-`
 
-const Title = Styled.h2`
-  color: ${config.colors.secondaryContrast};
-  text-transform: uppercase;
-  font-size: 15px;
-  margin: 0 0 14px 14px;
-`
-
-const Tiles = Styled(ScrollArea).attrs({
-  smoothScrolling: true,
-})`
-  max-height: 50vh;
-`
-
-const TimeframesList = Styled.section`
-  padding: 3% 20% 0.5%;
-  text-align: center;
+  p {
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
 
   label {
-    font-size: 14px;
-    color: ${config.colors.secondaryContrast};
-    font-weight: normal;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    color: ${config.colors.textLighter};
+
+    span {
+      margin-left: 10px;
+    }
   }
 `
 
-const Timeframe = Styled.span`
-  padding: 4px 6px;
-  margin-right: 5px;
-  font-size: 14px;
-  color: #607D8B;
-  cursor: pointer;
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &:hover {
-    background-color: #e2e2e2;
-  }
-
-  ${props => props.selected && `
-    color: ${config.colors.primary};
-    text-decoration: underline;
-    font-weight: 600;
-  `}
-`
-
-const SearchButton = Styled.div`
-  background-color: #CFD8DC;
-  color: #607D8B;
-  margin-top: 2.5%;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 1% 0;
-  cursor: pointer;
-  box-shadow: 2px 2px 2px #c3c3c3;
-
-  &:hover {
-    background-color: #c1cdd2;
-    color: #546E7A;
-  }
-
-  &:active {
-    background-color: #B0BEC5;
-  }
-`
 
 export default class FiltersComponent extends Component {
   render() {
     const {
-      handleFilterToggle,
       handleSearch,
-      handleTimeframeChange,
       filters,
-      timeframe,
+      loading,
+      handleChange,
     } = this.props;
 
     return (
       <Container>
-        <Filters>
-          <Filter>
-            <Title>Exchange</Title>
+        <form>
+          <Section>
+            <p>Timeframe</p>
 
-            <Tiles>
-              {Lodash.map(Exchanges, (exchange, key) =>
-                <Tile
-                  key={key}
-                  label={exchange.name}
-                  status={exchange.status}
-                  toggled={Lodash.indexOf(filters.exchanges, key) !== -1}
-                  option="exchanges"
-                  value={key}
-                  handleToggle={handleFilterToggle}
-                />)}
-              </Tiles>
-          </Filter>
-
-          <Filter>
-            <Title>Quote asset</Title>
-
-            <Tiles>
-              {Lodash.map(QuoteAssets, (quoteAsset, key) =>
-                <Tile
-                  key={key}
-                  label={quoteAsset.name}
-                  status={quoteAsset.status}
-                  toggled={Lodash.indexOf(filters.quoteAssets, key) !== -1}
-                  option="quoteAssets"
-                  value={key}
-                  handleToggle={handleFilterToggle}
-                />)}
-              </Tiles>
-          </Filter>
-
-          <Filter>
-            <Title>Pattern</Title>
-
-            <Tiles>
-              {Lodash.map(Patterns, (pattern, key) =>
-                <Tile
-                  key={key}
-                  label={pattern.name}
-                  status={pattern.status}
-                  toggled={Lodash.indexOf(filters.patterns, key) !== -1}
-                  option="patterns"
-                  value={key}
-                  handleToggle={handleFilterToggle}
-                />)}
-              </Tiles>
-          </Filter>
-        </Filters>
-
-        <TimeframesList>
-          <label>Timeframe: </label>
-
-          {Lodash.map(Timeframes, ({ name }, key) =>
-            <Timeframe
-              key={key}
-              selected={timeframe === key}
-              onClick={() => handleTimeframeChange(key)}
+            <select
+              name="timeframe"
+              defaultValue={filters.timeframe}
+              onChange={handleChange}
             >
-              {name}
-            </Timeframe>
-          )}
-        </TimeframesList>
+              {Lodash.map(Timeframes, (timeframe, key) =>
+                <option value={key} key={key}>
+                  {timeframe.name}
+                </option>
+              )}
+            </select>
+          </Section>
 
-        <SearchButton onClick={handleSearch}>
-          Search
-        </SearchButton>
+          <Section>
+            <p>Pattern</p>
+
+            <select
+              name="pattern"
+              defaultValue={filters.pattern}
+              onChange={handleChange}
+            >
+              <optgroup label="Reversal">
+                {(Lodash.filter(Patterns, ['type', 'reversal'])).map((pattern, key) =>
+                  <option value={key} key={key} disabled={pattern.status === 1}>
+                    {pattern.name}
+                  </option>
+                )}
+              </optgroup>
+
+              <optgroup label="Continuation">
+                {(Lodash.filter(Patterns, ['type', 'continuation'])).map((pattern, key) =>
+                  <option value={key} key={key} disabled={pattern.status === 1}>
+                    {pattern.name}
+                  </option>
+                )}
+              </optgroup>
+            </select>
+          </Section>
+
+          <Section>
+            <p>Exchanges</p>
+
+            {Lodash.map(Exchanges, (exchange, key) =>
+              <label key={key} htmlFor={key}>
+                <input
+                  type="checkbox"
+                  name="exchanges"
+                  value={key}
+                  id={key}
+                  defaultChecked={Lodash.includes(filters.exchanges, key)}
+                  disabled={exchange.status === 1}
+                  onChange={handleChange}
+                />
+                <span>{exchange.name}</span>
+              </label>
+            )}
+          </Section>
+
+          <Section>
+            <p>Quote assets</p>
+
+            {Lodash.map(QuoteAssets, (quoteAsset, key) =>
+              <label key={key} htmlFor={key}>
+                <input
+                  type="checkbox"
+                  name="quoteAssets"
+                  value={key}
+                  id={key}
+                  defaultChecked={Lodash.includes(filters.quoteAssets, key)}
+                  disabled={quoteAsset.status === 1}
+                  onChange={handleChange}
+                />
+                <span>{quoteAsset.name}</span>
+              </label>
+            )}
+          </Section>
+        </form>
       </Container>
     );
   }

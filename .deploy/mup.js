@@ -19,7 +19,7 @@ module.exports = {
       serverOnly: true
     },
     env: {
-      ROOT_URL: 'http://54.82.165.27',
+      ROOT_URL: 'http://elliottro.com',
       MONGO_URL: 'mongodb://localhost/meteor'
     }
   },

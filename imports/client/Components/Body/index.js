@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
-import smoothScroll from 'smoothscroll';
 
 import config from '/imports/client/config';
 
@@ -10,19 +9,27 @@ import Results from './Results';
 import Lodash from 'lodash';
 
 
+// Styled components
+
+const Screener = Styled.section`
+`;
+
 export default class BodyComponent extends Component {
   state = {
     filters: {
-      exchanges: [],
-      quoteAssets: [],
-      patterns: [],
+      timeframe: 'H1',
+      pattern: 'HSB',
+      exchanges: ['BINA'],
+      quoteAssets: ['BTC', 'ETH', 'USD'],
     },
-    timeframe: 'H1',
     loading: false,
     hasSearched: false,
     matches: [],
-    downloadTime: undefined,
-    processingTime: undefined,
+    processingTime: 0,
+  }
+
+  componentDidMount() {
+    this.handleSearch();
   }
 
   render() {
@@ -30,57 +37,43 @@ export default class BodyComponent extends Component {
       filters,
       timeframe,
       loading,
-      hasSearched,
       matches,
-      downloadTime,
       processingTime,
     } = this.state;
 
     return (
-      <section>
-        <Filters
-          handleFilterToggle={this.handleFilterToggle}
-          handleSearch={this.handleSearch}
-          handleTimeframeChange={this.handleTimeframeChange}
-          filters={filters}
-          timeframe={timeframe}
-        />
-
+      <Screener>
         <Results
           loading={loading}
-          hasSearched={hasSearched}
           matches={matches}
-          downloadTime={downloadTime}
+          timeframe={filters.timeframe}
           processingTime={processingTime}
         />
-      </section>
+
+        <Filters
+          handleChange={this.handleChange}
+          filters={filters}
+          loading={loading}
+        />
+      </Screener>
     );
   }
 
-  handleFilterToggle = (option, value) => {
-    setTimeout(() => {
-      const filters = { ...this.state.filters };
+  handleChange = ({ target }) => {
+    const value = target.type === 'checkbox' ?
+      Lodash.xor(this.state.filters[target.name], [target.value]) :
+      target.value;
 
-      filters[option] = Lodash.xor(filters[option], [value]);
-      filters[option].length > 0 && this.setState({ filters });
-    }, 0);
-  }
+    const filters = this.state.filters;
+    filters[target.name] = value
 
-  handleTimeframeChange = (timeframe) => {
-    this.setState({ timeframe });
+    this.setState({ filters }, this.handleSearch);
   }
 
   handleSearch = () => {
-    smoothScroll(document.getElementById('results'));
-    this.setState({
-      loading: true,
-      hasSearched: true,
-    });
+    this.setState({ loading: true });
 
-    Meteor.call('searchPattern', {
-      filters: this.state.filters,
-      timeframe: this.state.timeframe,
-    }, (error, response) => {
+    Meteor.call('searchPattern', { ...this.state.filters }, (error, response) => {
       this.setState({
         loading: false,
         ...response,
