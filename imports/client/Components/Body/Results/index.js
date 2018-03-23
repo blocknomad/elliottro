@@ -15,7 +15,7 @@ const Results = Styled.section`
   position: relative;
   top: 55px;
   width: calc(100% - 270px);
-  min-height: calc(100vh - 55px);
+  min-height: calc(100vh - 54px);
   box-sizing: border-box;
   padding: 0 ${config.padding.horizontal} 20px;
 `;

@@ -148,7 +148,7 @@ Meteor.methods({
 
 			// Push optimal match to matches array if its cost is lesser than 4
 
-			match.cost < 14 &&	matches.push({
+			match.cost < 4 &&	matches.push({
 				quoteAsset,
 				baseAsset,
 				exchange,

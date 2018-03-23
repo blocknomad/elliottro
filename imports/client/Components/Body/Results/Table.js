@@ -13,10 +13,9 @@ import formatDate from './functions/formatDate';
 
 const Table = Styled.table`
   width: 100%;
-  border-top: 1px solid ${config.colors.border};
-  border-left: 1px solid ${config.colors.border};
+  border: 1px solid ${config.colors.border};
   background-color: #FFF;
-  box-shadow: 2px 2px 3px ${config.colors.border};
+  /*box-shadow: 2px 2px 3px ${config.colors.border};*/
   animation: ${config.animations.fadeIn};
   padding: 0 15px;
   margin-bottom: 20px;

@@ -63,7 +63,7 @@ export default function drawPointerLines(
     // vertical marker
     const markerColor = '#444';
     const markerTextColor = '#FFF';
-    const boxHeight = 20;
+    const boxHeight = 19;
     const rectYOffset = Lodash.clamp(y - boxHeight / 2, 0, klinesHeight - boxHeight);
 
     context.fillStyle = markerColor;

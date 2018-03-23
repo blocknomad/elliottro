@@ -7,13 +7,13 @@ import Symbols from '/imports/both/collections/symbols';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
 
-export default function fetchKlinesBinance(interval) {
-  console.log(`START: Fetching BINANCE ${interval} klines`);
+export default function fetchKlinesBinance(timeframe) {
+  console.log(`START: Fetching BINANCE ${timeframe} klines`);
 
   const Binance = new BinanceAPI.BinanceRest({});
   const BinanceSymbols = {};
 
-  Symbols.find({ exchange: 'BINA', timeframe: interval }).forEach(symbol => {
+  Symbols.find({ exchange: 'BINA', timeframe }).forEach(symbol => {
     BinanceSymbols[symbol.baseAsset + symbol.quoteAsset] = symbol;
   });
 
@@ -61,8 +61,8 @@ export default function fetchKlinesBinance(interval) {
         data,
         ({ symbol, baseAsset, quoteAsset }) =>
           new Promise(resolve => {
-
-            let query = `symbol=${symbol}&interval=${Timeframes[interval].value}&limit=40`;
+            
+            let query = `symbol=${symbol}&interval=${Timeframes[timeframe].value}&limit=40`;
 
             const currentKlines = Lodash.get(BinanceSymbols[symbol], 'klines');
 
@@ -115,14 +115,14 @@ export default function fetchKlinesBinance(interval) {
           Symbols.insert({
             baseAsset,
             quoteAsset,
-            timeframe: interval,
+            timeframe,
             exchange: 'BINA',
             klines: treatKlines(klines),
           });
         }
       });
 
-      console.log(`END: Fetching BINANCE ${interval} klines, ${(Lodash.map(data, 'klines')).length} klines fetched`);
+      console.log(`END: Fetching BINANCE ${timeframe} klines, ${(Lodash.map(data, 'klines')).length} klines fetched`);
 
     }
 

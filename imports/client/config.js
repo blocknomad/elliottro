@@ -3,8 +3,8 @@ import { keyframes } from 'styled-components';
 // animations
 
 const fadeIn = keyframes`
-  from { opacity: 0; margin-top: 15px; transform: scale(.998); }
-  to { opacity: 1; margin-top: 0px; transform: scale(1); }
+  from { opacity: 0; margin-top: 10px; }
+  to { opacity: 1; margin-top: 0px; }
 `;
 
 
