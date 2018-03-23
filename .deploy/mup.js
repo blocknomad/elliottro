@@ -6,11 +6,12 @@ module.exports = {
       pem: '~/Documents/dev/Gagarin/Elliottro-PRE-ALPHA01.pem'
     }
   },
+
   meteor: {
     name: 'Elliottro',
     path: '../',
     docker: {
-      image: 'abernix/meteord:node-8.4.0-base'
+      image: 'zodern/meteor:root'
     },
     servers: {
       one: {}
@@ -19,14 +20,24 @@ module.exports = {
       serverOnly: true
     },
     env: {
-      ROOT_URL: 'http://elliottro.com',
+      ROOT_URL: 'https://elliottro.com',
       MONGO_URL: 'mongodb://localhost/meteor'
-    }
+    },
+    enableUploadProgressBar: true
   },
+
   mongo: {
     version: '3.4.1',
     servers: {
       one: {}
+    }
+  },
+
+  proxy: {
+    domains: 'elliottro.com',
+    ssl: {
+      letsEncryptEmail: 'yuri.fabris@gmail.com',
+      forceSSL: true
     }
   }
 };

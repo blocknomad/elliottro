@@ -73,8 +73,6 @@ const overlapsBigger = (date, scale, stepper) => {
     case 'H':
       const hSpan = Math.round(stepper * .75);
 
-      console.log(date.getUTCHours() === 0, date.getUTCHours() < hSpan, 24 - date.getUTCHours() < hSpan, hSpan)
-
       overlaps = date.getUTCHours() < hSpan || 24 - date.getUTCHours() < hSpan;
       break;
     default:
