@@ -34,7 +34,7 @@ module.exports = {
   },
 
   proxy: {
-    domains: 'elliottro.com',
+    domains: 'elliottro.com,www.elliottro.com',
     ssl: {
       letsEncryptEmail: 'yuri.fabris@gmail.com',
       forceSSL: true

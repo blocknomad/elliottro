@@ -13,18 +13,14 @@ import formatDate from './functions/formatDate';
 
 const Table = Styled.table`
   width: 100%;
-  border: 1px solid ${config.colors.border};
   background-color: #FFF;
-  /*box-shadow: 2px 2px 3px ${config.colors.border};*/
   animation: ${config.animations.fadeIn};
-  padding: 0 15px;
   margin-bottom: 20px;
 
   th {
     text-align: left;
     font-size: 13px;
     font-weight: 600;
-    padding: 15px 0;
     color: ${config.colors.text};
   }
 
@@ -32,6 +28,7 @@ const Table = Styled.table`
     font-size: 13px;
     padding: 10px 0;
     color: ${config.colors.textLighter};
+    border-bottom: 1px solid ${config.colors.border};
 
     &:last-child {
       padding: 0 0 0 15px;
@@ -49,10 +46,6 @@ const Table = Styled.table`
 
   th:first-child, td:first-child {
     padding-right: 15px;
-  }
-
-  tr:not(:last-child) td {
-    border-bottom: 1px solid ${config.colors.border};
   }
 `
 

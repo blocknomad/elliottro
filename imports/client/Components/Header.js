@@ -21,8 +21,8 @@ const Header = Styled.header`
 `
 
 const Logo = Styled.img`
-  width: 107px;
-  height: 20.5px;
+  width: 115px;
+  height: 22px;
 `
 
 const Menu = Styled.div`

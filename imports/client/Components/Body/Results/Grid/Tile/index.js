@@ -16,18 +16,14 @@ import formatDate from './../../functions/formatDate';
 const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
-  padding: 15px;
-  border: 1px solid ${config.colors.border};
-  /*box-shadow: 1px 1px 1px ${config.colors.border};*/
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
   display: inline-block;
-  width: calc(50% - 10px);
+  width: calc(50% - ${config.padding.horizontal} / 2);
+  margin-bottom: ${config.padding.horizontal};
 
   &:nth-child(odd) {
-    margin-right: 20px;
-  }
-
-  &:nth-child(odd), &:nth-child(even) {
-    margin-bottom: 20px;
+    margin-right: ${config.padding.horizontal};
   }
 `;
 
@@ -35,6 +31,7 @@ const Chart = Styled.div`
   position: relative;
   width: 100%;
   border: 1px solid ${config.colors.border};
+  box-sizing: border-box;
 `;
 
 const Canvas = Styled.canvas`
@@ -106,7 +103,7 @@ export default class GridTileComponent extends Component {
     const labelsHeight = 20;
 
     const chartWidth = this.gridLines.parentElement.scrollWidth;
-    const chartHeight = chartWidth / 2;
+    const chartHeight = chartWidth * .4;
 
     this.gridLines.parentElement.style.height = `${chartHeight}px`;
 

@@ -20,7 +20,7 @@ export default {
     icon: '#666',
   },
   padding: {
-    horizontal: '2vw',
+    horizontal: '3vw',
   },
   animations: {
     fadeIn: `${fadeIn} .2s`,

@@ -23,7 +23,7 @@ const Results = Styled.section`
 const Header = Styled.section`
   display: flex;
   align-items: center;
-  padding: 24px 15px 24px 16px;
+  padding: calc(${config.padding.horizontal} * .7) 0px;
 `;
 
 const Stats = Styled.p`
