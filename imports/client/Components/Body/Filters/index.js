@@ -19,7 +19,8 @@ const Container = Styled.section`
   padding: 20px 24px;
   box-sizing: border-box;
   flex-shrink: 0;
-  box-shadow: -2px -2px 2px ${config.colors.border};
+  /*box-shadow: -2px -2px 2px ${config.colors.border};*/
+  border-left: 1px solid ${config.colors.border};
   background-color: ${config.colors.primaryContrast};
   z-index: 99;
   position: fixed;

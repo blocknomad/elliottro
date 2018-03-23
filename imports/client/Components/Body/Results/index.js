@@ -10,7 +10,8 @@ import config from '/imports/client/config';
 // Styled components
 
 const Results = Styled.section`
-  background-color: #fafafa;
+  /*background-color: #fafafa;*/
+  background-color: #fff;
   position: relative;
   top: 55px;
   width: calc(100% - 270px);

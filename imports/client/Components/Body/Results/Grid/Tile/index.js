@@ -18,7 +18,7 @@ const Tile = Styled.article`
   background-color: #fff;
   padding: 15px;
   border: 1px solid ${config.colors.border};
-  box-shadow: 1px 1px 1px ${config.colors.border};
+  /*box-shadow: 1px 1px 1px ${config.colors.border};*/
   display: inline-block;
   width: calc(50% - 10px);
 

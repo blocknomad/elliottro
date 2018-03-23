@@ -33,13 +33,23 @@ const getDaysDiff = (s, e) => {
   const start = Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate());
   const end = Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate());
 
-  return Math.floor((end - start) / 86400000);
+  return Math.ceil((end - start) / 86400000);
+};
+
+
+// hours diff
+
+const getHoursDiff = (s, e) => {
+  const start = Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate(), s.getUTCHours());
+  const end = Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate(), e.getUTCHours());
+
+  return Math.floor((end - start) / 3600000);
 };
 
 
 // test if the app is trying to overlap grid guides
 
-const overlpsBigger = (date, scale, stepper) => {
+const overlapsBigger = (date, scale, stepper) => {
   let overlaps = false;
   date = new Date(date);
 
@@ -56,9 +66,16 @@ const overlpsBigger = (date, scale, stepper) => {
       const cDiff = getDaysDiff(currentMonth, date);
       const nDiff = getDaysDiff(date, nextMonth);
 
-      const span = Math.floor(stepper * .75);
+      const dSpan = Math.floor(stepper * .75);
 
-      overlaps = cDiff < span || nDiff < span;
+      overlaps = cDiff < dSpan || nDiff < dSpan;
+      break;
+    case 'H':
+      const hSpan = Math.round(stepper * .75);
+
+      console.log(date.getUTCHours() === 0, date.getUTCHours() < hSpan, 24 - date.getUTCHours() < hSpan, hSpan)
+
+      overlaps = date.getUTCHours() < hSpan || 24 - date.getUTCHours() < hSpan;
       break;
     default:
       break;
@@ -66,6 +83,17 @@ const overlpsBigger = (date, scale, stepper) => {
 
   return overlaps;
 }
+
+
+// format hours
+
+const formatHours = date =>
+  new Date(date).toLocaleString(false, {
+    hour12: false,
+    timeZone: 'UTC',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
 export default function drawGridLines(
   canvas,
@@ -81,6 +109,8 @@ export default function drawGridLines(
 ) {
   const context = canvas.getContext('2d');
   const color = config.colors.border;
+
+  context.save();
 
   context.font = '10px Arial';
   context.fillStyle = config.colors.text;
@@ -142,8 +172,8 @@ export default function drawGridLines(
     }
 
     if (
-      (xPos >= 0 && xPos + textWidth <= canvasWidth - 5) &&
-      !overlpsBigger(date, scale, stepper)
+      (xPos >= -10 && xPos + textWidth <= canvasWidth - 5) &&
+      !overlapsBigger(date, scale, stepper)
     ) {
       const grid = canvasHeight + 5;
 
@@ -199,11 +229,7 @@ export default function drawGridLines(
       drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
     }
   } else if (limit - used > 0) {
-    for (
-      let i = 0;
-      i <= mDiff;
-      i++
-    ) {
+    for (let i = 0; i <= mDiff; i++) {
       const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1);
       drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
     }
@@ -234,17 +260,53 @@ export default function drawGridLines(
         month++;
       } while (month <= mDiff)
     }
+  } else if (limit - used > 0) {
+    for (let i = 0; i <= dDiff; i++) {
+      const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate() + i);
+      drawAtTime(new Date(date).getUTCDate(), date, 'D', 1);
+    }
   }
 
 
-  /*else if (limit - used > 0) {
-    for (
-      let i = 0;
-      i <= mDiff;
-      i++
-    ) {
-      const date = Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1);
-      drawAtTime(new Date(date).toLocaleDateString(false, { timeZone: 'UTC', month: 'short'}), date, 'M');
+  // draw hours
+
+  primary = false;
+
+  const hDiff = getHoursDiff(start, end);
+
+  if (hDiff >= limit - used) {
+    const hStepper = Math.floor(24 / Math.round(24 / Math.round(hDiff / limit)));
+
+    let day = 0;
+
+    if (hStepper >= 1) {
+      do {
+        for (let step = 0; step < 24; step += hStepper) {
+          const date = Date.UTC(
+            start.getUTCFullYear(),
+            start.getUTCMonth(),
+            start.getUTCDate() + day,
+            step
+          );
+
+          drawAtTime(formatHours(date), date, 'H', hStepper);
+        }
+
+        day++;
+      } while (day <= dDiff)
     }
-  }*/
+  } else if (limit - used > 0) {
+    for (let i = 0; i <= hDiff; i++) {
+      const date = Date.UTC(
+        start.getUTCFullYear(),
+        start.getUTCMonth(),
+        start.getUTCDate(),
+        start.getUTCHours() + i
+      );
+
+      drawAtTime(formatHours(date), date, 'H', 1);
+    }
+  }
+
+  context.restore();
 }
