@@ -24,25 +24,9 @@ const Form = Styled.form`
   margin-top: 32px;
 `;
 
-const Section = Styled.section`
-  width: 50%;
-  box-sizing: border-box;
-
-  label {
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    padding: 3px 0;
-    color: ${config.colors.textLighter};
-
-    span {
-      margin-left: 10px;
-    }
-  }
-`;
-
 const Row = Styled.div`
   display: flex;
+  align-items: baseline;
 
   &:not(:first-child) {
     margin-top: 16px;
@@ -55,15 +39,12 @@ const Row = Styled.div`
     flex-shrink: 0;
   }
 
-  div {
-  }
-
   label {
     font-size: 13px;
     display: inline-flex;
     align-items: center;
     padding: 3px 0;
-    color: ${config.colors.textLighter};
+    color: #999;
 
     span {
       margin-left: 5px;
@@ -76,30 +57,42 @@ const Row = Styled.div`
 `;
 
 const Tabs = Styled.div`
-  margin-top: 32px;
+  margin-top: 46px;
   width: 100%;
+  box-sizing: border-box;
   display: flex;
-  border-bottom: 1px solid ${config.colors.border};
+  /*border-bottom: 1px solid ${config.colors.border};*/
 `;
 
 const Tab = Styled.div`
-  border: 1px solid transparent;
-  border-bottom: none;
-  margin-bottom: -1px;
+  border-bottom: 1px solid transparent;
   padding: 10px 15px;
-  font-size: 13px;
-  color: ${config.colors.textLighter};
+  font-size: 14px;
+  color: ${config.colors.text};
+  background-color: #fafafa;
   cursor: pointer;
+  font-weight: 700;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
 
   ${props => props.active && `
-    color: ${config.colors.text};
-    border-color: ${config.colors.border};
-    background-color: ${config.colors.primaryContrast};
+    color: ${config.colors.primaryContrast};
+    background-color: ${config.colors.primary};
+    border-color: ${config.colors.primary};
   `}
+
+  span {
+    font-size: 12px;
+    margin-top: 2px;
+    font-weight: 300;
+  }
 `;
 
 const TabBody = Styled.div`
-  display: ${props => props.active ? 'initial' : 'none'};
+  display: ${props => props.active ? 'block' : 'none'};
+  padding: 16px 0;
 `;
 
 export default class FiltersComponent extends Component {
@@ -190,14 +183,16 @@ export default class FiltersComponent extends Component {
               active={tab === 'price'}
               onClick={() => this.setState({ tab: 'price' })}
             >
-              Price
+              Price<br />
+              <span>Find patterns on price chart</span>
             </Tab>
 
             <Tab
               active={tab === 'indicators'}
               onClick={() => this.setState({ tab: 'indicators' })}
             >
-              Indicators
+              Indicators<br />
+              <span>Look for divergences and trends</span>
             </Tab>
           </Tabs>
 
@@ -227,6 +222,9 @@ export default class FiltersComponent extends Component {
                 </optgroup>
               </select>
             </Row>
+          </TabBody>
+
+          <TabBody active={tab === 'indicators'}>
           </TabBody>
         </Form>
       </Container>

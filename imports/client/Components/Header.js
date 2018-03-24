@@ -19,17 +19,17 @@ const Brand = Styled.div`
 `
 
 const Logo = Styled.img`
-  width: 115px;
-  height: 22px;
+  width: 124px;
+  height: 22.5px;
 `
 
 const Menu = Styled.div`
-  padding: 12px ${config.padding.horizontal};
+  padding: 13px ${config.padding.horizontal};
   background-color: ${config.colors.primaryDarker};
 
   a {
     margin-right: 35px;
-    font-size: 13px;
+    font-size: 14px;
     color: ${config.colors.primaryContrast};
     text-decoration: none;
 
@@ -41,7 +41,7 @@ const Menu = Styled.div`
 
 const Button = Styled.button`
   padding: 8px 12px;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: uppercase;
   color: ${config.colors.primaryContrast};
   border: none;
