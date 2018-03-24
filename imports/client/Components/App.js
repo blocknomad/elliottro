@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Styled from 'styled-components';
 
 import Header from './Header';
-import Body from './Body';
+import Screener from './Screener';
 
 
 // Styled components
@@ -16,7 +16,7 @@ export default class AppComponent extends Component {
     return (
       <App>
         <Header />
-        <Body />
+        <Screener />
       </App>
     );
   }

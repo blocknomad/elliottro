@@ -111,7 +111,7 @@ export default function drawGridLines(
   context.save();
 
   context.font = '10px Arial';
-  context.fillStyle = config.colors.text;
+  context.fillStyle = config.colors.textLighter;
 
   // vertical border
   drawGridLine(context, canvasWidth, 0, canvasWidth, canvasHeight, color);

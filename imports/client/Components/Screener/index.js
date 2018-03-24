@@ -43,17 +43,17 @@ export default class BodyComponent extends Component {
 
     return (
       <Screener>
+        <Filters
+          handleChange={this.handleChange}
+          filters={filters}
+          loading={loading}
+        />
+
         <Results
           loading={loading}
           matches={matches}
           timeframe={filters.timeframe}
           processingTime={processingTime}
-        />
-
-        <Filters
-          handleChange={this.handleChange}
-          filters={filters}
-          loading={loading}
         />
       </Screener>
     );

@@ -16,14 +16,13 @@ import formatDate from './../../functions/formatDate';
 const Tile = Styled.article`
   box-sizing: border-box;
   background-color: #fff;
-  padding-top: 15px;
-  border-top: 1px solid #ccc;
+  padding: 15px;
   display: inline-block;
-  width: calc(50% - ${config.padding.horizontal} / 2);
-  margin-bottom: ${config.padding.horizontal};
+  width: calc(50% - 30px / 2);
+  margin-bottom: 30px;
 
   &:nth-child(odd) {
-    margin-right: ${config.padding.horizontal};
+    margin-right: 30px;
   }
 `;
 

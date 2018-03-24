@@ -10,12 +10,7 @@ import config from '/imports/client/config';
 // Styled components
 
 const Results = Styled.section`
-  /*background-color: #fafafa;*/
-  background-color: #fff;
-  position: relative;
-  top: 55px;
-  width: calc(100% - 270px);
-  min-height: calc(100vh - 54px);
+  width: 100%;
   box-sizing: border-box;
   padding: 0 ${config.padding.horizontal} 20px;
 `;
@@ -23,7 +18,7 @@ const Results = Styled.section`
 const Header = Styled.section`
   display: flex;
   align-items: center;
-  padding: calc(${config.padding.horizontal} * .7) 0px;
+  padding: 2vw 0;
 `;
 
 const Stats = Styled.p`

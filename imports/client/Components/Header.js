@@ -6,18 +6,16 @@ import config from '/imports/client/config';
 // Styled components
 
 const Header = Styled.header`
+  width: 100%;
+  box-sizing: border-box;
+  background-color: ${config.colors.primary};
+  z-index: 100;
+`
+
+const Brand = Styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 55px;
-  box-sizing: border-box;
-  padding: 1% ${config.padding.horizontal};
-  background-color: ${config.colors.primary};
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  border-bottom: 1px solid #00b7c4;
+  padding: 18px ${config.padding.horizontal};
 `
 
 const Logo = Styled.img`
@@ -26,11 +24,12 @@ const Logo = Styled.img`
 `
 
 const Menu = Styled.div`
-  padding-left: 50px;
+  padding: 12px ${config.padding.horizontal};
+  background-color: ${config.colors.primaryDarker};
 
   a {
     margin-right: 35px;
-    font-size: 12px;
+    font-size: 13px;
     color: ${config.colors.primaryContrast};
     text-decoration: none;
 
@@ -40,17 +39,39 @@ const Menu = Styled.div`
   }
 `;
 
+const Button = Styled.button`
+  padding: 8px 12px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: ${config.colors.primaryContrast};
+  border: none;
+`;
+
+const SignIn = Button.extend`
+  background-color: transparent;
+  margin-right: 12px;
+`;
+
+const SignUp = Button.extend`
+  background-color: ${config.colors.primaryDarker};
+  font-weight: bold;
+`;
+
+
 export default class HeaderComponent extends Component {
   render() {
     return (
       <Header>
-        <Logo src="/logo-brand.svg" />
+        <Brand>
+          <Logo src="/logo-brand.svg" />
+          <div style={{flexGrow: 100}} />
+          <SignIn>Sign in</SignIn>
+          <SignUp>Join now</SignUp>
+        </Brand>
 
         <Menu>
-          <a href="">Home</a>
           <a href="">Screener</a>
           <a href="">Breakout alerts</a>
-          <a href="">Contact</a>
         </Menu>
       </Header>
     );
