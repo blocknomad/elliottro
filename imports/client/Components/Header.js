@@ -24,10 +24,12 @@ const Logo = Styled.img`
 `
 
 const Menu = Styled.div`
-  padding: 13px ${config.padding.horizontal};
+  padding: 0 ${config.padding.horizontal};
   background-color: ${config.colors.primaryDarker};
 
   a {
+    display: inline-block;
+    padding: 13px 0;
     margin-right: 35px;
     font-size: 14px;
     color: ${config.colors.primaryContrast};
@@ -45,6 +47,7 @@ const Button = Styled.button`
   text-transform: uppercase;
   color: ${config.colors.primaryContrast};
   border: none;
+  border-radius: 2px;
 `;
 
 const SignIn = Button.extend`
@@ -55,6 +58,7 @@ const SignIn = Button.extend`
 const SignUp = Button.extend`
   background-color: ${config.colors.primaryDarker};
   font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 `;
 
 

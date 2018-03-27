@@ -12,7 +12,6 @@ const H3 = Styled.h3`
   text-transform: uppercase;
 `
 
-
-export default function Title({ children }) {
+export default function SectionTitle({ children }) {
   return <H3>{children}</H3>;
 }
