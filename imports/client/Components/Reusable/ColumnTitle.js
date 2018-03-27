@@ -15,6 +15,6 @@ const P = Styled.p`
   margin-bottom: 18px;
 `;
 
-export default function ColumnTitle({ children }) {
-  return <P>{children}</P>;
+export default function ColumnTitle({ style, children }) {
+  return <P style={style}>{children}</P>;
 }

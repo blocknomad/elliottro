@@ -24,14 +24,16 @@ const Logo = Styled.img`
 `
 
 const Menu = Styled.div`
+  display: flex;
   padding: 0 ${config.padding.horizontal};
   background-color: ${config.colors.primaryDarker};
 
   a {
-    display: inline-block;
-    padding: 13px 0;
+    display: block;
+    padding: 12px 0;
     margin-right: 35px;
     font-size: 14px;
+    line-height: 1;
     color: ${config.colors.primaryContrast};
     text-decoration: none;
 
@@ -74,8 +76,13 @@ export default class HeaderComponent extends Component {
         </Brand>
 
         <Menu>
-          <a href="">Screener</a>
-          <a href="">Breakout alerts</a>
+          <a href="">
+            Screener
+          </a>
+
+          <a href="">
+            Alerts
+          </a>
         </Menu>
       </Header>
     );

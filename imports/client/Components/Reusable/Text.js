@@ -10,6 +10,6 @@ const P = Styled.p`
   font-size: 13px;
 `;
 
-export default function Text({ children }) {
-  return <P>{children}</P>;
+export default function Text({ style, children }) {
+  return <P style={style}>{children}</P>;
 }

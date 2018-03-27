@@ -13,5 +13,5 @@ const H3 = Styled.h3`
 `
 
 export default function SectionTitle({ children }) {
-  return <H3>{children}</H3>;
+  return <H3 style={style}>{children}</H3>;
 }

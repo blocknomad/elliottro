@@ -3,6 +3,7 @@ import Styled from 'styled-components';
 import Lodash from 'lodash';
 
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
+import Text from '/imports/client/Components/Reusable/Text';
 import config from '/imports/client/config';
 
 import Tabs from './Tabs';
@@ -17,7 +18,10 @@ import {
   RadioButtonGroup
 } from 'material-ui/RadioButton';
 
-import Checkbox from 'material-ui/Checkbox';
+import {
+  Checkbox,
+  Slider,
+} from 'material-ui';
 
 // Styled components
 
@@ -41,12 +45,20 @@ const Column = Styled.div`
 `;
 
 export default class FiltersComponent extends Component {
+  state = {
+    nKlines: 50,
+  }
+
   render() {
     const {
       filters,
       loading,
       handleChange,
     } = this.props;
+
+    const {
+      nKlines,
+    } = this.state;
 
     const labelStyle = {
       fontSize: 13,
@@ -102,6 +114,37 @@ export default class FiltersComponent extends Component {
                   labelStyle={labelStyle}
                 />
               )}
+            </div>
+
+            <ColumnTitle style={{marginTop: 36}}>
+              Analysis range
+            </ColumnTitle>
+
+            <div>
+              <Text>The algorithm is going to analyze the last <b>{nKlines}</b> candlesticks of each symbol.</Text>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  marginTop: 12,
+              }}>
+                <Text style={{marginRight: 10}}>30</Text>
+
+                <Slider
+                  value={nKlines}
+                  min={30}
+                  max={100}
+                  step={1}
+                  onChange={(a, v) => this.setState({ nKlines: v })}
+                  sliderStyle={{margin: 0}}
+                  style={{flexGrow: 100}}
+                />
+
+                <Text style={{marginLeft: 10}}>100</Text>
+              </div>
             </div>
           </Column>
         </ColumnGroup>
