@@ -23,9 +23,12 @@ const points = {
   TBR: { x: 8, y: 2 },
 
   FL: { x: 9, y: 4 },
+  STU: { x: 9, y: 6 },
+  STD: { x: 9, y: 6 },
   DT: { x: 9, y: 6 },
   AT: { x: 9, y: 6 },
-  FWU: { x: 9, y: 4 },
+  FWU: { x: 9, y: 6 },
+  FWD: { x: 10, y: 6 },
 }
 
 
@@ -191,66 +194,6 @@ const illustrations =  {
       stroke={secondary}
       strokeWidth={strokeWidth}
       fill="none"
-    />,
-  ],
-
-
-  // Falling Wedge in Uptrend
-
-  FWU: [
-
-    // price
-    <path
-      key={0}
-      d={`
-        M ${x(0, 'FWU')} ${y(0, 'FWU')}
-        L ${x(2, 'FWU')} ${y(4, 'FWU')}
-        L ${x(3, 'FWU')} ${y(1.75, 'FWU')}
-        L ${x(4, 'FWU')} ${y(2.775, 'FWU')}
-        L ${x(5, 'FWU')} ${y(1.125, 'FWU')}
-        L ${x(5.7, 'FWU')} ${y(1.8, 'FWU')}
-        L ${x(6.675, 'FWU')} ${y(.6, 'FWU')}
-      `}
-      stroke={primary}
-      strokeWidth={strokeWidth}
-      fill="none"
-    />,
-
-    // projection
-    <path
-      key={1}
-      d={`
-        M ${x(6.675, 'FWU')} ${y(.6, 'FWU')}
-        L ${x(8.5, 'FWU')} ${y(2.5, 'FWU')}
-      `}
-      stroke={primary}
-      strokeWidth={strokeWidth}
-      strokeDasharray="3, 3"
-      fill="none"
-    />,
-
-    // resistance
-    <path
-      key={2}
-      d={`
-        M ${x(2, 'FWU')} ${y(4, 'FWU') - strokeWidth}
-        L ${x(9, 'FWU')} ${y(0, 'FWU') + 1}
-      `}
-      stroke={secondary}
-      strokeWidth={strokeWidth}
-      fill="none"
-    />,
-
-    // support
-    <path
-      key={3}
-      d={`
-        M ${x(1, 'FWU') + strokeWidth} ${y(2.25, 'FWU') + strokeWidth}
-        L ${x(9, 'FWU')} ${y(0, 'FWU') + strokeWidth}
-        `}
-        stroke={secondary}
-        strokeWidth={strokeWidth}
-        fill="none"
     />,
   ],
 
@@ -471,6 +414,127 @@ const illustrations =  {
   ],
 
 
+  // Falling Wedge in Downtrend
+
+  FWD: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'FWD')} ${y(6, 'FWD')}
+        L ${x(2, 'FWD')} ${y(3, 'FWD')}
+        L ${x(3, 'FWD')} ${y(5, 'FWD')}
+        L ${x(4, 'FWD')} ${y(2 - 1.5 / 7, 'FWD')}
+        L ${x(5, 'FWD')} ${y(5 - 4.5 / 7 * 2, 'FWD')}
+        L ${x(6, 'FWD')} ${y(2 - 1.5 / 7 * 3, 'FWD')}
+        L ${x(7, 'FWD')} ${y(5 - 4.5 / 7 * 4, 'FWD')}
+        L ${x(8, 'FWD')} ${y(2 - 1.5 / 7 * 5, 'FWD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(8, 'FWD')} ${y(2 - 1.5 / 7 * 5, 'FWD')}
+        L ${x(10, 'FWD')} ${y(5, 'FWD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(2.5, 'FWD')} ${y(5 - 4.5 / 7 * -.5, 'FWD') - strokeWidth}
+        L ${x(9.5, 'FWD')} ${y(5 - 4.5 / 7 * 6.5, 'FWD') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(2, 'FWD')} ${y(2 - 1.5 / 7 * -1, 'FWD') + strokeWidth}
+        L ${x(9.3, 'FWD')} ${y(2 - 1.5 / 7 * 6.3, 'FWD') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Symmetrical Triangle in Downtrend
+
+  STD: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'STD')} ${y(6, 'STD')}
+        L ${x(2, 'STD')} ${y(1.5, 'STD')}
+        L ${x(3, 'STD')} ${y(4.5 - 1.5 / 7, 'STD')}
+        L ${x(4, 'STD')} ${y(1.5 + 1.5 / 7 * 2, 'STD')}
+        L ${x(5, 'STD')} ${y(4.5 - 1.5 / 7 * 3, 'STD')}
+        L ${x(6, 'STD')} ${y(1.5 + 1.5 / 7 * 4, 'STD')}
+        L ${x(7, 'STD')} ${y(4.5 - 1.5 / 7 * 5, 'STD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(7, 'STD')} ${y(4.5 - 1.5 / 7 * 5, 'STD')}
+        L ${x(8.5, 'STD')} ${y(0, 'STD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(1.5, 'STD')} ${y(4.5 - 1.5 / 7 * -.5, 'STD') - strokeWidth}
+        L ${x(8.5, 'STD')} ${y(4.5 - 1.5 / 7 * 6.5, 'STD') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(1.5, 'STD')} ${y(1.5 + 1.5 / 7 * -.5, 'STD') + strokeWidth}
+        L ${x(8.5, 'STD')} ${y(1.5 + 1.5 / 7 * 6.5, 'STD') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
   // Ascending Triangle
 
   AT: [
@@ -523,6 +587,126 @@ const illustrations =  {
       d={`
         M ${x(2, 'AT')} ${y(1.5, 'AT') + strokeWidth}
         L ${x(8.5, 'AT')} ${y(1.5 + 3 / 7 * 6.5, 'AT') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Symmetrical Triangle in Uptrend
+
+  STU: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'STU')} ${y(0, 'STU')}
+        L ${x(2, 'STU')} ${y(4.5, 'STU')}
+        L ${x(3, 'STU')} ${y(1.5 + 1.5 / 7, 'STU')}
+        L ${x(4, 'STU')} ${y(4.5 - 1.5 / 7 * 2, 'STU')}
+        L ${x(5, 'STU')} ${y(1.5 + 1.5 / 7 * 3, 'STU')}
+        L ${x(6, 'STU')} ${y(4.5 - 1.5 / 7 * 4, 'STU')}
+        L ${x(7, 'STU')} ${y(1.5 + 1.5 / 7 * 5, 'STU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(7, 'STU')} ${y(1.5 + 1.5 / 7 * 5, 'STU')}
+        L ${x(8.5, 'STU')} ${y(6, 'STU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(1.5, 'STU')} ${y(4.5 - 1.5 / 7 * -.5, 'STU') - strokeWidth}
+        L ${x(8.5, 'STU')} ${y(4.5 - 1.5 / 7 * 6.5, 'STU') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(1.5, 'STU')} ${y(1.5 + 1.5 / 7 * -.5, 'STU') + strokeWidth}
+        L ${x(8.5, 'STU')} ${y(1.5 + 1.5 / 7 * 6.5, 'STU') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Falling Wedge in Uptrend
+
+  FWU: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'FWU')} ${y(0, 'FWU')}
+        L ${x(2, 'FWU')} ${y(5, 'FWU')}
+        L ${x(3, 'FWU')} ${y(2 - 1.5 / 7, 'FWU')}
+        L ${x(4, 'FWU')} ${y(5 - 4.5 / 7 * 2, 'FWU')}
+        L ${x(5, 'FWU')} ${y(2 - 1.5 / 7 * 3, 'FWU')}
+        L ${x(6, 'FWU')} ${y(5 - 4.5 / 7 * 4, 'FWU')}
+        L ${x(7, 'FWU')} ${y(2 - 1.5 / 7 * 5, 'FWU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(7, 'FWU')} ${y(2 - 1.5 / 7 * 5, 'FWU')}
+        L ${x(9, 'FWU')} ${y(5, 'FWU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(1.5, 'FWU')} ${y(5 - 4.5 / 7 * -.5, 'FWU') - strokeWidth}
+        L ${x(8.5, 'FWU')} ${y(5 - 4.5 / 7 * 6.5, 'FWU') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(1.5, 'FWU')} ${y(2 - 1.5 / 7 * -.5, 'FWU') + strokeWidth}
+        L ${x(8.3, 'FWU')} ${y(2 - 1.5 / 7 * 6.3, 'FWU') + strokeWidth}
       `}
       stroke={secondary}
       strokeWidth={strokeWidth}

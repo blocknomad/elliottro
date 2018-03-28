@@ -52,13 +52,18 @@ export default class ChartPatternComponent extends Component {
       width: 150,
       padding: '10%',
       marginBottom: 24,
+      cursor: 'pointer',
     }
+
+    const count = obj => Object.keys(Lodash.filter(obj, p => p.status !== 3)).length
 
     return (
       <ChartPattern>
         <ColumnTitle>Chart pattern</ColumnTitle>
 
-        <Text style={{marginBottom: 12}}>Reversal</Text>
+        <Text style={{marginBottom: 12}}>
+          Reversal ({count(Patterns.reversal)})
+        </Text>
 
         <Grid>
           {Lodash.map(Patterns.reversal, (pattern, key) =>
@@ -74,7 +79,9 @@ export default class ChartPatternComponent extends Component {
           )}
         </Grid>
 
-        <Text style={{marginBottom: 12}}>Continuation</Text>
+        <Text style={{marginBottom: 12}}>
+          Continuation ({count(Patterns.continuation)})
+        </Text>
 
         <Grid>
           {Lodash.map(Patterns.continuation, (pattern, key) =>
