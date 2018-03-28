@@ -15,6 +15,7 @@ const secondary = config.colors.primary;
 const strokeWidth = 2;
 
 const points = {
+  // reversal
   DTR: { x: 6, y: 2 },
   DBR: { x: 6, y: 2 },
   HST: { x: 10, y: 3 },
@@ -22,13 +23,17 @@ const points = {
   TTR: { x: 8, y: 2 },
   TBR: { x: 8, y: 2 },
 
+  // continuation
   FL: { x: 9, y: 4 },
   STU: { x: 9, y: 6 },
   STD: { x: 9, y: 6 },
   DT: { x: 9, y: 6 },
   AT: { x: 9, y: 6 },
   FWU: { x: 9, y: 6 },
+  RWD: { x: 9, y: 6 },
   FWD: { x: 10, y: 6 },
+  RWU: { x: 10, y: 6 },
+  CH: { x: 12, y: 6 },
 }
 
 
@@ -37,6 +42,8 @@ const illustrations =  {
   // Double Top Reversal
 
   DTR: [
+
+    // price
     <path
       key={0}
       d={`
@@ -50,6 +57,8 @@ const illustrations =  {
       strokeWidth={strokeWidth}
       fill="none"
     />,
+
+    // projection
     <path
       key={1}
       d={`
@@ -61,6 +70,8 @@ const illustrations =  {
       strokeDasharray="3, 3"
       fill="none"
     />,
+
+    // support
     <path
       key={2}
       d={`
@@ -77,6 +88,8 @@ const illustrations =  {
   // Double Bottom Reversal
 
   DBR: [
+
+    // price
     <path
       key={0}
       d={`
@@ -90,6 +103,8 @@ const illustrations =  {
       strokeWidth={strokeWidth}
       fill="none"
     />,
+
+    // projection
     <path
       key={1}
       d={`
@@ -101,6 +116,8 @@ const illustrations =  {
       strokeDasharray="3, 3"
       fill="none"
     />,
+
+    // resistance
     <path
       key={2}
       d={`
@@ -117,6 +134,8 @@ const illustrations =  {
   // Head and Shoulders Top
 
   HST: [
+
+    // price
     <path
       key={0}
       d={`
@@ -132,6 +151,8 @@ const illustrations =  {
       strokeWidth={strokeWidth}
       fill="none"
     />,
+
+    // projection
     <path
       key={1}
       d={`
@@ -143,6 +164,8 @@ const illustrations =  {
       strokeDasharray="3, 3"
       fill="none"
     />,
+
+    // support
     <path
       key={2}
       d={`
@@ -159,6 +182,8 @@ const illustrations =  {
   // Head and Shoulders Bottom
 
   HSB: [
+
+    // price
     <path
       key={0}
       d={`
@@ -174,6 +199,8 @@ const illustrations =  {
       strokeWidth={strokeWidth}
       fill="none"
     />,
+
+    // projection
     <path
       key={1}
       d={`
@@ -185,6 +212,8 @@ const illustrations =  {
       strokeDasharray="3, 3"
       fill="none"
     />,
+
+    // resistance
     <path
       key={2}
       d={`
@@ -320,7 +349,7 @@ const illustrations =  {
       key={1}
       d={`
         M ${x(7, 'FL')} ${y(.5, 'FL')}
-        L ${x(8.5, 'FL')} ${y(2.75, 'FL')}
+        L ${x(9, 'FL')} ${y(3.25, 'FL')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
@@ -332,7 +361,7 @@ const illustrations =  {
     <path
       key={2}
       d={`
-        M ${x(2, 'FL')} ${y(3.5, 'FL') - strokeWidth}
+        M ${x(1.5, 'FL')} ${y(3.75, 'FL') - strokeWidth}
         L ${x(9, 'FL')} ${y(1.75, 'FL') - strokeWidth}
       `}
       stroke={secondary}
@@ -344,8 +373,8 @@ const illustrations =  {
     <path
       key={3}
       d={`
-        M ${x(1, 'FL') + strokeWidth} ${y(2, 'FL') + strokeWidth * 2}
-        L ${x(8, 'FL')} ${y(.5, 'FL') + strokeWidth * 2}
+        M ${x(1.5, 'FL')} ${y(1.75, 'FL') + strokeWidth}
+        L ${x(8, 'FL')} ${y(.25, 'FL') + strokeWidth}
       `}
       stroke={secondary}
       strokeWidth={strokeWidth}
@@ -467,6 +496,67 @@ const illustrations =  {
       d={`
         M ${x(2, 'FWD')} ${y(2 - 1.5 / 7 * -1, 'FWD') + strokeWidth}
         L ${x(9.3, 'FWD')} ${y(2 - 1.5 / 7 * 6.3, 'FWD') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Rising Wedge in Uptrend
+
+  RWU: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'RWU')} ${y(0, 'RWU')}
+        L ${x(2, 'RWU')} ${y(3, 'RWU')}
+        L ${x(3, 'RWU')} ${y(1, 'RWU')}
+        L ${x(4, 'RWU')} ${y(4 + 1.5 / 7, 'RWU')}
+        L ${x(5, 'RWU')} ${y(1 + 4.5 / 7 * 2, 'RWU')}
+        L ${x(6, 'RWU')} ${y(4 + 1.5 / 7 * 3, 'RWU')}
+        L ${x(7, 'RWU')} ${y(1 + 4.5 / 7 * 4, 'RWU')}
+        L ${x(8, 'RWU')} ${y(4 + 1.5 / 7 * 5, 'RWU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(8, 'RWU')} ${y(4 + 1.5 / 7 * 5, 'RWU')}
+        L ${x(10, 'RWU')} ${y(1, 'RWU')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(2, 'RWU')} ${y(4 + 1.5 / 7 * -1, 'RWU') - strokeWidth}
+        L ${x(9.3, 'RWU')} ${y(4 + 1.5 / 7 * 6.3, 'RWU') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(2.5, 'RWU')} ${y(1 + 4.5 / 7 * -.5, 'RWU') + strokeWidth}
+        L ${x(9.5, 'RWU')} ${y(1 + 4.5 / 7 * 6.5, 'RWU') + strokeWidth}
       `}
       stroke={secondary}
       strokeWidth={strokeWidth}
@@ -707,6 +797,132 @@ const illustrations =  {
       d={`
         M ${x(1.5, 'FWU')} ${y(2 - 1.5 / 7 * -.5, 'FWU') + strokeWidth}
         L ${x(8.3, 'FWU')} ${y(2 - 1.5 / 7 * 6.3, 'FWU') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Rising Wedge in Downtrend
+
+  RWD: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'RWD')} ${y(6, 'RWD')}
+        L ${x(2, 'RWD')} ${y(1, 'RWD')}
+        L ${x(3, 'RWD')} ${y(4 + 1.5 / 7, 'RWD')}
+        L ${x(4, 'RWD')} ${y(1 + 4.5 / 7 * 2, 'RWD')}
+        L ${x(5, 'RWD')} ${y(4 + 1.5 / 7 * 3, 'RWD')}
+        L ${x(6, 'RWD')} ${y(1 + 4.5 / 7 * 4, 'RWD')}
+        L ${x(7, 'RWD')} ${y(4 + 1.5 / 7 * 5, 'RWD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(7, 'RWD')} ${y(4 + 1.5 / 7 * 5, 'RWD')}
+        L ${x(9, 'RWD')} ${y(1, 'RWD')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(1.5, 'RWD')} ${y(4 + 1.5 / 7 * -.5, 'RWD') - strokeWidth}
+        L ${x(8.3, 'RWD')} ${y(4 + 1.5 / 7 * 6.3, 'RWD') - strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // support
+    <path
+      key={3}
+      d={`
+        M ${x(1.5, 'RWD')} ${y(1 + 4.5 / 7 * -.5, 'RWD') + strokeWidth}
+        L ${x(8.5, 'RWD')} ${y(1 + 4.5 / 7 * 6.5, 'RWD') + strokeWidth}
+      `}
+      stroke={secondary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+  ],
+
+
+  // Cup with Handle
+
+  CH: [
+
+    // price
+    <path
+      key={0}
+      d={`
+        M ${x(0, 'CH')} ${y(1, 'CH')}
+        L ${x(2, 'CH')} ${y(3.5, 'CH')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    <path
+      key={0}
+      d={`
+        M ${x(2, 'CH')} ${y(3.5, 'CH')}
+        C ${x(2, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(3.5, 'CH')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    <path
+      key={-1}
+      d={`
+        M ${x(8, 'CH')} ${y(3.5, 'CH')}
+        L ${x(9, 'CH')} ${y(2.5, 'CH')}
+        L ${x(10, 'CH')} ${y(3.5, 'CH')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      fill="none"
+    />,
+
+    // projection
+    <path
+      key={1}
+      d={`
+        M ${x(10, 'CH')} ${y(3.5, 'CH')}
+        L ${x(12, 'CH')} ${y(5.5, 'CH')}
+      `}
+      stroke={primary}
+      strokeWidth={strokeWidth}
+      strokeDasharray="3, 3"
+      fill="none"
+    />,
+
+    // resistance
+    <path
+      key={2}
+      d={`
+        M ${x(1, 'CH')} ${y(3.5, 'CH') - strokeWidth}
+        L ${x(11, 'CH')} ${y(3.5, 'CH') - strokeWidth}
       `}
       stroke={secondary}
       strokeWidth={strokeWidth}
