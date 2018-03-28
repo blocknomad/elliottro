@@ -5,13 +5,13 @@ export default {
 
   reversal: {
     DTR: {
-      name: 'Double Top Reversal',
+      name: 'Double Top',
       acronym: 'DTR',
       status: 1,
     },
 
     DBR: {
-      name: 'Double Bottom Reversal',
+      name: 'Double Bottom',
       acronym: 'DBR',
       status: 1,
       min: 2,
@@ -55,19 +55,19 @@ export default {
     },
 
     TTR: {
-      name: 'Triple Top Reversal',
+      name: 'Triple Top',
       acronym: 'TTR',
       status: 1,
     },
 
     TBR: {
-      name: 'Triple Bottom Reversal',
+      name: 'Triple Bottom',
       acronym: 'TBR',
       status: 1,
     },
 
     BRR: {
-      name: 'Bump and Run Reversal',
+      name: 'Bump and Run',
       acronym: 'BRR',
       status: 3,
     },
