@@ -3,6 +3,8 @@ import Styled from 'styled-components';
 import Lodash from 'lodash';
 
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
+import Text from '/imports/client/Components/Reusable/Text';
+
 import config from '/imports/client/config';
 
 import Patterns from '/imports/both/fixtures/patterns';
@@ -28,7 +30,7 @@ const Name = Styled.p`
   text-transform: uppercase;
   font-size: 10px;
   color: ${config.colors.text};
-  padding: 5% 10% 10%;
+  margin-top: 10%;
   text-align: center;
 `;
 
@@ -48,6 +50,7 @@ export default class ChartPatternComponent extends Component {
 
     const style = {
       width: 150,
+      padding: '10%',
       marginBottom: 24,
     }
 
@@ -55,13 +58,32 @@ export default class ChartPatternComponent extends Component {
       <ChartPattern>
         <ColumnTitle>Chart pattern</ColumnTitle>
 
+        <Text style={{marginBottom: 12}}>Reversal</Text>
+
         <Grid>
-          {Lodash.map(Patterns, (pattern, key) =>
-            <Paper
+          {Lodash.map(Patterns.reversal, (pattern, key) =>
+            pattern.status !== 3 && <Paper
+              key={key}
               style={style}
               zDepth={1}
             >
-              {Illustrations('HSB')}
+              {Illustrations(key)}
+
+              <Name>{pattern.name}</Name>
+            </Paper>
+          )}
+        </Grid>
+
+        <Text style={{marginBottom: 12}}>Continuation</Text>
+
+        <Grid>
+          {Lodash.map(Patterns.continuation, (pattern, key) =>
+            pattern.status !== 3 && <Paper
+              key={key}
+              style={style}
+              zDepth={1}
+            >
+              {Illustrations(key)}
 
               <Name>{pattern.name}</Name>
             </Paper>

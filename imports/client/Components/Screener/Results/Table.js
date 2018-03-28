@@ -4,7 +4,6 @@ import Lodash from 'lodash';
 
 import config from '/imports/client/config';
 
-import Patterns from '/imports/both/fixtures/patterns';
 import Exchanges from '/imports/both/fixtures/exchanges';
 
 import formatDate from './functions/formatDate';

@@ -3,12 +3,17 @@ import Styled from 'styled-components';
 
 import config from '/imports/client/config';
 
+import {
+  FlatButton,
+  RaisedButton,
+} from 'material-ui';
+
 // Styled components
 
 const Header = Styled.header`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${config.colors.primary};
+  background-color: ${config.colors.primaryLighter};
   z-index: 100;
 `
 
@@ -26,7 +31,7 @@ const Logo = Styled.img`
 const Menu = Styled.div`
   display: flex;
   padding: 0 ${config.padding.horizontal};
-  background-color: ${config.colors.primaryDarker};
+  background-color: ${config.colors.primary};
 
   a {
     display: block;
@@ -43,26 +48,6 @@ const Menu = Styled.div`
   }
 `;
 
-const Button = Styled.button`
-  padding: 8px 12px;
-  font-size: 14px;
-  text-transform: uppercase;
-  color: ${config.colors.primaryContrast};
-  border: none;
-  border-radius: 2px;
-`;
-
-const SignIn = Button.extend`
-  background-color: transparent;
-  margin-right: 12px;
-`;
-
-const SignUp = Button.extend`
-  background-color: ${config.colors.primaryDarker};
-  font-weight: bold;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-`;
-
 
 export default class HeaderComponent extends Component {
   render() {
@@ -70,9 +55,11 @@ export default class HeaderComponent extends Component {
       <Header>
         <Brand>
           <Logo src="/logo-brand.svg" />
+
           <div style={{flexGrow: 100}} />
-          <SignIn>Sign in</SignIn>
-          <SignUp>Join now</SignUp>
+
+          <FlatButton label="Sign in" style={{marginRight: 12, color: 'white'}} />
+          <RaisedButton label="Join now" primary={true} />
         </Brand>
 
         <Menu>

@@ -10,7 +10,6 @@ import Tabs from './Tabs';
 
 import QuoteAssets from '/imports/both/fixtures/quoteAssets';
 import Exchanges from '/imports/both/fixtures/exchanges';
-import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
 import {
@@ -21,6 +20,7 @@ import {
 import {
   Checkbox,
   Slider,
+  RaisedButton,
 } from 'material-ui';
 
 // Styled components
@@ -41,6 +41,17 @@ const Column = Styled.div`
 
   &:not(:last-child) {
     padding-right: 30px;
+  }
+`;
+
+const Buttons = Styled.div`
+  width: calc(100% - 230px);
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 30px 0 0 230px;
+
+  & > *:not(:last-child) {
+    padding-right: 15px;
   }
 `;
 
@@ -121,7 +132,7 @@ export default class FiltersComponent extends Component {
             </ColumnTitle>
 
             <div>
-              <Text>The algorithm is going to analyze the last <b>{nKlines}</b> candlesticks of each symbol.</Text>
+              <Text>The algorithm will analyze the last <b>{nKlines}</b> candlesticks of each symbol.</Text>
 
               <div
                 style={{
@@ -150,6 +161,10 @@ export default class FiltersComponent extends Component {
         </ColumnGroup>
 
         <Tabs />
+
+        <Buttons>
+          <RaisedButton label="Screen" fullWidth={true} primary={true} />
+        </Buttons>
       </Filters>
     );
   }

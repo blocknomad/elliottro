@@ -10,10 +10,10 @@ const fadeIn = keyframes`
 
 export default {
   colors: {
-    primary: '#00bbc9',
-    primaryDarker: '#00b0bb',
+    primary: '#00b0bb',
+    primaryLighter: '#00bbc9',
     primaryContrast: '#fff',
-    secondary: '#f8f8f8',
+    secondary: '#FFA000',
     secondaryContrast: '#37474F',
     border: '#ECEFF1',
     text: '#4a4a4a',

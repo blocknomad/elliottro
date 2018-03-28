@@ -34,7 +34,7 @@ import Symbols from '/imports/both/collections/symbols';
 
 Meteor.methods({
 	searchPattern(filters) {
-
+		return;
 		// Create instance of DTW class
 
 		const DTW = new dtw();
