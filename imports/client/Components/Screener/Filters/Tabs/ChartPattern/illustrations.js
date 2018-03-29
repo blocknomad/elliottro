@@ -63,7 +63,7 @@ const illustrations =  {
       key={1}
       d={`
         M ${x(5, 'DTR')} ${y(1, 'DTR')}
-        L ${x(5.75, 'DTR')} ${y(.25, 'DTR')}
+        L ${x(6, 'DTR')} ${y(0, 'DTR')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
@@ -109,7 +109,7 @@ const illustrations =  {
       key={1}
       d={`
         M ${x(5, 'DBR')} ${y(1, 'DBR')}
-        L ${x(5.75, 'DBR')} ${y(1.75, 'DBR')}
+        L ${x(6, 'DBR')} ${y(2, 'DBR')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
@@ -253,7 +253,7 @@ const illustrations =  {
       key={1}
       d={`
         M ${x(7, 'TTR')} ${y(1, 'TTR')}
-        L ${x(7.75, 'TTR')} ${y(.25, 'TTR')}
+        L ${x(8, 'TTR')} ${y(0, 'TTR')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
@@ -301,7 +301,7 @@ const illustrations =  {
       key={1}
       d={`
         M ${x(7, 'TBR')} ${y(1, 'TBR')}
-        L ${x(7.75, 'TBR')} ${y(1.75, 'TBR')}
+        L ${x(8, 'TBR')} ${y(2, 'TBR')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
@@ -885,7 +885,7 @@ const illustrations =  {
       key={0}
       d={`
         M ${x(2, 'CH')} ${y(3.5, 'CH')}
-        C ${x(2, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(3.5, 'CH')}
+        C ${x(2.25, 'CH')},${y(0, 'CH')} ${x(7.75, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(3.5, 'CH')}
       `}
       stroke={primary}
       strokeWidth={strokeWidth}
