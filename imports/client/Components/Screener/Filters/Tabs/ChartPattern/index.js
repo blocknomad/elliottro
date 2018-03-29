@@ -10,8 +10,9 @@ import config from '/imports/client/config';
 import Patterns from '/imports/both/fixtures/patterns';
 
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import Illustrations from './illustrations';
+import Illustrate from './Illustrate';
 
 // Styled components
 
@@ -24,6 +25,15 @@ const Grid = Styled.div`
   grid-template-columns: repeat(auto-fill, 150px);
   grid-gap: .5em;
   justify-content: space-between;
+  margin-top: 12px;
+
+  button {
+    height: 100% !important;
+
+    & > div, & > div > div {
+      height: 100% !important;
+    }
+  }
 `;
 
 const Name = Styled.p`
@@ -39,63 +49,49 @@ export default class ChartPatternComponent extends Component {
     pattern: 'HSB',
   }
 
+  drawGrid(title, patterns) {
+    patterns = Lodash.filter(patterns, p => p.status !== 3);
+
+    return (
+      <div>
+        <Text>
+          {title} ({Object.keys(patterns).length})
+        </Text>
+
+        <Grid>
+          {Lodash.map(patterns, pattern =>
+            <RaisedButton
+              key={pattern.acronym}
+              disabled={pattern.status === 1}
+              style={{
+                height: 'auto',
+                width: 150,
+                marginBottom: 24,
+              }}
+            >
+              <div style={{padding: '10%'}}>
+                {Illustrate(pattern.acronym)}
+
+                <Name>{pattern.name}</Name>
+              </div>
+            </RaisedButton>
+          )}
+        </Grid>
+      </div>
+    )
+  }
+
   render() {
-    const {
-
-    } = this.props;
-
     const {
       pattern,
     } = this.state;
-
-    const style = {
-      width: 150,
-      padding: '10%',
-      marginBottom: 24,
-      cursor: 'pointer',
-    }
-
-    const count = obj => Object.keys(Lodash.filter(obj, p => p.status !== 3)).length
 
     return (
       <ChartPattern>
         <ColumnTitle>Chart pattern</ColumnTitle>
 
-        <Text style={{marginBottom: 12}}>
-          Reversal ({count(Patterns.reversal)})
-        </Text>
-
-        <Grid>
-          {Lodash.map(Patterns.reversal, (pattern, key) =>
-            pattern.status !== 3 && <Paper
-              key={key}
-              style={style}
-              zDepth={1}
-            >
-              {Illustrations(key)}
-
-              <Name>{pattern.name}</Name>
-            </Paper>
-          )}
-        </Grid>
-
-        <Text style={{marginBottom: 12}}>
-          Continuation ({count(Patterns.continuation)})
-        </Text>
-
-        <Grid>
-          {Lodash.map(Patterns.continuation, (pattern, key) =>
-            pattern.status !== 3 && <Paper
-              key={key}
-              style={style}
-              zDepth={1}
-            >
-              {Illustrations(key)}
-
-              <Name>{pattern.name}</Name>
-            </Paper>
-          )}
-        </Grid>
+        {this.drawGrid('Reversal', Patterns.reversal)}
+        {this.drawGrid('Continuation', Patterns.continuation)}
       </ChartPattern>
     );
   }

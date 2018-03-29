@@ -332,11 +332,11 @@ const illustrations =  {
       key={0}
       d={`
         M ${x(0, 'FL')} ${y(0, 'FL')}
-        L ${x(2, 'FL')} ${y(3.5, 'FL')}
+        L ${x(2, 'FL')} ${y(3.25, 'FL')}
         L ${x(3, 'FL')} ${y(1.5, 'FL')}
-        L ${x(4, 'FL')} ${y(3, 'FL')}
+        L ${x(4, 'FL')} ${y(2.75, 'FL')}
         L ${x(5, 'FL')} ${y(1, 'FL')}
-        L ${x(6, 'FL')} ${y(2.5, 'FL')}
+        L ${x(6, 'FL')} ${y(2.25, 'FL')}
         L ${x(7, 'FL')} ${y(.5, 'FL')}
       `}
       stroke={primary}
@@ -361,8 +361,8 @@ const illustrations =  {
     <path
       key={2}
       d={`
-        M ${x(1.5, 'FL')} ${y(3.75, 'FL') - strokeWidth}
-        L ${x(9, 'FL')} ${y(1.75, 'FL') - strokeWidth}
+        M ${x(1.5, 'FL')} ${y(3.5, 'FL') - strokeWidth}
+        L ${x(9, 'FL')} ${y(1.5, 'FL') - strokeWidth}
       `}
       stroke={secondary}
       strokeWidth={strokeWidth}
@@ -882,7 +882,7 @@ const illustrations =  {
     />,
 
     <path
-      key={0}
+      key={1}
       d={`
         M ${x(2, 'CH')} ${y(3.5, 'CH')}
         C ${x(2.25, 'CH')},${y(0, 'CH')} ${x(7.75, 'CH')},${y(0, 'CH')} ${x(8, 'CH')},${y(3.5, 'CH')}
@@ -893,7 +893,7 @@ const illustrations =  {
     />,
 
     <path
-      key={-1}
+      key={3}
       d={`
         M ${x(8, 'CH')} ${y(3.5, 'CH')}
         L ${x(9, 'CH')} ${y(2.5, 'CH')}
@@ -906,7 +906,7 @@ const illustrations =  {
 
     // projection
     <path
-      key={1}
+      key={4}
       d={`
         M ${x(10, 'CH')} ${y(3.5, 'CH')}
         L ${x(12, 'CH')} ${y(5.5, 'CH')}
@@ -919,7 +919,7 @@ const illustrations =  {
 
     // resistance
     <path
-      key={2}
+      key={5}
       d={`
         M ${x(1, 'CH')} ${y(3.5, 'CH') - strokeWidth}
         L ${x(11, 'CH')} ${y(3.5, 'CH') - strokeWidth}
@@ -932,7 +932,7 @@ const illustrations =  {
 }
 
 
-export default function Illustration(name) {
+export default function Illustrate(name) {
   return (
     <svg width={width} height={height}>
       {illustrations[name]}
