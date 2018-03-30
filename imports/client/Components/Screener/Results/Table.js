@@ -27,7 +27,7 @@ const Table = Styled.table`
   td {
     font-size: 13px;
     padding: 10px 0;
-    color: ${config.colors.textLighter};
+    color: #777;
     border-bottom: 1px solid ${config.colors.border};
 
     &:last-child {
