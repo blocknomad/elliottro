@@ -26,8 +26,9 @@ import {
 // Styled components
 
 const Filters = Styled.form`
-  width: 100%;
-  padding: 36px ${config.padding.horizontal} 24px;
+  width: calc(100% - ${config.padding.horizontal} * 2 + 50px);
+  margin: 50px calc(${config.padding.horizontal} - 25px);
+  padding: 25px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
 `;

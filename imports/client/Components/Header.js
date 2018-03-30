@@ -24,8 +24,8 @@ const Brand = Styled.div`
 `
 
 const Logo = Styled.img`
-  width: 124px;
-  height: 22.5px;
+  width: 130px;
+  height: 25px;
 `
 
 const Menu = Styled.div`

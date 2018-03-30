@@ -15,7 +15,6 @@ const Results = Styled.section`
   position: relative;
   box-sizing: border-box;
   padding: 0 calc(${config.padding.horizontal} - 25px) 20px;
-  background-color: #f2f2f5;
 `;
 
 const Header = Styled.section`
