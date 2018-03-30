@@ -104,7 +104,7 @@ export default class GridTileComponent extends Component {
     const labelsHeight = 24;
 
     const chartWidth = this.gridLines.parentElement.scrollWidth;
-    const chartHeight = chartWidth * .5;
+    const chartHeight = chartWidth * .40;
 
     this.gridLines.parentElement.style.height = `${chartHeight}px`;
 

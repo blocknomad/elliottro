@@ -7,23 +7,19 @@ export default function drawKline({ context, body, wick, color, stroke}) {
 
   body.height = body.height < 1 ? 1 : body.height;
 
+  context.rect(
+    body.startX,
+    body.startY,
+    body.width,
+    body.height
+  );
+
   if (stroke) {
     context.strokeStyle = color;
-    context.rect(
-      body.startX,
-      body.startY,
-      body.width,
-      body.height
-    );
     context.stroke();
   } else {
     context.fillStyle = color;
-    context.fillRect(
-      body.startX,
-      body.startY,
-      body.width,
-      body.height
-    );
+    context.fill();
   }
 
   // kline wick

@@ -5,6 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Header from './Header';
 import Screener from './Screener';
+import Footer from './Footer';
 
 import config from '/imports/client/config';
 
@@ -29,6 +30,7 @@ export default class AppComponent extends Component {
         <App>
           <Header />
           <Screener />
+          <Footer />
         </App>
       </MuiThemeProvider>
     );
