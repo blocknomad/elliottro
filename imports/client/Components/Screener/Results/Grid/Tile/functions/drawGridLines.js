@@ -111,7 +111,7 @@ export default function drawGridLines(
   context.save();
 
   context.font = '10px Arial';
-  context.fillStyle = '#888';
+  context.fillStyle = '#666';
 
   // vertical border
   drawGridLine(context, canvasWidth, 0, canvasWidth, canvasHeight, color);
@@ -173,9 +173,7 @@ export default function drawGridLines(
       (xPos >= -10 && xPos + textWidth <= canvasWidth - 5) &&
       !overlapsBigger(date, scale, stepper)
     ) {
-      const grid = canvasHeight + 5;
-
-      context.fillText(text, xPos,  grid + (canvas.height - grid) / 2);
+      context.fillText(text, xPos, canvasHeight + (canvas.height - canvasHeight) / 2);
       //drawGridLine(context, xOffset, canvasHeight + 5, xOffset, 0, color);
       used++;
     }
