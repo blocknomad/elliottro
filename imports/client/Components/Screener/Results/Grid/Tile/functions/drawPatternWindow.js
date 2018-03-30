@@ -1,5 +1,7 @@
 import Lodash from 'lodash';
 
+import config from '/imports/client/config';
+
 export default function drawPatternWindow(
   context,
   klineWidth,
@@ -19,7 +21,7 @@ export default function drawPatternWindow(
   const timeWidth = match.end - match.start;
   const klinesWidth = timeWidth / klineTimeframe + 1;
 
-  const xOffset = klineWidth / 2 + klineWidth * klinesOffset - 1 + klineWidth / 2 * klinesOffset;
+  const xOffset = klineWidth / 3 + klineWidth * klinesOffset - 1 + klineWidth / 2 * klinesOffset;
   const width = klineWidth * klinesWidth + klineWidth / 2 * klinesWidth;
 
   const klinesInWindow = Lodash.slice(klines, klinesOffset, klinesOffset + klinesWidth);
@@ -29,7 +31,7 @@ export default function drawPatternWindow(
   const yOffset = (windowTop - highInWindow.high) * ratio - klineWidth;
   const height = (highInWindow.high - lowInWindow.low) * ratio + klineWidth * 2;
 
-  context.fillStyle = 'rgba(129,212,250, .25)';
+  context.fillStyle = 'rgba(0, 179, 188, .15)';
   context.fillRect(
     xOffset,
     Lodash.clamp(yOffset, 0, canvasHeight),

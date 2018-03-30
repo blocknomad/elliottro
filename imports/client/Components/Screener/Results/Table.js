@@ -15,7 +15,7 @@ const Table = Styled.table`
   background-color: #FFF;
   animation: ${config.animations.fadeIn};
   margin-bottom: 20px;
-  padding: 15px;
+  padding: 25px;
 
   th {
     text-align: left;

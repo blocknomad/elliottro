@@ -9,12 +9,13 @@
 	Parameters:
 
 		filters: Object
-			exchanges
-			quoteAssets
-			patterns
-
-		timeframe: String
-
+			timeframe: String
+			exchanges: String
+			quoteAssets: String
+			range: Number
+			chart: Object
+				pattern: String
+				type: String
 
 **/
 
@@ -33,24 +34,24 @@ import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
-	searchPattern(filters) {
-		return;
+	searchPattern({ timeframe, exchanges, quoteAssets, range, chart}) {
 		// Create instance of DTW class
 
 		const DTW = new dtw();
 
 
 		// Fetch symbols
+		console.log(timeframe, exchanges, quoteAssets, range, chart)
 
 		const data = Symbols.find({
-			timeframe: filters.timeframe,
-			exchange: { $in: filters.exchanges },
-			quoteAsset: { $in: filters.quoteAssets },
+			timeframe,
+			exchange: { $in: exchanges },
+			quoteAsset: { $in: quoteAssets },
 		}).fetch();
 
 		// Get selected pattern
 
-		const pattern = Patterns[filters.pattern];
+		const pattern = Patterns[chart.type][chart.pattern];
 
 
 		// Variable to measure processing time
@@ -69,15 +70,19 @@ Meteor.methods({
 			quoteAsset,
 			baseAsset,
 			exchange,
-			klines
+			klines,
 		}) => {
+
+			// Slice klines range
+
+			klines = klines.slice(-range);
 
 			// Prepare input series
 
 			const input = prepareInput(klines);
 
 
-			// Intialize match variable
+			// Initialize match variable
 
 			const match = {
 		    cost: Number.POSITIVE_INFINITY,

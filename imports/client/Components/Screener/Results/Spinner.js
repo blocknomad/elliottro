@@ -19,7 +19,10 @@ const Spinner = Styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 10%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
 `
 
 const Dot = Styled.div`

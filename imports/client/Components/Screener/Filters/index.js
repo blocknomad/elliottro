@@ -55,21 +55,22 @@ const Buttons = Styled.div`
   }
 `;
 
-export default class FiltersComponent extends Component {
-  state = {
-    nKlines: 50,
-  }
+const SliderContainer = Styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 12px;
+`;
 
+export default class FiltersComponent extends Component {
   render() {
     const {
       filters,
       loading,
       handleChange,
+      handleSearch,
     } = this.props;
-
-    const {
-      nKlines,
-    } = this.state;
 
     const labelStyle = {
       fontSize: 13,
@@ -84,6 +85,7 @@ export default class FiltersComponent extends Component {
             <RadioButtonGroup
               name="timeframe"
               defaultSelected={filters.timeframe}
+              onChange={(t, v) => handleChange('timeframe', v)}
             >
               {Lodash.map(Timeframes, (timeframe, key) =>
                 <RadioButton
@@ -104,8 +106,15 @@ export default class FiltersComponent extends Component {
                 <Checkbox
                   key={key}
                   label={exchange.name}
-                  checked={Lodash.includes(filters.exchanges, key)}
                   disabled={exchange.status === 1}
+                  checked={Lodash.includes(filters.exchanges, key)}
+                  onCheck={(t, checked) => handleChange('exchanges',
+                    Lodash.uniq(
+                      checked ?
+                        Lodash.concat(filters.exchanges, key) :
+                        Lodash.without(filters.exchanges, key)
+                    )
+                  )}
                   labelStyle={labelStyle}
                 />
               )}
@@ -120,8 +129,15 @@ export default class FiltersComponent extends Component {
                 <Checkbox
                   key={key}
                   label={quoteAsset.name}
-                  checked={Lodash.includes(filters.quoteAssets, key)}
                   disabled={quoteAsset.status === 1}
+                  checked={Lodash.includes(filters.quoteAssets, key)}
+                  onCheck={(t, checked) => handleChange('quoteAssets',
+                    Lodash.uniq(
+                      checked ?
+                        Lodash.concat(filters.quoteAssets, key) :
+                        Lodash.without(filters.quoteAssets, key)
+                    )
+                  )}
                   labelStyle={labelStyle}
                 />
               )}
@@ -132,38 +148,39 @@ export default class FiltersComponent extends Component {
             </ColumnTitle>
 
             <div>
-              <Text>The algorithm will analyze the last <b>{nKlines}</b> candlesticks of each symbol.</Text>
+              <Text>The algorithm will analyze the last <b>{filters.range}</b> candlesticks of each symbol.</Text>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                  marginTop: 12,
-              }}>
+              <SliderContainer>
                 <Text style={{marginRight: 10}}>30</Text>
 
                 <Slider
-                  value={nKlines}
+                  value={filters.range}
                   min={30}
                   max={100}
                   step={1}
-                  onChange={(a, v) => this.setState({ nKlines: v })}
+                  onChange={(a, v) => handleChange('range', v)}
                   sliderStyle={{margin: 0}}
                   style={{flexGrow: 100}}
                 />
 
                 <Text style={{marginLeft: 10}}>100</Text>
-              </div>
+              </SliderContainer>
             </div>
           </Column>
         </ColumnGroup>
 
-        <Tabs />
+        <Tabs
+          filters={filters}
+          handleChange={handleChange}
+        />
 
         <Buttons>
-          <RaisedButton label="Screen" fullWidth={true} primary={true} />
+          <RaisedButton
+            label="Screen"
+            fullWidth={true}
+            primary={true}
+            onClick={handleSearch}
+          />
         </Buttons>
       </Filters>
     );

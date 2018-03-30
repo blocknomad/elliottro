@@ -51,7 +51,8 @@ export default class FiltersTabsComponent extends Component {
 
   render() {
     const {
-
+      filters,
+      handleChange,
     } = this.props;
 
     const {
@@ -82,7 +83,12 @@ export default class FiltersTabsComponent extends Component {
 
         <TabBody>
           {tab === 'candlestick' && <CandlestickPattern />}
-          {tab === 'chart' && <ChartPattern />}
+          {tab === 'chart' &&
+            <ChartPattern
+              selected={filters.chart.pattern}
+              handleChange={handleChange}
+            />
+          }
           {tab === 'indicators' && <Indicators />}
           {tab === 'price' && <Price />}
           {tab === 'volume' && <Volume />}

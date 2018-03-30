@@ -18,9 +18,16 @@ export default class BodyComponent extends Component {
   state = {
     filters: {
       timeframe: 'H1',
-      pattern: 'HSB',
       exchanges: ['BINA'],
       quoteAssets: ['BTC', 'ETH', 'USD'],
+      range: 50,
+      chart: {
+        type: 'reversal',
+        pattern: 'HSB',
+      },
+      candlestick: undefined,
+      indicators: [],
+      price: {},
     },
     loading: false,
     hasSearched: false,
@@ -45,6 +52,7 @@ export default class BodyComponent extends Component {
       <Screener>
         <Filters
           handleChange={this.handleChange}
+          handleSearch={this.handleSearch}
           filters={filters}
           loading={loading}
         />
@@ -59,15 +67,13 @@ export default class BodyComponent extends Component {
     );
   }
 
-  handleChange = ({ target }) => {
-    const value = target.type === 'checkbox' ?
-      Lodash.xor(this.state.filters[target.name], [target.value]) :
-      target.value;
-
-    const filters = this.state.filters;
-    filters[target.name] = value
-
-    this.setState({ filters }, this.handleSearch);
+  handleChange = (name, value) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        [name]: value
+      }
+    });
   }
 
   handleSearch = () => {

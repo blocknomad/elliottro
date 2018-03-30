@@ -11,25 +11,27 @@ import drawPointerLines from './functions/drawPointerLines';
 import removePointerLines from './functions/removePointerLines';
 import formatDate from './../../functions/formatDate';
 
+import { Paper } from 'material-ui';
+
 // Styled components
 
-const Tile = Styled.article`
+const Tile = Styled.div`
   box-sizing: border-box;
   background-color: #fff;
-  padding: 15px;
+  padding: 25px;
   display: inline-block;
-  width: calc(50% - 30px / 2);
-  margin-bottom: 30px;
+  width: calc(50% - 40px / 2);
+  margin-bottom: 40px;
 
   &:nth-child(odd) {
-    margin-right: 30px;
+    margin-right: 40px;
   }
 `;
 
 const Chart = Styled.div`
   position: relative;
-  width: 100%;
   border: 1px solid ${config.colors.border};
+  width: 100%;
   box-sizing: border-box;
 `;
 
@@ -99,7 +101,7 @@ export default class GridTileComponent extends Component {
     const windowBottom = minInWindow.low - (minInWindow.low % verticalStepper);
 
     const labelsWidth = 67;
-    const labelsHeight = 20;
+    const labelsHeight = 24;
 
     const chartWidth = this.gridLines.parentElement.scrollWidth;
     const chartHeight = chartWidth * .5;
@@ -168,7 +170,7 @@ export default class GridTileComponent extends Component {
     } = this.props;
 
     return (
-      <Tile>
+      <Tile zDepth={1}>
         <Header>
           <Title>
             <h3>{Exchanges[match.exchange].name}:{match.baseAsset}{match.quoteAsset}</h3>
@@ -186,7 +188,6 @@ export default class GridTileComponent extends Component {
             {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}
           </p>
         </Header>
-
 
         <Chart>
           <Canvas innerRef={ref => this.gridLines = ref} />

@@ -11,14 +11,17 @@ import config from '/imports/client/config';
 
 const Results = Styled.section`
   width: 100%;
+  min-height: 60vh;
+  position: relative;
   box-sizing: border-box;
-  padding: 0 ${config.padding.horizontal} 20px;
+  padding: 0 calc(${config.padding.horizontal} - 25px) 20px;
+  background-color: #f2f2f5;
 `;
 
 const Header = Styled.section`
   display: flex;
   align-items: center;
-  padding: 2vw 0;
+  padding: 2vw 25px;
 `;
 
 const Stats = Styled.p`
