@@ -21,13 +21,48 @@ import {
   Checkbox,
   Slider,
   RaisedButton,
+  IconMenu,
+  MenuItem,
+  IconButton,
 } from 'material-ui';
+
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SaveIcon from 'material-ui/svg-icons/content/save';
+import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 
 // Styled components
 
-const Filters = Styled.form`
-  width: calc(100% - ${config.padding.horizontal} * 2 + 50px);
-  margin: 50px calc(${config.padding.horizontal} - 25px);
+const Filters = Styled.section`
+  padding: 50px calc(${config.padding.horizontal} - 25px);
+`;
+
+const Header = Styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  box-sizing: border-box;
+  background-color: ${config.colors.primaryContrast};
+  margin-bottom: 30px;
+
+  & > * {
+    flex-shrink: 0;
+  }
+`;
+
+const ScreenName = Styled.input`
+  font-size: 20px;
+  font-weight: thin;
+  font-style: italic;
+  flex-grow: 100;
+  padding: 8px 0;
+  color: ${config.colors.text};
+  border: none;
+`;
+
+const Form = Styled.form`
+  width: 100%;
+  margin-bottom: 30px;
   padding: 25px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
@@ -46,13 +81,10 @@ const Column = Styled.div`
 `;
 
 const Buttons = Styled.div`
-  width: calc(100% - 230px);
   display: flex;
-  flex-direction: row-reverse;
-  margin: 30px 0 0 230px;
 
   & > *:not(:last-child) {
-    padding-right: 15px;
+    margin-right: 15px;
   }
 `;
 
@@ -79,110 +111,183 @@ export default class FiltersComponent extends Component {
 
     return (
       <Filters>
-        <ColumnGroup>
-          <Column>
-            <ColumnTitle>Timeframe</ColumnTitle>
+        <Header>
+          <svg height="40" width="50" style={{marginRight: 20}}>
+            <rect
+              width="50"
+              height="30"
+              strokeWidth="4"
+              stroke={config.colors.text}
+              fill="none"
+              strokeLinecap="round"
+            />
 
-            <RadioButtonGroup
-              name="timeframe"
-              defaultSelected={filters.timeframe}
-              onChange={(t, v) => handleChange('timeframe', v)}
-            >
-              {Lodash.map(Timeframes, (timeframe, key) =>
-                <RadioButton
-                  key={key}
-                  value={key}
-                  label={timeframe.name}
-                  labelStyle={labelStyle}
-                />
-              )}
-            </RadioButtonGroup>
-          </Column>
+            <path
+              d="M 23 30 L 13 40"
+              strokeWidth="4"
+              stroke={config.colors.text}
+              fill="none"
+            />
 
-          <Column>
-            <ColumnTitle>Exchanges</ColumnTitle>
+            <path
+              d="M 27 30 L 37 40"
+              strokeWidth="4"
+              stroke={config.colors.text}
+              fill="none"
+            />
 
-            <div>
-              {Lodash.map(Exchanges, (exchange, key) =>
-                <Checkbox
-                  key={key}
-                  label={exchange.name}
-                  disabled={exchange.status === 1}
-                  checked={Lodash.includes(filters.exchanges, key)}
-                  onCheck={(t, checked) => handleChange('exchanges',
-                    Lodash.uniq(
-                      checked ?
-                        Lodash.concat(filters.exchanges, key) :
-                        Lodash.without(filters.exchanges, key)
-                    )
-                  )}
-                  labelStyle={labelStyle}
-                />
-              )}
-            </div>
-          </Column>
+            <rect
+              x="15"
+              y="15"
+              width="5"
+              height="10"
+              fill={config.colors.primary}
+              stroke="none"
+            />
 
-          <Column>
-            <ColumnTitle>Quote assets</ColumnTitle>
+            <rect
+              x="23"
+              y="12"
+              width="5"
+              height="13"
+              fill={config.colors.primary}
+              stroke="none"
+            />
 
-            <div>
-              {Lodash.map(QuoteAssets, (quoteAsset, key) =>
-                <Checkbox
-                  key={key}
-                  label={quoteAsset.name}
-                  disabled={quoteAsset.status === 1}
-                  checked={Lodash.includes(filters.quoteAssets, key)}
-                  onCheck={(t, checked) => handleChange('quoteAssets',
-                    Lodash.uniq(
-                      checked ?
-                        Lodash.concat(filters.quoteAssets, key) :
-                        Lodash.without(filters.quoteAssets, key)
-                    )
-                  )}
-                  labelStyle={labelStyle}
-                />
-              )}
-            </div>
+            <rect
+              x="31"
+              y="9"
+              width="5"
+              height="16"
+              fill={config.colors.primary}
+              stroke="none"
+            />
+          </svg>
 
-            <ColumnTitle style={{marginTop: 36}}>
-              Analysis range
-            </ColumnTitle>
+          <ScreenName defaultValue="Unnamed Screen" />
 
-            <div>
-              <Text>The algorithm will analyze the last <b>{filters.range}</b> candlesticks of each symbol.</Text>
+          <IconMenu
+            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            style={{padding: '0 10px'}}
+          >
+            <MenuItem
+              primaryText="Save screen"
+              style={{fontSize: 14}}
+              leftIcon={<SaveIcon />}
+            />
+            <MenuItem
+              primaryText="Create alert"
+              style={{fontSize: 14}}
+              leftIcon={<AddAlertIcon />}
+            />
+          </IconMenu>
 
-              <SliderContainer>
-                <Text style={{marginRight: 10}}>30</Text>
-
-                <Slider
-                  value={filters.range}
-                  min={30}
-                  max={100}
-                  step={1}
-                  onChange={(a, v) => handleChange('range', v)}
-                  sliderStyle={{margin: 0}}
-                  style={{flexGrow: 100}}
-                />
-
-                <Text style={{marginLeft: 10}}>100</Text>
-              </SliderContainer>
-            </div>
-          </Column>
-        </ColumnGroup>
-
-        <Tabs
-          filters={filters}
-          handleChange={handleChange}
-        />
-
-        <Buttons>
           <RaisedButton
             label="Screen"
-            fullWidth={true}
             primary={true}
             onClick={handleSearch}
           />
-        </Buttons>
+        </Header>
+
+        <Form>
+          <ColumnGroup>
+            <Column>
+              <ColumnTitle>Timeframe</ColumnTitle>
+
+              <RadioButtonGroup
+                name="timeframe"
+                defaultSelected={filters.timeframe}
+                onChange={(t, v) => handleChange('timeframe', v)}
+              >
+                {Lodash.map(Timeframes, (timeframe, key) =>
+                  <RadioButton
+                    key={key}
+                    value={key}
+                    label={timeframe.name}
+                    labelStyle={labelStyle}
+                  />
+                )}
+              </RadioButtonGroup>
+            </Column>
+
+            <Column>
+              <ColumnTitle>Exchanges</ColumnTitle>
+
+              <div>
+                {Lodash.map(Exchanges, (exchange, key) =>
+                  <Checkbox
+                    key={key}
+                    label={exchange.name}
+                    disabled={exchange.status === 1}
+                    checked={Lodash.includes(filters.exchanges, key)}
+                    onCheck={(t, checked) => handleChange('exchanges',
+                      Lodash.uniq(
+                        checked ?
+                          Lodash.concat(filters.exchanges, key) :
+                          Lodash.without(filters.exchanges, key)
+                      )
+                    )}
+                    labelStyle={labelStyle}
+                  />
+                )}
+              </div>
+            </Column>
+
+            <Column>
+              <ColumnTitle>Quote assets</ColumnTitle>
+
+              <div>
+                {Lodash.map(QuoteAssets, (quoteAsset, key) =>
+                  <Checkbox
+                    key={key}
+                    label={quoteAsset.name}
+                    disabled={quoteAsset.status === 1}
+                    checked={Lodash.includes(filters.quoteAssets, key)}
+                    onCheck={(t, checked) => handleChange('quoteAssets',
+                      Lodash.uniq(
+                        checked ?
+                          Lodash.concat(filters.quoteAssets, key) :
+                          Lodash.without(filters.quoteAssets, key)
+                      )
+                    )}
+                    labelStyle={labelStyle}
+                  />
+                )}
+              </div>
+
+              <ColumnTitle style={{marginTop: 36}}>
+                Analysis range
+              </ColumnTitle>
+
+              <div>
+                <Text>The algorithm will analyze the last <b>{filters.range}</b> candlesticks of each symbol.</Text>
+
+                <SliderContainer>
+                  <Text style={{marginRight: 10}}>30</Text>
+
+                  <Slider
+                    value={filters.range}
+                    min={30}
+                    max={100}
+                    step={1}
+                    onChange={(a, v) => handleChange('range', v)}
+                    sliderStyle={{margin: 0}}
+                    style={{flexGrow: 100}}
+                  />
+
+                  <Text style={{marginLeft: 10}}>100</Text>
+                </SliderContainer>
+              </div>
+            </Column>
+          </ColumnGroup>
+
+          <Tabs
+            filters={filters}
+            handleChange={handleChange}
+          />
+        </Form>
       </Filters>
     );
   }

@@ -51,7 +51,10 @@ export default class FooterComponent extends Component {
           <img src="/logo-brand.svg" />
           <p>
             Welcome to <b>elliott ro</b>! This is an in-development comprehensible trendline-based cryptocurrency
-            screener which enables you to combine multiple criteria such as candlestick patterns, classical chart patterns,
+            screener designed for <b>active traders</b>.
+          </p>
+          <p>
+            elliott ro enables you to combine multiple criteria such as candlestick patterns, classical chart patterns,
             indicators (e.g., MACD and RSI) divergences and trends, price performance and volume to screen symbols
             from major exchanges.
           </p>
@@ -61,7 +64,7 @@ export default class FooterComponent extends Component {
           </p>
           <p>
             <b>Disclaimer:</b> the content provided on this website is purely informational. We take no responsibility for
-            any investment decision.
+            any investment decision you make.
           </p>
         </About>
         <Copyright>

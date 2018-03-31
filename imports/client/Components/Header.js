@@ -35,9 +35,9 @@ const Menu = Styled.div`
 
   a {
     display: block;
-    padding: 12px 0;
+    padding: 14px 0;
     margin-right: 35px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1;
     color: ${config.colors.primaryContrast};
     text-decoration: none;

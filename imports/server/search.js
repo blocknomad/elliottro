@@ -41,7 +41,6 @@ Meteor.methods({
 
 
 		// Fetch symbols
-		console.log(timeframe, exchanges, quoteAssets, range, chart)
 
 		const data = Symbols.find({
 			timeframe,
