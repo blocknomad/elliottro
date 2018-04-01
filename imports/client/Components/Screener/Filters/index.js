@@ -24,6 +24,7 @@ import {
   IconMenu,
   MenuItem,
   IconButton,
+  Paper,
 } from 'material-ui';
 
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -33,7 +34,8 @@ import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 // Styled components
 
 const Filters = Styled.section`
-  padding: 50px calc(${config.padding.horizontal} - 25px);
+  padding: 30px calc(${config.padding.horizontal} - 25px);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 `;
 
 const Header = Styled.div`
@@ -43,7 +45,7 @@ const Header = Styled.div`
   padding: 15px 25px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 
   & > * {
     flex-shrink: 0;
@@ -62,7 +64,6 @@ const ScreenName = Styled.input`
 
 const Form = Styled.form`
   width: 100%;
-  margin-bottom: 30px;
   padding: 25px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
@@ -112,56 +113,26 @@ export default class FiltersComponent extends Component {
     return (
       <Filters>
         <Header>
-          <svg height="40" width="50" style={{marginRight: 20}}>
+          <svg height="39" width="50" style={{marginRight: 20}}>
             <rect
               width="50"
-              height="30"
-              strokeWidth="4"
-              stroke={config.colors.text}
-              fill="none"
-              strokeLinecap="round"
-            />
-
-            <path
-              d="M 23 30 L 13 40"
-              strokeWidth="4"
-              stroke={config.colors.text}
-              fill="none"
-            />
-
-            <path
-              d="M 27 30 L 37 40"
-              strokeWidth="4"
-              stroke={config.colors.text}
+              height="35"
+              strokeWidth="1"
+              stroke="#555"
               fill="none"
             />
 
             <rect
-              x="15"
-              y="15"
-              width="5"
-              height="10"
-              fill={config.colors.primary}
-              stroke="none"
+              x="12"
+              y="36"
+              width="26"
+              height="3"
+              fill="#999"
             />
 
-            <rect
-              x="23"
-              y="12"
-              width="5"
-              height="13"
-              fill={config.colors.primary}
-              stroke="none"
-            />
-
-            <rect
-              x="31"
-              y="9"
-              width="5"
-              height="16"
-              fill={config.colors.primary}
-              stroke="none"
-            />
+            <rect x="14" y="20" width="6" height="10" fill={config.colors.secondary} />
+            <rect x="22" y="15" width="6" height="15" fill={config.colors.secondary} />
+            <rect x="30" y="10" width="6" height="20" fill={config.colors.secondary} />
           </svg>
 
           <ScreenName defaultValue="Unnamed Screen" />
