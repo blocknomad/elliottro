@@ -7,11 +7,11 @@ import config from '/imports/client/config';
 
 const P = Styled.p`
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   color: ${config.colors.text};
-  border-bottom: 2px solid ${config.colors.border};
-  padding-bottom: 3px;
+  border-bottom: 1px solid ${config.colors.border};
+  padding-bottom: 5px;
   margin-bottom: 18px;
 `;
 

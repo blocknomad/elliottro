@@ -34,18 +34,18 @@ import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 // Styled components
 
 const Filters = Styled.section`
-  padding: 30px calc(${config.padding.horizontal} - 25px);
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  padding: 30px calc(${config.padding.horizontal} - 0px);
 `;
 
 const Header = Styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 15px 25px;
+  padding: 20px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
   margin-bottom: 15px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 
   & > * {
     flex-shrink: 0;
@@ -53,20 +53,33 @@ const Header = Styled.div`
 `;
 
 const ScreenName = Styled.input`
-  font-size: 20px;
-  font-weight: thin;
-  font-style: italic;
+  font-size: 22px;
   flex-grow: 100;
-  padding: 8px 0;
+  padding: 8px 5px;
   color: ${config.colors.text};
-  border: none;
+  border: 1px solid transparent;
+
+  &:hover {
+    border-color: #ddd;
+  }
+
+  &:focus {
+    border-color: #bbb;
+    outline: none;
+  }
+
+  &::placeholder {
+    font-style: italic;
+    font-weight: 300;
+  }
 `;
 
 const Form = Styled.form`
   width: 100%;
-  padding: 25px;
+  padding: 20px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 `;
 
 const ColumnGroup = Styled.div`
@@ -118,7 +131,7 @@ export default class FiltersComponent extends Component {
               width="50"
               height="35"
               strokeWidth="1"
-              stroke="#555"
+              stroke="#333"
               fill="none"
             />
 
@@ -127,7 +140,7 @@ export default class FiltersComponent extends Component {
               y="36"
               width="26"
               height="3"
-              fill="#999"
+              fill="#777"
             />
 
             <rect x="14" y="20" width="6" height="10" fill={config.colors.secondary} />
@@ -135,7 +148,7 @@ export default class FiltersComponent extends Component {
             <rect x="30" y="10" width="6" height="20" fill={config.colors.secondary} />
           </svg>
 
-          <ScreenName defaultValue="Unnamed Screen" />
+          <ScreenName placeholder="Unnamed screen" />
 
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}

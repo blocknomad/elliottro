@@ -14,7 +14,7 @@ const Header = Styled.header`
   width: 100%;
   box-sizing: border-box;
   background-color: ${config.colors.primary};
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.12) 0px 3px 4px;
   z-index: 100;
 `;
 
@@ -36,22 +36,41 @@ const Language = Styled.div`
   margin: 0 30px;
 `;
 
-const Search = Styled.input`
-  color: #FFF;
-  font-size: 14px;
-  line-height: 1;
-  padding: 13px;
+const Search = Styled.div`
   flex-grow: 100;
   margin: 0 10px;
   background-color: ${config.colors.primaryLighter};
-  border: none;
+  display: flex;
 
-  &::placeholder {
+  div {
     color: #FFF;
+    padding: 0 13px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+
+    i {
+      font-size: 20px;
+    }
   }
 
-  &:focus {
-    outline: none;
+  input {
+    color: #FFF;
+    font-size: 14px;
+    line-height: 1;
+    padding: 13px;
+    flex-grow: 100;
+    background-color: transparent;
+    border: none;
+
+    &::placeholder {
+      color: #FFF;
+      opacity: .75;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 `;
 
@@ -98,7 +117,10 @@ export default class HeaderComponent extends Component {
             EN
           </Language>
 
-          <Search placeholder="Search for symbols" />
+          <Search>
+            <div><i className="material-icons">search</i></div>
+            <input placeholder="Search for symbols" />
+          </Search>
 
           <SignIn href="">
             Sign in
