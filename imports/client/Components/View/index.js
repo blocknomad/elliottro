@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
+import { withRouter } from 'react-router';
 
-import Spinner from './Spinner';
+import Spinner from '/imports/client/Components/Reusable/Spinner';
 import Table from './Table';
 import Grid from './Grid';
 
 import config from '/imports/client/config';
 
+
 // Styled components
 
 const Results = Styled.section`
   width: 100%;
-  min-height: 60vh;
+  min-height: 100vh;
   position: relative;
   box-sizing: border-box;
-  padding: 0 calc(${config.padding.horizontal} - 25px) 20px;
+  padding: 30px ${config.padding.horizontal};
 `;
 
 const Header = Styled.section`
@@ -38,20 +40,19 @@ const Icon = Styled.i`
 `;
 
 
-export default class ResultsComponent extends Component {
+class ViewComponent extends Component {
   state = {
     viewType: 'grid',
+    loading: true,
+    matches: [],
   }
 
   render() {
     const {
+      viewType,
       loading,
       matches,
-      timeframe,
-      processingTime,
-    } = this.props;
-
-    const { viewType } = this.state;
+    } = this.state;
 
     return (
       <Results>
@@ -92,4 +93,6 @@ export default class ResultsComponent extends Component {
   handleViewTypeChange = viewType => {
     this.setState({ viewType });
   }
-}
+};
+
+export default withRouter(ViewComponent);

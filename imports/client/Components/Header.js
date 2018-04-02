@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
+import { Link, NavLink } from "react-router-dom";
 
 import config from '/imports/client/config';
 
@@ -21,7 +22,7 @@ const Header = Styled.header`
 const Brand = Styled.div`
   display: flex;
   align-items: center;
-  padding: 18px ${config.padding.horizontal};
+  padding: 16px ${config.padding.horizontal};
 `;
 
 const Logo = Styled.img`
@@ -31,9 +32,15 @@ const Logo = Styled.img`
 
 const Language = Styled.div`
   color: #FFF;
-  font-size: 13px;
-  line-height: 1;
-  margin: 0 30px;
+  font-size: 12px;
+  line-height: 26px;
+  width: 26px;
+  height: 26px;
+  text-transform: uppercase;
+  margin: 0 20px;
+  border-radius: 3px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, .06);
 `;
 
 const Search = Styled.div`
@@ -44,13 +51,13 @@ const Search = Styled.div`
 
   div {
     color: #FFF;
-    padding: 0 13px;
+    padding: 0 10px 0 14px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
 
     i {
-      font-size: 20px;
+      font-size: 22px;
     }
   }
 
@@ -65,7 +72,7 @@ const Search = Styled.div`
 
     &::placeholder {
       color: #FFF;
-      opacity: .75;
+      opacity: .85;
     }
 
     &:focus {
@@ -74,7 +81,7 @@ const Search = Styled.div`
   }
 `;
 
-const SignIn = Styled.a`
+const SignIn = Styled(Link)`
   color: #FFF;
   font-size: 14px;
   text-transform: uppercase;
@@ -88,19 +95,29 @@ const SignIn = Styled.a`
 
 const Menu = Styled.div`
   display: flex;
-  padding: 0 ${config.padding.horizontal};
+  padding: 0 calc(${config.padding.horizontal} - 20px);
+  background-color: rgba(0, 0, 0, .06);
 
   a {
     display: block;
-    padding: 14px 0;
-    margin-right: 35px;
-    font-size: 15px;
-    line-height: 1;
-    color: ${config.colors.primaryContrast};
+    padding: 0 20px;
     text-decoration: none;
 
-    &:last-child {
-      margin-right: 0;
+    &:hover {
+      background-color: rgba(0, 0, 0, .06);
+    }
+
+    span {
+      display: block;
+      border-bottom: 3px solid transparent;
+      padding: 16px 0;
+      font-size: 15px 0;
+      line-height: 1;
+      color: ${config.colors.primaryContrast};
+    }
+
+    &.active span {
+      border-color: rgba(255, 255, 255, .9);
     }
   }
 `;
@@ -122,19 +139,19 @@ export default class HeaderComponent extends Component {
             <input placeholder="Search for symbols" />
           </Search>
 
-          <SignIn href="">
+          <SignIn to="/signin">
             Sign in
           </SignIn>
         </Brand>
 
         <Menu>
-          <a href="">
-            Screener
-          </a>
+          <NavLink to="/screen" activeClassName="active">
+            <span>Screener</span>
+          </NavLink>
 
-          <a href="">
-            Alerts
-          </a>
+          <Link to="/alerts" activeClassName="active">
+            <span>Alerts</span>
+          </Link>
         </Menu>
       </Header>
     );

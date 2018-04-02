@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 import Lodash from 'lodash';
+import { withRouter } from 'react-router';
 
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
 import Text from '/imports/client/Components/Reusable/Text';
@@ -28,13 +29,13 @@ import {
 } from 'material-ui';
 
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SaveIcon from 'material-ui/svg-icons/content/save';
+import SaveIcon from 'material-ui/svg-icons/av/playlist-add';
 import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 
 // Styled components
 
-const Filters = Styled.section`
-  padding: 30px calc(${config.padding.horizontal} - 0px);
+const Screen = Styled.section`
+  padding: 30px ${config.padding.horizontal};
 `;
 
 const Header = Styled.div`
@@ -55,7 +56,7 @@ const Header = Styled.div`
 const ScreenName = Styled.input`
   font-size: 22px;
   flex-grow: 100;
-  padding: 8px 5px;
+  padding: 8px;
   color: ${config.colors.text};
   border: 1px solid transparent;
 
@@ -64,12 +65,12 @@ const ScreenName = Styled.input`
   }
 
   &:focus {
-    border-color: #bbb;
+    border-color: transparent;
+    background-color: #f6f6f6;
     outline: none;
   }
 
   &::placeholder {
-    font-style: italic;
     font-weight: 300;
   }
 `;
@@ -110,45 +111,63 @@ const SliderContainer = Styled.div`
   margin-top: 12px;
 `;
 
-export default class FiltersComponent extends Component {
+const ArrowIcon = Styled.i.attrs({
+  className: 'material-icons',
+})`
+  color: #FFF;
+  vertical-align: text-top !important;
+`;
+
+class ScreenComponent extends Component {
+  state = {
+    filters: {
+      name: undefined,
+      timeframe: 'H1',
+      exchanges: ['BINA'],
+      quoteAssets: ['BTC', 'ETH', 'USD'],
+      range: 50,
+      chart: {
+        type: 'reversal',
+        pattern: 'HSB',
+      },
+      candlestick: undefined,
+      indicators: [],
+      price: {},
+    },
+  }
+
   render() {
-    const {
-      filters,
-      loading,
-      handleChange,
-      handleSearch,
-    } = this.props;
+    const { filters } = this.state;
 
     const labelStyle = {
       fontSize: 13,
     };
 
     return (
-      <Filters>
+      <Screen>
         <Header>
-          <svg height="39" width="50" style={{marginRight: 20}}>
+          <svg height="36" width="50" style={{marginRight: 20}}>
             <rect
               width="50"
               height="35"
-              strokeWidth="1"
-              stroke="#333"
+              strokeWidth="2"
+              stroke="#888"
+              fill="#f8f8f8"
+            />
+
+            <path
+              d="M 10 30 L 15.5 22 L 21 26 L 26.5 14 L 32.5 19 L 40 8"
+              stroke={config.colors.secondary}
+              strokeWidth="2"
               fill="none"
             />
-
-            <rect
-              x="12"
-              y="36"
-              width="26"
-              height="3"
-              fill="#777"
-            />
-
-            <rect x="14" y="20" width="6" height="10" fill={config.colors.secondary} />
-            <rect x="22" y="15" width="6" height="15" fill={config.colors.secondary} />
-            <rect x="30" y="10" width="6" height="20" fill={config.colors.secondary} />
           </svg>
 
-          <ScreenName placeholder="Unnamed screen" />
+          <ScreenName
+            placeholder="Unnamed screen"
+            defaultValue={filters.name}
+            innerRef={ref => this._name = ref}
+          />
 
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -169,9 +188,11 @@ export default class FiltersComponent extends Component {
           </IconMenu>
 
           <RaisedButton
-            label="Screen"
+            label="Run Screen"
             primary={true}
-            onClick={handleSearch}
+            onClick={this.handleSearch}
+            style={{lineHeight: '24px'}}
+            icon={<ArrowIcon>play_arrow</ArrowIcon>}
           />
         </Header>
 
@@ -183,7 +204,7 @@ export default class FiltersComponent extends Component {
               <RadioButtonGroup
                 name="timeframe"
                 defaultSelected={filters.timeframe}
-                onChange={(t, v) => handleChange('timeframe', v)}
+                onChange={(t, v) => this.handleChange('timeframe', v)}
               >
                 {Lodash.map(Timeframes, (timeframe, key) =>
                   <RadioButton
@@ -206,7 +227,7 @@ export default class FiltersComponent extends Component {
                     label={exchange.name}
                     disabled={exchange.status === 1}
                     checked={Lodash.includes(filters.exchanges, key)}
-                    onCheck={(t, checked) => handleChange('exchanges',
+                    onCheck={(t, checked) => this.handleChange('exchanges',
                       Lodash.uniq(
                         checked ?
                           Lodash.concat(filters.exchanges, key) :
@@ -229,7 +250,7 @@ export default class FiltersComponent extends Component {
                     label={quoteAsset.name}
                     disabled={quoteAsset.status === 1}
                     checked={Lodash.includes(filters.quoteAssets, key)}
-                    onCheck={(t, checked) => handleChange('quoteAssets',
+                    onCheck={(t, checked) => this.handleChange('quoteAssets',
                       Lodash.uniq(
                         checked ?
                           Lodash.concat(filters.quoteAssets, key) :
@@ -256,7 +277,7 @@ export default class FiltersComponent extends Component {
                     min={30}
                     max={100}
                     step={1}
-                    onChange={(a, v) => handleChange('range', v)}
+                    onChange={(a, v) => this.handleChange('range', v)}
                     sliderStyle={{margin: 0}}
                     style={{flexGrow: 100}}
                   />
@@ -269,10 +290,45 @@ export default class FiltersComponent extends Component {
 
           <Tabs
             filters={filters}
-            handleChange={handleChange}
+            handleChange={this.handleChange}
           />
         </Form>
-      </Filters>
+      </Screen>
     );
   }
-}
+
+  handleChange = (name, value) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        [name]: value
+      }
+    });
+  }
+
+  handleSearch = () => {
+    const { filters } = this.state;
+
+    let query = '';
+
+    query += `name=${encodeURIComponent(this._name.value)}`;
+    query += `&timeframe=${filters.timeframe}`;
+    query += `&exchanges=${filters.exchanges}`;
+    query += `&quoteAssets=${filters.quoteAssets}`;
+
+    if (Lodash.isEmpty(filters.chart) === false) {
+      query += `&chartType=${filters.chart.type}&chartPattern=${filters.chart.pattern}`;
+    }
+
+    this.props.history.push(`/view/?${query}`);
+
+    /*Meteor.call('searchPattern', { ...this.state.filters }, (error, response) => {
+      this.setState({
+        loading: false,
+        ...response,
+      });
+    });*/
+  }
+};
+
+export default withRouter(ScreenComponent);

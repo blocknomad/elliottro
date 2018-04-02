@@ -21,7 +21,7 @@ export default {
     icon: '#666',
   },
   padding: {
-    horizontal: '10%',
+    horizontal: '12%',
   },
   animations: {
     fadeIn: `${fadeIn} .2s`,
