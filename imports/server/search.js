@@ -1,7 +1,7 @@
 
 /**
 
-	@method searchPattern
+	@method screen
 
 	 Scans all listed symbols and tries to match the selected pattern in the chosen timeframe
 
@@ -34,7 +34,7 @@ import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
-	searchPattern({ timeframe, exchanges, quoteAssets, range, chart}) {
+	screen({ timeframe, exchanges, quoteAssets, range, chart}) {
 		// Create instance of DTW class
 
 		const DTW = new dtw();
@@ -140,11 +140,11 @@ Meteor.methods({
 						match.cost = cost;
 						match.start = klines[wStart].closeTime + 1000;
 						match.end = klines[wEnd].openTime;
-						//match.klines = klines;
-						match.klines = Lodash.slice(
+						match.klines = klines;
+						/*match.klines = Lodash.slice(
 							klines,
 							Lodash.clamp(wStart - 4, 0, wStart)
-						);
+						);*/
 			    }
 			  }
 			}

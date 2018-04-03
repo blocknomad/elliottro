@@ -15,7 +15,7 @@ export default {
     primaryContrast: '#fff',
     secondary: '#FFA000',
     secondaryContrast: '#37474F',
-    border: '#ddd',
+    border: '#eee',
     text: '#4a4a4a',
     textLighter: '#adaeb0',
     icon: '#666',

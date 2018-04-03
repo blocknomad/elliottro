@@ -6,7 +6,7 @@ import config from '/imports/client/config';
 
 import Exchanges from '/imports/both/fixtures/exchanges';
 
-import formatDate from './functions/formatDate';
+import formatDate from '../functions/formatDate';
 
 // Styled components
 

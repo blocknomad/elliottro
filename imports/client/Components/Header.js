@@ -117,7 +117,7 @@ const Menu = Styled.div`
     }
 
     &.active span {
-      border-color: rgba(255, 255, 255, .9);
+      border-color: rgba(255, 255, 255, .95);
     }
   }
 `;
@@ -149,9 +149,9 @@ export default class HeaderComponent extends Component {
             <span>Screener</span>
           </NavLink>
 
-          <Link to="/alerts" activeClassName="active">
+          <NavLink to="/alerts" activeClassName="active">
             <span>Alerts</span>
-          </Link>
+          </NavLink>
         </Menu>
       </Header>
     );

@@ -4,16 +4,15 @@ import Lodash from 'lodash';
 
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
 import Text from '/imports/client/Components/Reusable/Text';
+import Illustrate from '/imports/client/Components/Reusable/IllustrateChartPattern';
 
 import config from '/imports/client/config';
 
 import Patterns from '/imports/both/fixtures/patterns';
 
 import {
-  RaisedButton,
+  IconButton,
 } from 'material-ui';
-
-import Illustrate from './Illustrate';
 
 // Styled components
 
@@ -22,57 +21,40 @@ const ChartPattern = Styled.div`
 `;
 
 const Grid = Styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);
-  grid-gap: .5em;
-  justify-content: space-between;
-  margin-top: 12px;
-
-  button {
-    height: 100% !important;
-
-    & > div, & > div > div {
-      height: 100% !important;
-    }
+  &:not(:last-child) {
+    margin-bottom: 12px;
   }
 `;
 
-const GridItem = Styled.div`
-  padding: 10%;
-  position: relative;
-  color: ${config.colors.text};
-
-  ${props => props.selected && `
-
-  `}
-`;
-
-const Checkbox = Styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 26px;
-  text-transform: uppercase;
+const GridItems = Styled.div`
+  margin-top: 12px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  line-height: 1;
-  color: #FFF;
-  visibility: hidden;
-  background-color: ${config.colors.primary};
-
-  ${props => props.checked && `
-    visibility: visible;
-  `}
+  flex-wrap: wrap;
 `;
 
-const Name = Styled.p`
-  text-transform: uppercase;
-  font-size: 10px;
-  margin-top: 10%;
-  text-align: center;
+const GridItem = Styled.div`
+  padding: 12px;
+  margin: 0 12px 12px 0;
+  border: 1px solid #eee;
+  position: relative;
+
+  ${props => props.disabled ? 'background-color: #eee;' : 'cursor: pointer;'}
+  ${props => props.selected && `
+    &::after {
+      content: "selected";
+      position: absolute;
+      top: 100%;
+      left: -1px;
+      width: 100%;
+      background-color: ${config.colors.primary};
+      border: 1px solid ${config.colors.primary};
+      text-transform: uppercase;
+      font-size: 10px;
+      color: #FFF;
+      text-align: center;
+      padding: 2px 0;
+    }
+  `}
 `;
 
 export default class ChartPatternComponent extends Component {
@@ -84,39 +66,28 @@ export default class ChartPatternComponent extends Component {
     patterns = Lodash.filter(patterns, p => p.status !== 3);
 
     return (
-      <div>
+      <Grid>
         <Text>
           {title} ({Object.keys(patterns).length})
         </Text>
 
-        <Grid>
+        <GridItems>
           {Lodash.map(patterns, pattern =>
-            <RaisedButton
+            <GridItem
               key={pattern.acronym}
               disabled={pattern.status === 1}
-              style={{
-                height: 'auto',
-                width: 150,
-                marginBottom: 24,
-              }}
-              onClick={() => this.props.handleChange('chart', { type, pattern: pattern.acronym})}
-              title={pattern.status === 1 ? 'Not yet available.' : ''}
+              selected={pattern.acronym === this.props.selected}
+              onClick={pattern.status === 2 ?
+                () => this.props.handleChange('chart', { type, pattern: pattern.acronym}) :
+                () => {}
+              }
+              title={`${pattern.name}${pattern.status === 1 ? ' (not yet available)' : ''}`}
             >
-              <GridItem>
-                <Checkbox
-                  checked={this.props.selected === pattern.acronym}
-                >
-                  selected
-                </Checkbox>
-
-                {Illustrate(pattern.acronym)}
-
-                <Name>{pattern.name}</Name>
-              </GridItem>
-            </RaisedButton>
+              {Illustrate(pattern.acronym, 120 * 0.4, 100 * .4)}
+            </GridItem>
           )}
-        </Grid>
-      </div>
+        </GridItems>
+      </Grid>
     )
   }
 

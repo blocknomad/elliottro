@@ -44,20 +44,18 @@ const TabBody = Styled.div`
   width: 100%;
 `;
 
-export default class FiltersTabsComponent extends Component {
+export default class ScreenTabsComponent extends Component {
   state = {
     tab: 'chart',
   }
 
   render() {
     const {
-      filters,
+      screen,
       handleChange,
     } = this.props;
 
-    const {
-      tab,
-    } = this.state;
+    const { tab } = this.state;
 
     const TabsList = {
       candlestick: 'Candlestick pattern',
@@ -85,7 +83,7 @@ export default class FiltersTabsComponent extends Component {
           {tab === 'candlestick' && <CandlestickPattern />}
           {tab === 'chart' &&
             <ChartPattern
-              selected={filters.chart.pattern}
+              selected={screen.chart.pattern}
               handleChange={handleChange}
             />
           }

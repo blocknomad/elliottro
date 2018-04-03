@@ -34,6 +34,10 @@ const About = Styled.div`
     &:not(:last-child) {
       margin-bottom: 12px;
     }
+
+    b {
+      color: #ccc;
+    }
   }
 `;
 
@@ -54,12 +58,12 @@ export default class FooterComponent extends Component {
             screener designed for <b>active traders</b>.
           </p>
           <p>
-            elliott ro enables you to combine multiple criteria such as candlestick patterns, classical chart patterns,
-            indicators (e.g., MACD and RSI) divergences and trends, price performance and volume to screen symbols
+            elliott ro enables you to combine multiple criteria such as <b>candlestick patterns</b>, classical <b>chart patterns</b>,
+            <b> indicators</b> (e.g., MACD and RSI) divergences and trends, <b>price performance</b> and <b>volume</b> to screen symbols
             from major exchanges.
           </p>
           <p>
-            Besides screening the cryptomarket, you will also be able to set up alerts for the screens you create
+            Besides screening the cryptomarket, you will also be able to set up <b>alerts</b> for the screens you create
             and have notifications delivered in-app and/or on your email.
           </p>
           <p>

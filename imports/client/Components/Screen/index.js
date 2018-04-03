@@ -38,7 +38,7 @@ const Screen = Styled.section`
   padding: 30px ${config.padding.horizontal};
 `;
 
-const Header = Styled.div`
+const Header = Styled(Paper)`
   width: 100%;
   display: flex;
   align-items: center;
@@ -46,10 +46,27 @@ const Header = Styled.div`
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
   margin-bottom: 15px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 
   & > * {
     flex-shrink: 0;
+  }
+`;
+
+const ScreenIcon = Styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  //background-color: ${config.colors.primary};
+  background-color: #f8f8f8;
+
+  i {
+    //color: #FFF;
+    color: ${config.colors.secondary};
+    font-size: 30px;
   }
 `;
 
@@ -71,8 +88,16 @@ const ScreenName = Styled.input`
   }
 
   &::placeholder {
+    color: #aaa;
     font-weight: 300;
   }
+`;
+
+const ArrowIcon = Styled.i.attrs({
+  className: 'material-icons',
+})`
+  color: #FFF;
+  vertical-align: text-top !important;
 `;
 
 const Form = Styled.form`
@@ -111,33 +136,33 @@ const SliderContainer = Styled.div`
   margin-top: 12px;
 `;
 
-const ArrowIcon = Styled.i.attrs({
-  className: 'material-icons',
-})`
-  color: #FFF;
-  vertical-align: text-top !important;
-`;
-
 class ScreenComponent extends Component {
-  state = {
-    filters: {
-      name: undefined,
-      timeframe: 'H1',
-      exchanges: ['BINA'],
-      quoteAssets: ['BTC', 'ETH', 'USD'],
-      range: 50,
-      chart: {
-        type: 'reversal',
-        pattern: 'HSB',
+  constructor(props) {
+    super();
+
+    const { search } = props.history.location;
+    const params = new URLSearchParams(search);
+
+    this.state = {
+      screen: {
+        name: params.get('name') && decodeURIComponent(params.get('name')) || undefined,
+        timeframe: params.get('timeframe') || 'H1',
+        exchanges: params.get('exchanges') && params.get('exchanges').split(',') || ['BINA'],
+        quoteAssets: params.get('quoteAssets') && params.get('quoteAssets').split(',') || ['BTC', 'ETH', 'USD'],
+        range: params.get('range') && Number(params.get('range')) || 50,
+        chart: {
+          type: params.get('chartType') || 'reversal',
+          pattern: params.get('chartPattern') || 'HSB',
+        },
+        candlestick: undefined,
+        indicators: [],
+        price: {},
       },
-      candlestick: undefined,
-      indicators: [],
-      price: {},
-    },
+    };
   }
 
   render() {
-    const { filters } = this.state;
+    const { screen } = this.state;
 
     const labelStyle = {
       fontSize: 13,
@@ -146,26 +171,13 @@ class ScreenComponent extends Component {
     return (
       <Screen>
         <Header>
-          <svg height="36" width="50" style={{marginRight: 20}}>
-            <rect
-              width="50"
-              height="35"
-              strokeWidth="2"
-              stroke="#888"
-              fill="#f8f8f8"
-            />
-
-            <path
-              d="M 10 30 L 15.5 22 L 21 26 L 26.5 14 L 32.5 19 L 40 8"
-              stroke={config.colors.secondary}
-              strokeWidth="2"
-              fill="none"
-            />
-          </svg>
+          <ScreenIcon>
+            <i className="material-icons">show_chart</i>
+          </ScreenIcon>
 
           <ScreenName
             placeholder="Unnamed screen"
-            defaultValue={filters.name}
+            defaultValue={screen.name}
             innerRef={ref => this._name = ref}
           />
 
@@ -203,7 +215,7 @@ class ScreenComponent extends Component {
 
               <RadioButtonGroup
                 name="timeframe"
-                defaultSelected={filters.timeframe}
+                defaultSelected={screen.timeframe}
                 onChange={(t, v) => this.handleChange('timeframe', v)}
               >
                 {Lodash.map(Timeframes, (timeframe, key) =>
@@ -226,12 +238,12 @@ class ScreenComponent extends Component {
                     key={key}
                     label={exchange.name}
                     disabled={exchange.status === 1}
-                    checked={Lodash.includes(filters.exchanges, key)}
+                    checked={Lodash.includes(screen.exchanges, key)}
                     onCheck={(t, checked) => this.handleChange('exchanges',
                       Lodash.uniq(
                         checked ?
-                          Lodash.concat(filters.exchanges, key) :
-                          Lodash.without(filters.exchanges, key)
+                          Lodash.concat(screen.exchanges, key) :
+                          Lodash.without(screen.exchanges, key)
                       )
                     )}
                     labelStyle={labelStyle}
@@ -249,12 +261,12 @@ class ScreenComponent extends Component {
                     key={key}
                     label={quoteAsset.name}
                     disabled={quoteAsset.status === 1}
-                    checked={Lodash.includes(filters.quoteAssets, key)}
+                    checked={Lodash.includes(screen.quoteAssets, key)}
                     onCheck={(t, checked) => this.handleChange('quoteAssets',
                       Lodash.uniq(
                         checked ?
-                          Lodash.concat(filters.quoteAssets, key) :
-                          Lodash.without(filters.quoteAssets, key)
+                          Lodash.concat(screen.quoteAssets, key) :
+                          Lodash.without(screen.quoteAssets, key)
                       )
                     )}
                     labelStyle={labelStyle}
@@ -267,13 +279,13 @@ class ScreenComponent extends Component {
               </ColumnTitle>
 
               <div>
-                <Text>The algorithm will analyze the last <b>{filters.range}</b> candlesticks of each symbol.</Text>
+                <Text>The algorithm will analyze the last <b>{screen.range}</b> candlesticks of each symbol.</Text>
 
                 <SliderContainer>
                   <Text style={{marginRight: 10}}>30</Text>
 
                   <Slider
-                    value={filters.range}
+                    value={screen.range}
                     min={30}
                     max={100}
                     step={1}
@@ -289,7 +301,7 @@ class ScreenComponent extends Component {
           </ColumnGroup>
 
           <Tabs
-            filters={filters}
+            screen={screen}
             handleChange={this.handleChange}
           />
         </Form>
@@ -299,35 +311,29 @@ class ScreenComponent extends Component {
 
   handleChange = (name, value) => {
     this.setState({
-      filters: {
-        ...this.state.filters,
+      screen: {
+        ...this.state.screen,
         [name]: value
       }
     });
   }
 
   handleSearch = () => {
-    const { filters } = this.state;
+    const { screen } = this.state;
 
     let query = '';
 
     query += `name=${encodeURIComponent(this._name.value)}`;
-    query += `&timeframe=${filters.timeframe}`;
-    query += `&exchanges=${filters.exchanges}`;
-    query += `&quoteAssets=${filters.quoteAssets}`;
+    query += `&timeframe=${screen.timeframe}`;
+    query += `&exchanges=${screen.exchanges}`;
+    query += `&quoteAssets=${screen.quoteAssets}`;
+    query += `&range=${screen.range}`;
 
-    if (Lodash.isEmpty(filters.chart) === false) {
-      query += `&chartType=${filters.chart.type}&chartPattern=${filters.chart.pattern}`;
+    if (Lodash.isEmpty(screen.chart) === false) {
+      query += `&chartType=${screen.chart.type}&chartPattern=${screen.chart.pattern}`;
     }
 
     this.props.history.push(`/view/?${query}`);
-
-    /*Meteor.call('searchPattern', { ...this.state.filters }, (error, response) => {
-      this.setState({
-        loading: false,
-        ...response,
-      });
-    });*/
   }
 };
 

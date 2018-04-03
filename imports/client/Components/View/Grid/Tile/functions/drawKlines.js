@@ -20,9 +20,11 @@ export default function drawKlines(
   drawPatternWindow(context, klineWidth, ratio, match, windowTop, canvasHeight);
 
   Lodash.forEach(klines, (kline, index) => {
-    //const color = kline.close < kline.open ? '#E91E63' : '#8BC34A';
-    const color = '#E91E63';
-    const stroke = kline.close > kline.open;
+    const color = kline.close < kline.open ? '#E91E63' : '#8BC34A';
+    const stroke = false;
+    
+    //const color = '#E91E63';
+    //const stroke = kline.close > kline.open;
 
     const bodyLeftOffset = klineWidth / 2 + klineWidth * index + klineWidth / 2 * index;
     const wickLeftOffset = bodyLeftOffset + klineWidth / 2;
