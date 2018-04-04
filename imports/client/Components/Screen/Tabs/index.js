@@ -29,7 +29,7 @@ const Tab = Styled.div`
   width: 100%;
   box-sizing: border-box;
   color: ${config.colors.text};
-  background-color: #fafafa;
+  background-color: #f2f2f2;
   cursor: pointer;
   margin-bottom: 3px;
 

@@ -10,9 +10,7 @@ const P = Styled.p`
   font-weight: 600;
   text-transform: uppercase;
   color: ${config.colors.text};
-  border-bottom: 1px solid ${config.colors.border};
-  padding-bottom: 5px;
-  margin-bottom: 18px;
+  margin-bottom: 13px;
 `;
 
 export default function ColumnTitle({ style, children }) {

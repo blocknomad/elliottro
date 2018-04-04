@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from './Header';
 import Footer from './Footer';
 
+import Alerts from './Alerts';
+import Home from './Home';
 import Screen from './Screen';
 import SignIn from './SignIn';
 import View from './View';
@@ -18,7 +20,7 @@ import config from '/imports/client/config';
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: config.colors.primary,
-    textColor: '#546E7A',
+    textColor: config.colors.text,
   },
 });
 
@@ -51,6 +53,8 @@ export default class AppComponent extends Component {
       <Router>
         <MuiThemeProvider muiTheme={muiTheme}>
           <Switch>
+            <Page exact path="/" component={Home} />
+            <Page path="/alerts" component={Alerts} />
             <Page path="/screen" component={Screen} />
             <Page path="/view" component={View} />
             <Page path="/signin" component={SignIn} blank />

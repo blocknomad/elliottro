@@ -26,7 +26,7 @@ const Brand = Styled.div`
 `;
 
 const Logo = Styled.img`
-  width: 124px;
+  width: 118px;
   height: 22.5px;
 `;
 
@@ -125,10 +125,24 @@ const Menu = Styled.div`
 
 export default class HeaderComponent extends Component {
   render() {
+    const insidePathnames = (match, loc, pathnames = []) => {
+      let insideMatch = false;
+
+      pathnames.forEach(pathname => {
+        if (loc.pathname.includes(pathname)) {
+          insideMatch = true;
+        }
+      })
+
+      return Boolean(match) || insideMatch;
+    };
+
     return (
       <Header>
         <Brand>
-          <Logo src="/logo-brand.svg" />
+          <Link to="/">
+            <Logo src="/logo-brand.svg" />
+          </Link>
 
           <Language>
             EN
@@ -145,7 +159,11 @@ export default class HeaderComponent extends Component {
         </Brand>
 
         <Menu>
-          <NavLink to="/screen" activeClassName="active">
+          <NavLink
+            to="/screen"
+            isActive={(m, l) => insidePathnames(m, l, ['/view'])}
+            activeClassName="active"
+          >
             <span>Screener</span>
           </NavLink>
 

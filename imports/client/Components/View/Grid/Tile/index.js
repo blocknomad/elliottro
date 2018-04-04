@@ -74,21 +74,19 @@ export default class GridTileComponent extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      timeframe,
-    } = this.props;
-
-    this.drawChart(match, timeframe);
-    window.addEventListener('resize',
-      () => this.drawChart(match, timeframe));
+    this.drawChart();
+    //window.addEventListener('resize', () => this.drawChart(match, timeframe));
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.drawChart);
+    //window.removeEventListener('resize', this.drawChart);
+    this.pointerLines.removeEventListener('mousemove', this.handleMouseMove);
+    this.pointerLines.removeEventListener('mouseout', this.handleMouseOut);
   }
 
-  drawChart(match, timeframe) {
+  drawChart() {
+    const { match, timeframe } = this.props;
+
     const maxInWindow = Lodash.maxBy(match.klines, 'high');
     const minInWindow = Lodash.minBy(match.klines, 'low');
 
@@ -141,7 +139,7 @@ export default class GridTileComponent extends Component {
       windowBottom
     );
 
-    this.pointerLines.addEventListener('mousemove', event =>
+    this.handleMouseMove = event => {
       drawPointerLines(
         this.pointerLines,
         event,
@@ -152,12 +150,15 @@ export default class GridTileComponent extends Component {
         this.klines.width,
         this.klines.height,
         windowTop
-      )
-    );
+      );
+    };
 
-    this.pointerLines.addEventListener('mouseout', event =>
-      removePointerLines(this.pointerLines)
-    );
+    this.handleMouseOut = event => {
+      removePointerLines(this.pointerLines);
+    };
+
+    this.pointerLines.addEventListener('mousemove', this.handleMouseMove);
+    this.pointerLines.addEventListener('mouseout', this.handleMouseOut);
   }
 
   render() {

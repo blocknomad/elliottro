@@ -49,10 +49,11 @@ const GridItem = Styled.div`
       background-color: ${config.colors.primary};
       border: 1px solid ${config.colors.primary};
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 11px;
+      line-height: 1;
       color: #FFF;
       text-align: center;
-      padding: 2px 0;
+      padding: 3px 0;
     }
   `}
 `;

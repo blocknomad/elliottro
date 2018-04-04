@@ -3,6 +3,7 @@ import Styled from 'styled-components';
 import Lodash from 'lodash';
 import { withRouter } from 'react-router';
 
+import ScreenIcon from '/imports/client/Components/Reusable/ScreenIcon';
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
 import Text from '/imports/client/Components/Reusable/Text';
 import config from '/imports/client/config';
@@ -22,15 +23,9 @@ import {
   Checkbox,
   Slider,
   RaisedButton,
-  IconMenu,
-  MenuItem,
   IconButton,
   Paper,
 } from 'material-ui';
-
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SaveIcon from 'material-ui/svg-icons/av/playlist-add';
-import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 
 // Styled components
 
@@ -38,35 +33,21 @@ const Screen = Styled.section`
   padding: 30px ${config.padding.horizontal};
 `;
 
-const Header = Styled(Paper)`
+const Content = Styled.div`
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+`;
+
+const Header = Styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
-  margin-bottom: 15px;
+  border-bottom: 1px solid ${config.colors.border};
 
   & > * {
     flex-shrink: 0;
-  }
-`;
-
-const ScreenIcon = Styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 20px;
-  //background-color: ${config.colors.primary};
-  background-color: #f8f8f8;
-
-  i {
-    //color: #FFF;
-    color: ${config.colors.secondary};
-    font-size: 30px;
   }
 `;
 
@@ -105,7 +86,6 @@ const Form = Styled.form`
   padding: 20px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 `;
 
 const ColumnGroup = Styled.div`
@@ -170,141 +150,141 @@ class ScreenComponent extends Component {
 
     return (
       <Screen>
-        <Header>
-          <ScreenIcon>
-            <i className="material-icons">show_chart</i>
-          </ScreenIcon>
+        <Content>
+          <Header>
+            <ScreenIcon />
 
-          <ScreenName
-            placeholder="Unnamed screen"
-            defaultValue={screen.name}
-            innerRef={ref => this._name = ref}
-          />
-
-          <IconMenu
-            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            style={{padding: '0 10px'}}
-          >
-            <MenuItem
-              primaryText="Save screen"
-              style={{fontSize: 14}}
-              leftIcon={<SaveIcon />}
+            <ScreenName
+              placeholder="Unnamed screen"
+              defaultValue={screen.name}
+              innerRef={ref => this._name = ref}
             />
-            <MenuItem
-              primaryText="Create alert"
-              style={{fontSize: 14}}
-              leftIcon={<AddAlertIcon />}
+
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Create alert"
+              style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
+              iconStyle={{width: 20, height: 20, fontSize: 20}}
+            >
+              add_alert
+            </IconButton>
+
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Save screen"
+              style={{width: 40, height: 40, padding: 10, marginRight: 20}}
+              iconStyle={{width: 20, height: 20, fontSize: 20}}
+            >
+              playlist_add
+            </IconButton>
+
+            <RaisedButton
+              label="Run Screen"
+              primary={true}
+              onClick={this.handleSearch}
+              style={{lineHeight: '24px'}}
+              icon={<ArrowIcon>play_arrow</ArrowIcon>}
             />
-          </IconMenu>
+          </Header>
 
-          <RaisedButton
-            label="Run Screen"
-            primary={true}
-            onClick={this.handleSearch}
-            style={{lineHeight: '24px'}}
-            icon={<ArrowIcon>play_arrow</ArrowIcon>}
-          />
-        </Header>
+          <Form>
+            <ColumnGroup>
+              <Column>
+                <ColumnTitle>Timeframe</ColumnTitle>
 
-        <Form>
-          <ColumnGroup>
-            <Column>
-              <ColumnTitle>Timeframe</ColumnTitle>
+                <RadioButtonGroup
+                  name="timeframe"
+                  defaultSelected={screen.timeframe}
+                  onChange={(t, v) => this.handleChange('timeframe', v)}
+                >
+                  {Lodash.map(Timeframes, (timeframe, key) =>
+                    <RadioButton
+                      key={key}
+                      value={key}
+                      label={timeframe.name}
+                      labelStyle={labelStyle}
+                    />
+                  )}
+                </RadioButtonGroup>
+              </Column>
 
-              <RadioButtonGroup
-                name="timeframe"
-                defaultSelected={screen.timeframe}
-                onChange={(t, v) => this.handleChange('timeframe', v)}
-              >
-                {Lodash.map(Timeframes, (timeframe, key) =>
-                  <RadioButton
-                    key={key}
-                    value={key}
-                    label={timeframe.name}
-                    labelStyle={labelStyle}
-                  />
-                )}
-              </RadioButtonGroup>
-            </Column>
+              <Column>
+                <ColumnTitle>Exchanges</ColumnTitle>
 
-            <Column>
-              <ColumnTitle>Exchanges</ColumnTitle>
+                <div>
+                  {Lodash.map(Exchanges, (exchange, key) =>
+                    <Checkbox
+                      key={key}
+                      label={exchange.name}
+                      disabled={exchange.status === 1}
+                      checked={Lodash.includes(screen.exchanges, key)}
+                      onCheck={(t, checked) => this.handleChange('exchanges',
+                        Lodash.uniq(
+                          checked ?
+                            Lodash.concat(screen.exchanges, key) :
+                            Lodash.without(screen.exchanges, key)
+                        )
+                      )}
+                      labelStyle={labelStyle}
+                    />
+                  )}
+                </div>
+              </Column>
 
-              <div>
-                {Lodash.map(Exchanges, (exchange, key) =>
-                  <Checkbox
-                    key={key}
-                    label={exchange.name}
-                    disabled={exchange.status === 1}
-                    checked={Lodash.includes(screen.exchanges, key)}
-                    onCheck={(t, checked) => this.handleChange('exchanges',
-                      Lodash.uniq(
-                        checked ?
-                          Lodash.concat(screen.exchanges, key) :
-                          Lodash.without(screen.exchanges, key)
-                      )
-                    )}
-                    labelStyle={labelStyle}
-                  />
-                )}
-              </div>
-            </Column>
+              <Column>
+                <ColumnTitle>Quote assets</ColumnTitle>
 
-            <Column>
-              <ColumnTitle>Quote assets</ColumnTitle>
+                <div>
+                  {Lodash.map(QuoteAssets, (quoteAsset, key) =>
+                    <Checkbox
+                      key={key}
+                      label={quoteAsset.name}
+                      disabled={quoteAsset.status === 1}
+                      checked={Lodash.includes(screen.quoteAssets, key)}
+                      onCheck={(t, checked) => this.handleChange('quoteAssets',
+                        Lodash.uniq(
+                          checked ?
+                            Lodash.concat(screen.quoteAssets, key) :
+                            Lodash.without(screen.quoteAssets, key)
+                        )
+                      )}
+                      labelStyle={labelStyle}
+                    />
+                  )}
+                </div>
 
-              <div>
-                {Lodash.map(QuoteAssets, (quoteAsset, key) =>
-                  <Checkbox
-                    key={key}
-                    label={quoteAsset.name}
-                    disabled={quoteAsset.status === 1}
-                    checked={Lodash.includes(screen.quoteAssets, key)}
-                    onCheck={(t, checked) => this.handleChange('quoteAssets',
-                      Lodash.uniq(
-                        checked ?
-                          Lodash.concat(screen.quoteAssets, key) :
-                          Lodash.without(screen.quoteAssets, key)
-                      )
-                    )}
-                    labelStyle={labelStyle}
-                  />
-                )}
-              </div>
+                <ColumnTitle style={{marginTop: 36}}>
+                  Analysis range
+                </ColumnTitle>
 
-              <ColumnTitle style={{marginTop: 36}}>
-                Analysis range
-              </ColumnTitle>
+                <div>
+                  <Text>The algorithm will analyze the last <b>{screen.range}</b> candlesticks of each symbol.</Text>
 
-              <div>
-                <Text>The algorithm will analyze the last <b>{screen.range}</b> candlesticks of each symbol.</Text>
+                  <SliderContainer>
+                    <Text style={{marginRight: 10}}>30</Text>
 
-                <SliderContainer>
-                  <Text style={{marginRight: 10}}>30</Text>
+                    <Slider
+                      value={screen.range}
+                      min={30}
+                      max={100}
+                      step={1}
+                      onChange={(a, v) => this.handleChange('range', v)}
+                      sliderStyle={{margin: 0}}
+                      style={{flexGrow: 100}}
+                    />
 
-                  <Slider
-                    value={screen.range}
-                    min={30}
-                    max={100}
-                    step={1}
-                    onChange={(a, v) => this.handleChange('range', v)}
-                    sliderStyle={{margin: 0}}
-                    style={{flexGrow: 100}}
-                  />
+                    <Text style={{marginLeft: 10}}>100</Text>
+                  </SliderContainer>
+                </div>
+              </Column>
+            </ColumnGroup>
 
-                  <Text style={{marginLeft: 10}}>100</Text>
-                </SliderContainer>
-              </div>
-            </Column>
-          </ColumnGroup>
-
-          <Tabs
-            screen={screen}
-            handleChange={this.handleChange}
-          />
-        </Form>
+            <Tabs
+              screen={screen}
+              handleChange={this.handleChange}
+            />
+          </Form>
+        </Content>
       </Screen>
     );
   }

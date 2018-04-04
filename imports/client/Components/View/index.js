@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 
 import Spinner from '/imports/client/Components/Reusable/Spinner';
 import IllustrateChartPattern from '/imports/client/Components/Reusable/IllustrateChartPattern';
+import ScreenIcon from '/imports/client/Components/Reusable/ScreenIcon';
 
 import Table from './Table';
 import Grid from './Grid';
@@ -18,8 +19,6 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 
 import {
   RaisedButton,
-  IconMenu,
-  MenuItem,
   IconButton,
   Paper,
 } from 'material-ui';
@@ -30,12 +29,16 @@ import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
 
 // Styled components
 
-const Results = Styled.section`
+const View = Styled.section`
   width: 100%;
   min-height: 100vh;
-  position: relative;
   box-sizing: border-box;
   padding: 30px ${config.padding.horizontal};
+`;
+
+const Results = Styled.section`
+  position: relative;
+  min-height: 250px;
 `;
 
 const Screen = Styled(Paper)`
@@ -146,47 +149,32 @@ class ViewComponent extends Component {
     } = this.state;
 
     return (
-      <Results>
+      <View>
         <Screen>
           <Header>
-            <svg height="36" width="50" style={{marginRight: 20}}>
-              <rect
-                width="50"
-                height="35"
-                strokeWidth="2"
-                stroke="#888"
-                fill="#f8f8f8"
-              />
-
-              <path
-                d="M 10 30 L 15.5 22 L 21 26 L 26.5 14 L 32.5 19 L 40 8"
-                stroke={config.colors.secondary}
-                strokeWidth="2"
-                fill="none"
-              />
-            </svg>
+            <ScreenIcon />
 
             <ScreenName>
               {screen.name ? screen.name : <span>Unnamed screen</span>}
             </ScreenName>
 
-            <IconMenu
-              iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              style={{padding: '0 10px'}}
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Create alert"
+              style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
+              iconStyle={{width: 20, height: 20, fontSize: 20}}
             >
-              <MenuItem
-                primaryText="Save screen"
-                style={{fontSize: 14}}
-                leftIcon={<SaveIcon />}
-              />
-              <MenuItem
-                primaryText="Create alert"
-                style={{fontSize: 14}}
-                leftIcon={<AddAlertIcon />}
-              />
-            </IconMenu>
+              add_alert
+            </IconButton>
+
+            <IconButton
+              iconClassName="material-icons"
+              tooltip="Save screen"
+              style={{width: 40, height: 40, padding: 10, marginRight: 20}}
+              iconStyle={{width: 20, height: 20, fontSize: 20}}
+            >
+              playlist_add
+            </IconButton>
 
             <RaisedButton
               label="Edit Screen"
@@ -243,14 +231,16 @@ class ViewComponent extends Component {
           </Controller>
         </Screen>
 
-        {loading ?
-          <Spinner /> :
+        <Results>
+          {loading ?
+            <Spinner /> :
 
-          viewType === 'grid' ?
-            <Grid matches={matches} timeframe={screen.timeframe} /> :
-            <Table matches={matches} timeframe={screen.timeframe} />
-        }
-      </Results>
+            viewType === 'grid' ?
+              <Grid matches={matches} timeframe={screen.timeframe} /> :
+              <Table matches={matches} timeframe={screen.timeframe} />
+          }
+        </Results>
+      </View>
     );
   }
 
