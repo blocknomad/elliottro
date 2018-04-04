@@ -61,8 +61,8 @@ export default function fetchKlinesBinance(timeframe) {
         data,
         ({ symbol, baseAsset, quoteAsset }) =>
           new Promise(resolve => {
-            
-            let query = `symbol=${symbol}&interval=${Timeframes[timeframe].value}&limit=40`;
+
+            let query = `symbol=${symbol}&interval=${Timeframes[timeframe].value}&limit=100`;
 
             const currentKlines = Lodash.get(BinanceSymbols[symbol], 'klines');
 
@@ -105,7 +105,7 @@ export default function fetchKlinesBinance(timeframe) {
 
       data.forEach(({ symbol, baseAsset, quoteAsset, klines }) => {
         if (BinanceSymbols[symbol]) {
-          klines = (BinanceSymbols[symbol].klines.concat(treatKlines(klines))).slice(-40);
+          klines = (BinanceSymbols[symbol].klines.concat(treatKlines(klines))).slice(-100);
 
           Symbols.update(
             BinanceSymbols[symbol]._id,

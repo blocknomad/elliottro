@@ -11,7 +11,7 @@ const animationDuration = .9;
 
 const Transition = keyframes`
   0% { background-color: ${config.colors.primary} }
-  33% { background-color: ${config.colors.primary} }
+  28% { background-color: ${config.colors.primary} }
   33.33% { background-color: ${initialColor} }
 `
 
@@ -19,7 +19,10 @@ const Spinner = Styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 10%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
 `
 
 const Dot = Styled.div`

@@ -1,5 +1,7 @@
 import Lodash from 'lodash';
 
+import config from '/imports/client/config';
+
 export default function drawPatternWindow(
   context,
   klineWidth,
@@ -29,7 +31,7 @@ export default function drawPatternWindow(
   const yOffset = (windowTop - highInWindow.high) * ratio - klineWidth;
   const height = (highInWindow.high - lowInWindow.low) * ratio + klineWidth * 2;
 
-  context.fillStyle = 'rgba(129,212,250, .25)';
+  context.fillStyle = 'rgba(0, 179, 188, .15)';
   context.fillRect(
     xOffset,
     Lodash.clamp(yOffset, 0, canvasHeight),

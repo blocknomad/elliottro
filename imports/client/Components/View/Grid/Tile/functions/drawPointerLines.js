@@ -72,7 +72,7 @@ export default function drawPointerLines(
     context.fillStyle = markerTextColor;
 
     const yText = (windowTop - y / ratio).toFixed(8);
-    context.fillText(yText, klinesWidth + 11, rectYOffset + boxHeight / 2);
+    context.fillText(yText, klinesWidth + 10, rectYOffset + boxHeight / 2);
 
     // horizontal marker
     let xText = formatDate(kline.openTime, timeframe);

@@ -8,22 +8,13 @@ html, body {
   min-width: 1000px;
   font-family: 'Lato', 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-color: #f2f2f5;
 }
 
 h1, h2, h3, h4, h5, h6, p, input {
   margin: 0;
 }
 
-select {
-  background: #FFF;
-  border: 1px solid #ECEFF1;
-  padding: 7px;
-  font-size: 13px;
-  color: #555;
-}
-
-input[type="checkbox"],
-select,
-label {
-  cursor: pointer;
+input {
+  font-family: 'Lato';
 }

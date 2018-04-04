@@ -1,7 +1,7 @@
 
 /**
 
-	@method searchPattern
+	@method screen
 
 	 Scans all listed symbols and tries to match the selected pattern in the chosen timeframe
 
@@ -9,12 +9,13 @@
 	Parameters:
 
 		filters: Object
-			exchanges
-			quoteAssets
-			patterns
-
-		timeframe: String
-
+			timeframe: String
+			exchanges: String
+			quoteAssets: String
+			range: Number
+			chart: Object
+				pattern: String
+				type: String
 
 **/
 
@@ -33,8 +34,7 @@ import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
-	searchPattern(filters) {
-
+	screen({ timeframe, exchanges, quoteAssets, range, chart}) {
 		// Create instance of DTW class
 
 		const DTW = new dtw();
@@ -43,14 +43,14 @@ Meteor.methods({
 		// Fetch symbols
 
 		const data = Symbols.find({
-			timeframe: filters.timeframe,
-			exchange: { $in: filters.exchanges },
-			quoteAsset: { $in: filters.quoteAssets },
+			timeframe,
+			exchange: { $in: exchanges },
+			quoteAsset: { $in: quoteAssets },
 		}).fetch();
 
 		// Get selected pattern
 
-		const pattern = Patterns[filters.pattern];
+		const pattern = Patterns[chart.type][chart.pattern];
 
 
 		// Variable to measure processing time
@@ -69,15 +69,19 @@ Meteor.methods({
 			quoteAsset,
 			baseAsset,
 			exchange,
-			klines
+			klines,
 		}) => {
+
+			// Slice klines range
+
+			klines = klines.slice(-range);
 
 			// Prepare input series
 
 			const input = prepareInput(klines);
 
 
-			// Intialize match variable
+			// Initialize match variable
 
 			const match = {
 		    cost: Number.POSITIVE_INFINITY,
@@ -136,11 +140,11 @@ Meteor.methods({
 						match.cost = cost;
 						match.start = klines[wStart].closeTime + 1000;
 						match.end = klines[wEnd].openTime;
-						//match.klines = klines;
-						match.klines = Lodash.slice(
+						match.klines = klines;
+						/*match.klines = Lodash.slice(
 							klines,
 							Lodash.clamp(wStart - 4, 0, wStart)
-						);
+						);*/
 			    }
 			  }
 			}

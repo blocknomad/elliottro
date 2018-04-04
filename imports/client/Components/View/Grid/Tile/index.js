@@ -11,27 +11,31 @@ import drawPointerLines from './functions/drawPointerLines';
 import removePointerLines from './functions/removePointerLines';
 import formatDate from './../../functions/formatDate';
 
+import {
+  Paper,
+  IconButton,
+} from 'material-ui';
+
 // Styled components
 
-const Tile = Styled.article`
+const Tile = Styled(Paper)`
   box-sizing: border-box;
   background-color: #fff;
-  padding-top: 15px;
-  border-top: 1px solid #ccc;
   display: inline-block;
-  width: calc(50% - ${config.padding.horizontal} / 2);
-  margin-bottom: ${config.padding.horizontal};
+  width: calc(50% - 5px);
+  margin-bottom: 10px;
+  padding: 20px;
 
   &:nth-child(odd) {
-    margin-right: ${config.padding.horizontal};
+    margin-right: 10px;
   }
 `;
 
 const Chart = Styled.div`
   position: relative;
   width: 100%;
-  border: 1px solid ${config.colors.border};
   box-sizing: border-box;
+  border-bottom: 1px solid #ddd;
 `;
 
 const Canvas = Styled.canvas`
@@ -40,8 +44,21 @@ const Canvas = Styled.canvas`
   left: 0;
 `;
 
-const Header = Styled.div`
-  margin-bottom: 18px;
+const Information = Styled.div`
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+`;
+
+const Title = Styled.div`
+  flex-grow: 100;
+
+  h3 {
+    color: ${config.colors.text};
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
 
   p {
     margin-top: 4px;
@@ -50,25 +67,6 @@ const Header = Styled.div`
   }
 `;
 
-const Title = Styled.div`
-  display: flex;
-  align-items: center;
-
-  h3 {
-    color: ${config.colors.text};
-    font-size: 14px;
-    flex-grow: 100;
-    text-transform: uppercase;
-  }
-`;
-
-const Visit = Styled.a`
-  i {
-    color: ${config.colors.icon};
-    font-size: 17px;
-  }
-`
-
 
 export default class GridTileComponent extends Component {
   constructor(props) {
@@ -76,21 +74,19 @@ export default class GridTileComponent extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      timeframe,
-    } = this.props;
-
-    this.drawChart(match, timeframe);
-    window.addEventListener('resize',
-      () => this.drawChart(match, timeframe));
+    this.drawChart();
+    //window.addEventListener('resize', () => this.drawChart(match, timeframe));
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.drawChart);
+    //window.removeEventListener('resize', this.drawChart);
+    this.pointerLines.removeEventListener('mousemove', this.handleMouseMove);
+    this.pointerLines.removeEventListener('mouseout', this.handleMouseOut);
   }
 
-  drawChart(match, timeframe) {
+  drawChart() {
+    const { match, timeframe } = this.props;
+
     const maxInWindow = Lodash.maxBy(match.klines, 'high');
     const minInWindow = Lodash.minBy(match.klines, 'low');
 
@@ -99,11 +95,11 @@ export default class GridTileComponent extends Component {
     const windowTop = maxInWindow.high * 1.007;
     const windowBottom = minInWindow.low - (minInWindow.low % verticalStepper);
 
-    const labelsWidth = 67;
-    const labelsHeight = 20;
+    const labelsWidth = 65;
+    const labelsHeight = 24;
 
     const chartWidth = this.gridLines.parentElement.scrollWidth;
-    const chartHeight = chartWidth * .4;
+    const chartHeight = chartWidth * .45;
 
     this.gridLines.parentElement.style.height = `${chartHeight}px`;
 
@@ -143,7 +139,7 @@ export default class GridTileComponent extends Component {
       windowBottom
     );
 
-    this.pointerLines.addEventListener('mousemove', event =>
+    this.handleMouseMove = event => {
       drawPointerLines(
         this.pointerLines,
         event,
@@ -154,12 +150,15 @@ export default class GridTileComponent extends Component {
         this.klines.width,
         this.klines.height,
         windowTop
-      )
-    );
+      );
+    };
 
-    this.pointerLines.addEventListener('mouseout', event =>
-      removePointerLines(this.pointerLines)
-    );
+    this.handleMouseOut = event => {
+      removePointerLines(this.pointerLines);
+    };
+
+    this.pointerLines.addEventListener('mousemove', this.handleMouseMove);
+    this.pointerLines.addEventListener('mouseout', this.handleMouseOut);
   }
 
   render() {
@@ -170,30 +169,30 @@ export default class GridTileComponent extends Component {
 
     return (
       <Tile>
-        <Header>
-          <Title>
-            <h3>{Exchanges[match.exchange].name}:{match.baseAsset}{match.quoteAsset}</h3>
-
-            <Visit
-              title="Access this symbol on exchange"
-              href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
-              target="_blank"
-            >
-              <i className="material-icons">launch</i>
-            </Visit>
-          </Title>
-
-          <p>
-            {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}
-          </p>
-        </Header>
-
-
         <Chart>
           <Canvas innerRef={ref => this.gridLines = ref} />
           <Canvas innerRef={ref => this.klines = ref} />
           <Canvas innerRef={ref => this.pointerLines = ref} />
         </Chart>
+
+        <Information>
+          <Title>
+            <h3>{Exchanges[match.exchange].name}:{match.baseAsset}{match.quoteAsset}</h3>
+
+            <p>
+              {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}
+            </p>
+          </Title>
+
+          <IconButton
+            tooltip="Access this symbol on exchange"
+            href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
+            target="_blank"
+            iconClassName="material-icons"
+          >
+            launch
+          </IconButton>
+        </Information>
       </Tile>
     );
   }

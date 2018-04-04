@@ -19,14 +19,6 @@ export default {
     name: '4 hours',
     value: '4h',
   },
-  H6: {
-    name: '6 hours',
-    value: '6h',
-  },
-  H8: {
-    name: '8 hours',
-    value: '8h',
-  },
   H12: {
     name: '12 hours',
     value: '12h',

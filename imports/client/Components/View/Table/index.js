@@ -4,10 +4,9 @@ import Lodash from 'lodash';
 
 import config from '/imports/client/config';
 
-import Patterns from '/imports/both/fixtures/patterns';
 import Exchanges from '/imports/both/fixtures/exchanges';
 
-import formatDate from './functions/formatDate';
+import formatDate from '../functions/formatDate';
 
 // Styled components
 
@@ -15,24 +14,27 @@ const Table = Styled.table`
   width: 100%;
   background-color: #FFF;
   animation: ${config.animations.fadeIn};
-  margin-bottom: 20px;
+  padding: 25px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  color: ${config.colors.text};
 
   th {
     text-align: left;
     font-size: 13px;
     font-weight: 600;
-    color: ${config.colors.text};
   }
 
   td {
     font-size: 13px;
     padding: 10px 0;
-    color: ${config.colors.textLighter};
-    border-bottom: 1px solid ${config.colors.border};
 
     &:last-child {
       padding: 0 0 0 15px;
     }
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: 1px solid ${config.colors.border};
   }
 
   th:first-child,
@@ -51,7 +53,7 @@ const Table = Styled.table`
 
 const Visit = Styled.a`
   i {
-    color: ${config.colors.icon};
+    color: ${config.colors.text};
     font-size: 17px;
     vertical-align: top;
   }

@@ -10,17 +10,18 @@ const fadeIn = keyframes`
 
 export default {
   colors: {
-    primary: '#00bbc9',
+    primary: '#00b0bb',
+    primaryLighter: '#00bbc9',
     primaryContrast: '#fff',
-    secondary: '#f8f8f8',
+    secondary: '#FFA000',
     secondaryContrast: '#37474F',
-    border: '#ECEFF1',
-    text: '#333',
-    textLighter: '#555',
+    border: '#eee',
+    text: '#4a4a4a',
+    textLighter: '#adaeb0',
     icon: '#666',
   },
   padding: {
-    horizontal: '3vw',
+    horizontal: '12%',
   },
   animations: {
     fadeIn: `${fadeIn} .2s`,
