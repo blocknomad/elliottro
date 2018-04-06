@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.36",
+    "bcrypt": "^1.0.3",
     "binance": "^1.3.3",
     "dtw": "0.0.3",
     "lodash": "^4.17.5",

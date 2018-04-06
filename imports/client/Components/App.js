@@ -11,6 +11,8 @@ import Alerts from './Alerts';
 import Home from './Home';
 import Screen from './Screen';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Terms from './Terms';
 import View from './View';
 
 import config from '/imports/client/config';
@@ -58,6 +60,8 @@ export default class AppComponent extends Component {
             <Page path="/screen" component={Screen} />
             <Page path="/view" component={View} />
             <Page path="/signin" component={SignIn} blank />
+            <Page path="/signup" component={SignUp} blank />
+            <Page path="/terms" component={Terms} blank />
           </Switch>
         </MuiThemeProvider>
       </Router>

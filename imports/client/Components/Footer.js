@@ -22,8 +22,7 @@ const About = Styled.div`
 
   img {
     margin-bottom: 20px;
-    width: 112px;
-    height: 20.25px;
+    width: 100px;
   }
 
   p {
