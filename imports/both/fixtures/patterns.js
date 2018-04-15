@@ -38,7 +38,7 @@ export default {
 
     FWD: {
       name: 'Falling Wedge in Downtrend',
-      acronym: 'FWU',
+      acronym: 'FWD',
       status: 1,
     },
 

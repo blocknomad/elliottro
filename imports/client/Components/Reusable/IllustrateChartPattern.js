@@ -2,14 +2,20 @@ import React from 'react';
 
 import config from '/imports/client/config';
 
-export default function Illustrate(name, width = 72, height = 60) {
+export default function Illustrate(
+  name,
+  {
+    width = 72,
+    height = 60,
+    primary = config.colors.secondary,
+    secondary = config.colors.primary,
+    props = {},
+  } = {}
+) {
 
   // padding + offset inside canvas
   const x = (n, t) => n / points[t].x * width;
   const y = (n, t) => height - n / points[t].y * height;
-
-  const primary = config.colors.secondary;
-  const secondary = config.colors.primary;
 
   const strokeWidth = 2;
 
@@ -931,7 +937,7 @@ export default function Illustrate(name, width = 72, height = 60) {
   }
 
   return (
-    <svg width={width} height={height}>
+    <svg {...props} width={width} height={height}>
       {illustrations[name]}
     </svg>
   )

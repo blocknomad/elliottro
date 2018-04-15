@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 
 import Spinner from '/imports/client/Components/Reusable/Spinner';
 import IllustrateChartPattern from '/imports/client/Components/Reusable/IllustrateChartPattern';
-import ScreenIcon from '/imports/client/Components/Reusable/ScreenIcon';
 
 import Table from './Table';
 import Grid from './Grid';
@@ -41,12 +40,15 @@ const Results = Styled.section`
   min-height: 250px;
 `;
 
-const Screen = Styled(Paper)`
+const Screen = Styled.div`
   width: 100%;
   padding: 20px 20px 10px;
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
   margin-bottom: 15px;
+  border: 1px solid ${config.colors.border};
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 const Header = Styled.div`
@@ -61,7 +63,7 @@ const Header = Styled.div`
 const ScreenName = Styled.div`
   font-size: 22px;
   flex-grow: 100;
-  padding: 8px;
+  padding: 8px 0;
   color: ${config.colors.text};
 
   span {
@@ -152,8 +154,6 @@ class ViewComponent extends Component {
       <View>
         <Screen>
           <Header>
-            <ScreenIcon />
-
             <ScreenName>
               {screen.name ? screen.name : <span>Unnamed screen</span>}
             </ScreenName>

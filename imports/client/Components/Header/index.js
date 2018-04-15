@@ -4,6 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 
 import config from '/imports/client/config';
 
+import UserWidget from './UserWidget';
+
 import {
   FlatButton,
   RaisedButton,
@@ -81,18 +83,6 @@ const Search = Styled.div`
   }
 `;
 
-const SignIn = Styled(Link)`
-  color: #FFF;
-  font-size: 14px;
-  text-transform: uppercase;
-  line-height: 1;
-  margin-left: 30px;
-  text-decoration: none;
-
-  &:hover {
-  }
-`;
-
 const Menu = Styled.div`
   display: flex;
   padding: 0 calc(${config.padding.horizontal} - 20px);
@@ -153,9 +143,7 @@ export default class HeaderComponent extends Component {
             <input placeholder="Search for symbols" />
           </Search>
 
-          <SignIn to="/signin">
-            Sign in
-          </SignIn>
+          <UserWidget />
         </Brand>
 
         <Menu>

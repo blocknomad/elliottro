@@ -84,7 +84,7 @@ export default class ChartPatternComponent extends Component {
               }
               title={`${pattern.name}${pattern.status === 1 ? ' (not yet available)' : ''}`}
             >
-              {Illustrate(pattern.acronym, 120 * 0.4, 100 * .4)}
+              {Illustrate(pattern.acronym, { width: 120 * 0.4, height: 100 * .4 })}
             </GridItem>
           )}
         </GridItems>
