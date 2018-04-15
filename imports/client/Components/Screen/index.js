@@ -3,7 +3,6 @@ import Styled from 'styled-components';
 import Lodash from 'lodash';
 import { withRouter } from 'react-router';
 
-import ScreenIcon from '/imports/client/Components/Reusable/ScreenIcon';
 import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
 import Text from '/imports/client/Components/Reusable/Text';
 import config from '/imports/client/config';
@@ -34,7 +33,9 @@ const Screen = Styled.section`
 `;
 
 const Content = Styled.div`
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border: 1px solid ${config.colors.border};
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 const Header = Styled.div`
@@ -54,17 +55,16 @@ const Header = Styled.div`
 const ScreenName = Styled.input`
   font-size: 22px;
   flex-grow: 100;
-  padding: 8px;
+  padding: 8px 0;
   color: ${config.colors.text};
   border: 1px solid transparent;
 
   &:hover {
-    border-color: #ddd;
+    border-color: ${config.colors.border};
   }
 
   &:focus {
-    border-color: transparent;
-    background-color: #f6f6f6;
+    border-color: #ddd;
     outline: none;
   }
 
@@ -152,8 +152,6 @@ class ScreenComponent extends Component {
       <Screen>
         <Content>
           <Header>
-            <ScreenIcon />
-
             <ScreenName
               placeholder="Unnamed screen"
               defaultValue={screen.name}

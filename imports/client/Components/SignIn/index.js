@@ -121,7 +121,7 @@ class SignInComponent extends Component {
 
           <Links>
             <p>Need an account? Click to <Link to="/signup">sign up.</Link></p>
-            <p><Link to="/reset-password">Forgot your password?</Link></p>
+            <p><Link to="/forgot-password">Forgot your password?</Link></p>
           </Links>
         </Panel>
       </SignIn>

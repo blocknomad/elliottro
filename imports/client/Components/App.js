@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import Styled from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import Header from './Header';
 import Footer from './Footer';
 
 import Alerts from './Alerts';
+import ForgotPassword from './ForgotPassword';
 import Home from './Home';
+import ResetPassword from './ResetPassword';
 import Screen from './Screen';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -36,8 +39,30 @@ const App = Styled.section`
 
 // Page component
 
-const Page = ({ component: Component, blank, ...props }) => (
-  <Route {...props} render={renderProps => (
+const Page = ({
+  component: Component,
+  blank,
+  onlyLoggedOut = false,
+  onlyLoggedIn = false,
+  ...props
+}) =>
+
+  <Route {...props} render={renderProps => {
+    // if the route is limited for logged out users and there's a logged in user, redirect
+    // if the route is limited for logged in users and there's a logged out user, redirect
+
+    const isLoggedIn = Meteor.user() || Meteor.loggingIn();
+
+    if (
+      (onlyLoggedOut && isLoggedIn) ||
+      (onlyLoggedIn && isLoggedIn === false)
+    ) {
+     return <Redirect to="/" />;
+    }
+
+    // otherwise, act naturally
+
+    return (
       <App>
         {!blank && <Header />}
 
@@ -45,9 +70,8 @@ const Page = ({ component: Component, blank, ...props }) => (
 
         {!blank && <Footer />}
       </App>
-    )}
-  />
-);
+    )
+  }} />
 
 export default class AppComponent extends Component {
   render() {
@@ -59,8 +83,10 @@ export default class AppComponent extends Component {
             <Page path="/alerts" component={Alerts} />
             <Page path="/screen" component={Screen} />
             <Page path="/view" component={View} />
-            <Page path="/signin" component={SignIn} blank />
-            <Page path="/signup" component={SignUp} blank />
+            <Page path="/signin" component={SignIn} onlyLoggedOut blank />
+            <Page path="/signup" component={SignUp} onlyLoggedOut blank />
+            <Page path="/forgot-password" component={ForgotPassword} onlyLoggedOut blank />
+            <Page path="/reset-password/:token" component={ResetPassword} onlyLoggedOut blank />
             <Page path="/terms" component={Terms} blank />
           </Switch>
         </MuiThemeProvider>

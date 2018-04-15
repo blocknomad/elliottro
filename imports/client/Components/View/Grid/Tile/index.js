@@ -18,13 +18,16 @@ import {
 
 // Styled components
 
-const Tile = Styled(Paper)`
+const Tile = Styled.div`
   box-sizing: border-box;
   background-color: #fff;
   display: inline-block;
   width: calc(50% - 5px);
   margin-bottom: 10px;
   padding: 20px;
+  border: 1px solid ${config.colors.border};
+  border-radius: 12px;
+  overflow: hidden;
 
   &:nth-child(odd) {
     margin-right: 10px;

@@ -16,7 +16,7 @@ export default {
     secondary: '#FFA000',
     secondaryContrast: '#37474F',
     border: '#eee',
-    text: '#4a4a4a',
+    text: 'rgba(0, 0, 0, 0.87)',
     textLighter: '#adaeb0',
     icon: '#666',
   },
@@ -25,5 +25,8 @@ export default {
   },
   animations: {
     fadeIn: `${fadeIn} .2s`,
+  },
+  shadow: {
+    normal: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
   },
 };
