@@ -48,4 +48,4 @@ const SymbolSchema = new SimpleSchema({
 
 Symbols.attachSchema(SymbolSchema);
 
-export default Symbols
+export default Symbols;

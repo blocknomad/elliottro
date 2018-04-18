@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink } from 'react-router-dom';
 
 import config from '/imports/client/config';
 
@@ -24,7 +24,7 @@ const Header = Styled.header`
 const Brand = Styled.div`
   display: flex;
   align-items: center;
-  padding: 16px ${config.padding.horizontal};
+  padding: 16px ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
 `;
 
 const Logo = Styled.img`
@@ -85,12 +85,12 @@ const Search = Styled.div`
 
 const Menu = Styled.div`
   display: flex;
-  padding: 0 calc(${config.padding.horizontal} - 20px);
+  padding: 0 calc(${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal} - 20px);
   background-color: rgba(0, 0, 0, .06);
 
   a {
     display: block;
-    padding: 0 20px;
+    padding: 0 ${config.padding.horizontalMin};
     text-decoration: none;
 
     &:hover {
@@ -127,9 +127,11 @@ export default class HeaderComponent extends Component {
       return Boolean(match) || insideMatch;
     };
 
+    const { sidebar } = this.props;
+
     return (
       <Header>
-        <Brand>
+        <Brand sidebar={sidebar}>
           <Link to="/">
             <Logo src="/logo-brand.svg" />
           </Link>
@@ -146,7 +148,7 @@ export default class HeaderComponent extends Component {
           <UserWidget />
         </Brand>
 
-        <Menu>
+        <Menu sidebar={sidebar}>
           <NavLink
             to="/screen"
             isActive={(m, l) => insidePathnames(m, l, ['/view'])}

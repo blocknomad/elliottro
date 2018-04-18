@@ -32,7 +32,7 @@ const View = Styled.section`
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  padding: 30px ${config.padding.horizontal};
+  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
 `;
 
 const Results = Styled.section`
@@ -47,7 +47,6 @@ const Screen = Styled.div`
   background-color: ${config.colors.primaryContrast};
   margin-bottom: 15px;
   border: 1px solid ${config.colors.border};
-  border-radius: 12px;
   overflow: hidden;
 `;
 
@@ -151,7 +150,7 @@ class ViewComponent extends Component {
     } = this.state;
 
     return (
-      <View>
+      <View sidebar={this.props.sidebar}>
         <Screen>
           <Header>
             <ScreenName>
@@ -164,7 +163,7 @@ class ViewComponent extends Component {
               style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
               iconStyle={{width: 20, height: 20, fontSize: 20}}
             >
-              add_alert
+              add_alarm
             </IconButton>
 
             <IconButton

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import Styled from 'styled-components';
 import Lodash from 'lodash';
 import { withRouter } from 'react-router';
@@ -29,12 +30,11 @@ import {
 // Styled components
 
 const Screen = Styled.section`
-  padding: 30px ${config.padding.horizontal};
+  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
 `;
 
 const Content = Styled.div`
-  border: 1px solid ${config.colors.border};
-  border-radius: 12px;
+  border: 1px solid #ddd;
   overflow: hidden;
 `;
 
@@ -53,7 +53,8 @@ const Header = Styled.div`
 `;
 
 const ScreenName = Styled.input`
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 600;
   flex-grow: 100;
   padding: 8px 0;
   color: ${config.colors.text};
@@ -138,6 +139,8 @@ class ScreenComponent extends Component {
         indicators: [],
         price: {},
       },
+      saveDisabled: false,
+      createAlertDisabled: false,
     };
   }
 
@@ -149,13 +152,14 @@ class ScreenComponent extends Component {
     };
 
     return (
-      <Screen>
+      <Screen sidebar={this.props.sidebar}>
         <Content>
           <Header>
             <ScreenName
               placeholder="Unnamed screen"
               defaultValue={screen.name}
               innerRef={ref => this._name = ref}
+              onChange={this.handleChange}
             />
 
             <IconButton
@@ -163,8 +167,9 @@ class ScreenComponent extends Component {
               tooltip="Create alert"
               style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
               iconStyle={{width: 20, height: 20, fontSize: 20}}
+              disabled={this.state.createAlertDisabled}
             >
-              add_alert
+              add_alarm
             </IconButton>
 
             <IconButton
@@ -172,6 +177,8 @@ class ScreenComponent extends Component {
               tooltip="Save screen"
               style={{width: 40, height: 40, padding: 10, marginRight: 20}}
               iconStyle={{width: 20, height: 20, fontSize: 20}}
+              disabled={this.state.saveDisabled}
+              onClick={this.handleSave}
             >
               playlist_add
             </IconButton>
@@ -179,7 +186,7 @@ class ScreenComponent extends Component {
             <RaisedButton
               label="Run Screen"
               primary={true}
-              onClick={this.handleSearch}
+              onClick={this.handleRun}
               style={{lineHeight: '24px'}}
               icon={<ArrowIcon>play_arrow</ArrowIcon>}
             />
@@ -288,15 +295,19 @@ class ScreenComponent extends Component {
   }
 
   handleChange = (name, value) => {
-    this.setState({
-      screen: {
-        ...this.state.screen,
-        [name]: value
-      }
-    });
+    if (name) {
+      this.setState({
+        screen: {
+          ...this.state.screen,
+          [name]: value
+        }
+      });
+    }
+
+    this.setState({ saveDisabled: false });
   }
 
-  handleSearch = () => {
+  handleRun = () => {
     const { screen } = this.state;
 
     let query = '';
@@ -312,6 +323,25 @@ class ScreenComponent extends Component {
     }
 
     this.props.history.push(`/view/?${query}`);
+  }
+
+  handleSave = () => {
+    this.setState({ saveDisabled: true });
+console.log(this._name.value)
+    const screen = {
+      name: this._name.value,
+      slug: this.props.match.params.slug,
+      ...this.state.screen,
+    };
+
+    Meteor.call('screen/save', screen, (error, returnScreen) => {
+      this.props.history.replace(`/screen/${returnScreen.slug}`);
+      this.setState({ screen: returnScreen });
+
+      if (Lodash.isEmpty(screen.name)) {
+        this._name.value = returnScreen.name;
+      }
+    });
   }
 };
 

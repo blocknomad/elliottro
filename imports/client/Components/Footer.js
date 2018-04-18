@@ -9,7 +9,7 @@ import config from '/imports/client/config';
 const color = '#acadaf';
 
 const Footer = Styled.section`
-  padding: 4vh ${config.padding.horizontal};
+  padding: 4vh ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
   background-color: ${config.colors.primaryContrast};
   background-color: #2f2e3c;
 `
@@ -49,7 +49,7 @@ const Copyright = Styled.div`
 export default class FooterComponent extends Component {
   render() {
     return (
-      <Footer>
+      <Footer sidebar={this.props.sidebar}>
         <About>
           <img src="/logo-brand.svg" />
           <p>

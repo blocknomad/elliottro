@@ -26,7 +26,6 @@ const Tile = Styled.div`
   margin-bottom: 10px;
   padding: 20px;
   border: 1px solid ${config.colors.border};
-  border-radius: 12px;
   overflow: hidden;
 
   &:nth-child(odd) {

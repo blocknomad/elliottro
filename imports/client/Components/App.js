@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import Styled from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { Tracker } from 'meteor/tracker';
 
-import Header from './Header';
-import Footer from './Footer';
+import Page from './Page';
 
 import Alerts from './Alerts';
 import ForgotPassword from './ForgotPassword';
@@ -25,64 +24,27 @@ import config from '/imports/client/config';
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: config.colors.primary,
+    accent1Color: config.colors.accent,
     textColor: config.colors.text,
   },
 });
 
-
-// Styled components
-
-const App = Styled.section`
-  width: 100%;
-`;
-
-
-// Page component
-
-const Page = ({
-  component: Component,
-  blank,
-  onlyLoggedOut = false,
-  onlyLoggedIn = false,
-  ...props
-}) =>
-
-  <Route {...props} render={renderProps => {
-    // if the route is limited for logged out users and there's a logged in user, redirect
-    // if the route is limited for logged in users and there's a logged out user, redirect
-
-    const isLoggedIn = Meteor.user() || Meteor.loggingIn();
-
-    if (
-      (onlyLoggedOut && isLoggedIn) ||
-      (onlyLoggedIn && isLoggedIn === false)
-    ) {
-     return <Redirect to="/" />;
-    }
-
-    // otherwise, act naturally
-
-    return (
-      <App>
-        {!blank && <Header />}
-
-        <Component {...renderProps} />
-
-        {!blank && <Footer />}
-      </App>
-    )
-  }} />
-
 export default class AppComponent extends Component {
+  state = {
+    sidebar: true,
+  }
+
   render() {
+    const { sidebar } = this.state;
+
     return (
       <Router>
         <MuiThemeProvider muiTheme={muiTheme}>
           <Switch>
-            <Page exact path="/" component={Home} />
-            <Page path="/alerts" component={Alerts} />
-            <Page path="/screen" component={Screen} />
-            <Page path="/view" component={View} />
+            <Page exact path="/" component={Home} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
+            <Page path="/alerts" component={Alerts} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
+            <Page path="/screen/:slug?" component={Screen} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
+            <Page path="/view/:slug?" component={View} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
             <Page path="/signin" component={SignIn} onlyLoggedOut blank />
             <Page path="/signup" component={SignUp} onlyLoggedOut blank />
             <Page path="/forgot-password" component={ForgotPassword} onlyLoggedOut blank />
@@ -92,5 +54,9 @@ export default class AppComponent extends Component {
         </MuiThemeProvider>
       </Router>
     );
+  }
+
+  handleSideBarToggle = () => {
+    this.setState({ sidebar: !this.state.sidebar });
   }
 }

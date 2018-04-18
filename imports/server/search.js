@@ -29,8 +29,8 @@ import prepareInput from './functions/prepareInput';
 
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
-import Symbols from '/imports/both/collections/symbols';
 
+import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
