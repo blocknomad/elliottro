@@ -18,22 +18,10 @@ import {
 
 const UserWidget = Styled.div`
   margin-left: 30px;
-  width: 170px;
 `;
 
-const UserInfo = Styled.div`
-  height: 43px;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
+const User = Styled.div`
   cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, .06);
-  }
-`;
-
-const UserPic = Styled.div`
   height: 33px;
   width: 33px;
   border-radius: 50%;
@@ -41,32 +29,10 @@ const UserPic = Styled.div`
   text-transform: uppercase;
   font-weight: bold;
   background-color: ${config.colors.primaryLighter};
-  color: #FFF;
-  margin-right: 10px;
-  flex-shrink: 0;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const UserName = Styled.div`
-  color: #FFF;
-  font-size: 14px;
-  margin-right: 5px;
-  flex-grow: 100;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const Arrow = Styled.i.attrs({
-  className: 'material-icons'
-})`
-  color: #FFF;
-  flex-shrink: 0;
-  transition: .2s;
-
-  ${props => props.open && 'transform: rotate(180deg);'}
 `;
 
 const SignIn = Styled(Link)`
@@ -100,22 +66,12 @@ class UserWidgetComponent extends Component {
       </SignIn> :
 
       <UserWidget>
-        <UserInfo
+        <User
           innerRef={r => this.userInfo = r}
           onClick={this.handleClick}
         >
-          <UserPic>
-            {user.username.charAt(0)}
-          </UserPic>
-
-          <UserName>
-            {user.username}
-          </UserName>
-
-          <Arrow open={this.state.open}>
-            arrow_drop_down
-          </Arrow>
-        </UserInfo>
+          {user.username.charAt(0)}
+        </User>
 
         <Popover
           open={this.state.open}

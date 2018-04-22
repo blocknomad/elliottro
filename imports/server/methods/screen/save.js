@@ -18,13 +18,25 @@ Meteor.methods({
 	'screen/save'(screen) {
 		let id;
 
+		console.log(screen)
 		// if no name is sent, create one
 		if (Lodash.isEmpty(screen.name)) {
 			screen.name = `${screen.timeframe} / ${screen.exchanges.join(' ')} / ${screen.quoteAssets.join(' ')} / Last ${screen.range} candlesticks`;
 		}
 
-		// if slug is sent, try to update screen
-		if (screen.slug) {
+		console.log(screen)
+
+		// if slug is not sent, insert screen
+		if (Lodash.isEmpty(screen.slug)) {
+
+			// insert screen
+			id = Screens.insert({
+				...screen,
+				userId: this.userId,
+			});
+
+		// else try to update screen
+		} else {
 
 			// fetch screen from slug
 			const currentScreen = Screens.findOne({ slug: screen.slug });
@@ -41,13 +53,6 @@ Meteor.methods({
 				slug: screen.slug,
 				userId: this.userId,
 			}, { $set: screen });
-		} else {
-
-			// else insert screen
-			id = Screens.insert({
-				...screen,
-				userId: this.userId,
-			});
 		}
 
 		// return upserted screen

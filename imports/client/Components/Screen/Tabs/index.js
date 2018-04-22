@@ -20,6 +20,7 @@ const Tabs = Styled.div`
 const TabsColumn = Styled.div`
   width: 200px;
   flex-shrink: 0;
+  display: none;
 `;
 
 const Tab = Styled.div`
@@ -40,7 +41,6 @@ const Tab = Styled.div`
 `;
 
 const TabBody = Styled.div`
-  padding-left: 30px;
   width: 100%;
 `;
 

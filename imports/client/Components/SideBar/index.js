@@ -23,7 +23,7 @@ const Content = Styled.div`
   width: 340px;
   height: 100%;
   box-sizing: border-box;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid #eee;
 
   ${props => props.visible === false && 'display: none;'}
 `;

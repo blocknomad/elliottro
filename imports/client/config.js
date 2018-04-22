@@ -17,7 +17,7 @@ export default {
     secondary: '#FFA000',
     secondaryContrast: '#37474F',
     border: '#eee',
-    text: 'rgba(0, 0, 0, 0.77)',
+    text: 'rgba(0, 0, 0, 0.67)',
     textLighter: '#adaeb0',
     icon: '#666',
   },

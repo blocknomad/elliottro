@@ -38,7 +38,7 @@ const GridItem = Styled.div`
   border: 1px solid #eee;
   position: relative;
 
-  ${props => props.disabled ? 'background-color: #eee;' : 'cursor: pointer;'}
+  ${props => props.disabled ? 'background-color: #eee;' : 'cursor: pointer; background-color: #FFF;'}
   ${props => props.selected && `
     &::after {
       content: " ";

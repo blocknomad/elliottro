@@ -99,7 +99,7 @@ const Menu = Styled.div`
 
     span {
       display: block;
-      border-bottom: 3px solid transparent;
+      border-bottom: 4px solid transparent;
       padding: 16px 0;
       font-size: 15px 0;
       line-height: 1;
@@ -107,7 +107,7 @@ const Menu = Styled.div`
     }
 
     &.active span {
-      border-color: rgba(255, 255, 255, .95);
+      border-color: #FFF;
     }
   }
 `;

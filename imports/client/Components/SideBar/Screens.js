@@ -13,18 +13,18 @@ import { IconButton, RaisedButton } from 'material-ui';
 // Styled components
 
 const List = Styled.div`
-  padding: 0 4px;
+  padding: 0;
   color: ${config.colors.text};
 `;
 
 const Title = Styled.div`
-  padding: 8px;
+  padding: 8px 12px;
   font-size: 13px;
   font-weight: 600;
 `;
 
 const Item = Styled.div`
-  padding: 3px 8px;
+  padding: 3px 12px;
   width: 100%;
   font-size: 13px;
   box-sizing: border-box;
