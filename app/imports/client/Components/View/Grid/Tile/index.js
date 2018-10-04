@@ -58,8 +58,12 @@ const Title = Styled.div`
   h3 {
     color: ${config.colors.text};
     font-size: 14px;
-    font-weight: 500;
     text-transform: uppercase;
+    font-weight: 300;
+
+    span {
+      font-weight: 600;
+    }
   }
 
   p {
@@ -179,7 +183,7 @@ export default class GridTileComponent extends Component {
 
         <Information>
           <Title>
-            <h3>{Exchanges[match.exchange].name}:{match.baseAsset}{match.quoteAsset}</h3>
+            <h3>{Exchanges[match.exchange].name}:<span>{match.baseAsset}</span>{match.quoteAsset}</h3>
 
             <p>
               {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}

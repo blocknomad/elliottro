@@ -56,7 +56,7 @@ const Icon = Styled(IconButton).attrs({
 
 class SideBarComponent extends Component {
   state = {
-    active: 'screens',
+    active: undefined,
   }
 
   render() {

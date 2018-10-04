@@ -112,6 +112,7 @@ class UserWidgetComponent extends Component {
 
   handleSignOut = () => {
     Meteor.logout();
+    this.props.setSideBar(false);
   }
 }
 

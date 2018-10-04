@@ -31,7 +31,7 @@ const muiTheme = getMuiTheme({
 
 export default class AppComponent extends Component {
   state = {
-    sidebar: true,
+    sidebar: false,
   }
 
   render() {
@@ -41,10 +41,11 @@ export default class AppComponent extends Component {
       <Router>
         <MuiThemeProvider muiTheme={muiTheme}>
           <Switch>
-            <Page exact path="/" component={Home} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
-            <Page path="/alerts" component={Alerts} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
-            <Page path="/screen/:slug?" component={Screen} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
-            <Page path="/view/:slug?" component={View} sidebar={sidebar} handleSideBarToggle={this.handleSideBarToggle} />
+            <Page exact path="/" component={Home} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />
+            <Page path="/alerts" component={Alerts} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />
+            <Page path="/screen/:slug?" component={Screen} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />
+            <Page path="/view/:slug?" component={View} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />
+
             <Page path="/signin" component={SignIn} onlyLoggedOut blank />
             <Page path="/signup" component={SignUp} onlyLoggedOut blank />
             <Page path="/forgot-password" component={ForgotPassword} onlyLoggedOut blank />
@@ -56,7 +57,15 @@ export default class AppComponent extends Component {
     );
   }
 
-  handleSideBarToggle = () => {
+  /* handle side bar toggle */
+
+  hSBT = () => {
     this.setState({ sidebar: !this.state.sidebar });
+  }
+
+  /* set side bar */
+
+  sSB = sidebar => {
+    this.setState({ sidebar })
   }
 }

@@ -35,6 +35,7 @@ class PageComponent extends Component {
       onlyLoggedIn = false,
       sidebar = false,
       handleSideBarToggle = () => {},
+      setSideBar = () => {},
       user,
       isLoggingIn,
       ...props
@@ -60,7 +61,7 @@ class PageComponent extends Component {
         return (
           <App>
             <Main sidebar={!isLoggedIn || blank ? 'hidden' : (sidebar ? 'open' : 'closed')}>
-              {!blank && <Header sidebar={sidebar} />}
+              {!blank && <Header sidebar={sidebar} setSideBar={setSideBar} />}
 
               <Component sidebar={sidebar} {...renderProps} />
 

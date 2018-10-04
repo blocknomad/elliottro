@@ -127,7 +127,7 @@ export default class HeaderComponent extends Component {
       return Boolean(match) || insideMatch;
     };
 
-    const { sidebar } = this.props;
+    const { sidebar, setSideBar } = this.props;
 
     return (
       <Header>
@@ -145,7 +145,7 @@ export default class HeaderComponent extends Component {
             <input placeholder="Search for symbols" />
           </Search>
 
-          <UserWidget />
+          <UserWidget setSideBar={setSideBar} />
         </Brand>
 
         <Menu sidebar={sidebar}>

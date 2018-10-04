@@ -59,15 +59,19 @@ const Header = Styled.div`
   }
 `;
 
-const ScreenName = Styled.div`
+const HeaderTitle = Styled.div`
   font-size: 22px;
   flex-grow: 100;
   padding: 8px 0;
   color: ${config.colors.text};
+`;
+
+const ScreenName = Styled.span`
+  color: #aaa;
+  font-weight: 300;
 
   span {
-    color: #aaa;
-    font-weight: 300;
+    font-style: italic;
   }
 `;
 
@@ -153,9 +157,12 @@ class ViewComponent extends Component {
       <View sidebar={this.props.sidebar}>
         <Screen>
           <Header>
-            <ScreenName>
-              {screen.name ? screen.name : <span>Unnamed screen</span>}
-            </ScreenName>
+            <HeaderTitle>
+              Screen: &nbsp;
+              <ScreenName>
+                {screen.name ? screen.name : <span>Unnamed screen</span>}
+              </ScreenName>
+            </HeaderTitle>
 
             <IconButton
               iconClassName="material-icons"

@@ -3,6 +3,8 @@ export default {
   /*** START: Reversal Patterns  ***/
 
 
+  // SERIES devem começar sempre em 0
+
   reversal: {
     DTR: {
       name: 'Double Top',
