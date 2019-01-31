@@ -7,9 +7,9 @@ import config from '/imports/client/config';
 import {
   Checkbox,
   TextField,
-  RaisedButton,
+  Button,
   Paper,
-} from 'material-ui';
+} from '@material-ui/core';
 
 
 // Styled components

@@ -14,7 +14,9 @@ import formatDate from './../../functions/formatDate';
 import {
   Paper,
   IconButton,
-} from 'material-ui';
+} from '@material-ui/core';
+
+import LaunchIcon from '@material-ui/icons/Launch';
 
 // Styled components
 
@@ -194,9 +196,8 @@ export default class GridTileComponent extends Component {
             tooltip="Access this symbol on exchange"
             href={`https://www.binance.com/trade.html?symbol=${match.baseAsset}_${match.quoteAsset}`}
             target="_blank"
-            iconClassName="material-icons"
           >
-            launch
+            <LaunchIcon />
           </IconButton>
         </Information>
       </Tile>

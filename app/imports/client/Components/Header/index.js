@@ -8,8 +8,8 @@ import UserWidget from './UserWidget';
 
 import {
   FlatButton,
-  RaisedButton,
-} from 'material-ui';
+  Button,
+} from '@material-ui/core';
 
 // Styled components
 

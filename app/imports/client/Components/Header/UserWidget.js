@@ -8,11 +8,10 @@ import config from '/imports/client/config';
 import UserContainer from '/imports/client/Containers/user';
 
 import {
-  Popover,
   Menu,
   MenuItem,
   Divider,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Styled components
 
@@ -73,30 +72,17 @@ class UserWidgetComponent extends Component {
           {user.username.charAt(0)}
         </User>
 
-        <Popover
+        <Menu
+          desktop="true"
           open={this.state.open}
           anchorEl={this.userInfo}
-          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          onRequestClose={this.handleRequestClose}
+          onClose={this.handleRequestClose}
         >
-          <Menu desktop={true}>
-            <MenuItem
-              style={menuItemStyle}
-              primaryText="Profile"
-            />
-            <MenuItem
-              style={menuItemStyle}
-              primaryText="Settings"
-            />
-            <Divider />
-            <MenuItem
-              style={menuItemStyle}
-              primaryText="Sign out"
-              onClick={this.handleSignOut}
-            />
-          </Menu>
-        </Popover>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Settings</MenuItem>
+          <Divider />
+          <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
+        </Menu>
       </UserWidget>
   }
 

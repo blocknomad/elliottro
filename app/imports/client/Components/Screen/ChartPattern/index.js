@@ -12,7 +12,7 @@ import Patterns from '/imports/both/fixtures/patterns';
 
 import {
   IconButton,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Styled components
 
@@ -64,7 +64,7 @@ export default class ChartPatternComponent extends Component {
     return (
       <Grid>
         <Text>
-          {title} ({Object.keys(patterns).length})
+          {title}
         </Text>
 
         <GridItems>

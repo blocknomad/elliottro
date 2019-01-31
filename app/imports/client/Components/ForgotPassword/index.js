@@ -10,9 +10,9 @@ import Background from '/imports/client/Components/Reusable/Background';
 
 import {
   TextField,
-  RaisedButton,
+  Button,
   Paper,
-} from 'material-ui';
+} from '@material-ui/core';
 
 
 // Styled components
@@ -126,18 +126,20 @@ export default class ForgotPasswordComponent extends Component {
                   floatingLabelText="Email"
                   name="email"
                   key={0}
-                  innerRef={r => this._email = r}
+                  inputRef={r => this._email = r}
                   errorText={this.state.errors.email}
                 />,
 
-                <RaisedButton
-                  label="Send me instructions"
-                  primary={true}
+                <Button
                   key={1}
+                  color="primary"
+                  variant="contained"
                   disabled={this.state.disabled}
                   type="submit"
                   style={{marginTop: 20}}
-                />,
+                >
+                  Send me instructions
+                </Button>,
               ]
             }
           </form>
@@ -145,11 +147,12 @@ export default class ForgotPasswordComponent extends Component {
           <Links>
             {this.state.main.type === 'success' ?
               <Link to="/">
-                <RaisedButton
-                  label="Home"
-                  icon={<HomeIcon>home</HomeIcon>}
-                  primary={true}
-                />
+                <Button
+                  color="primary"
+                  variant="contained"
+                >
+                  <HomeIcon>home</HomeIcon> Home
+                </Button>
               </Link> :
               <p><Link to="/signin">Cancel</Link></p>
             }

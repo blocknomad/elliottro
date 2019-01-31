@@ -18,22 +18,31 @@ import Timeframes from '/imports/both/fixtures/timeframes';
 import Screens from '/imports/both/collections/screens';
 
 import {
-  RadioButton,
-  RadioButtonGroup
-} from 'material-ui/RadioButton';
-
-import {
   Checkbox,
-  Slider,
-  RaisedButton,
+  Button,
   IconButton,
   Paper,
   TextField,
-} from 'material-ui';
+  Radio,
+  RadioGroup,
+  Select,
+  MenuItem,
+  FormControl,
+  FormControlLabel,
+} from '@material-ui/core';
+
+import { Slider } from '@material-ui/lab';
+
+import AddAlarmIcon from '@material-ui/icons/AddAlarm';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 
 // Styled components
 
 const Screen = Styled.section`
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
 `;
 
 const Header = Styled.div`
@@ -45,7 +54,7 @@ const Header = Styled.div`
   box-sizing: border-box;
   background-color: ${config.colors.primaryContrast};
   border-bottom: 1px solid #ddd;
-  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
+  padding: ${config.padding.vertical} ${config.padding.horizontalMin};
 
   & > * {
     flex-shrink: 0;
@@ -62,7 +71,7 @@ const ArrowIcon = Styled.i.attrs({
 const Form = Styled.form`
   width: 100%;
   box-sizing: border-box;
-  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
+  padding: ${config.padding.vertical} ${config.padding.horizontalMin};
   background-color: ${config.colors.primaryContrast};
 `;
 
@@ -165,7 +174,7 @@ class ScreenComponent extends Component {
         createAlertDisabled: false,
       });
 
-      this._name.input.value = null;
+      this._name.value = null;
     }
   }
 
@@ -177,7 +186,7 @@ class ScreenComponent extends Component {
         const screen = Screens.findOne({ slug: params.slug });
 
         if (Lodash.isEmpty(screen) === false) {
-          this._name.input.value = screen.name;
+          this._name.value = screen.name;
           this.setState({ screen, saveDisabled: true });
 
           // stop computation once form is filled with data
@@ -195,39 +204,37 @@ class ScreenComponent extends Component {
     };
 
     return (
-      <Screen>
-        <Header sidebar={this.props.sidebar}>
+      <Screen sidebar={this.props.sidebar}>
+        <Header>
           <IconButton
-            iconClassName="material-icons"
             tooltip="Create alert"
             style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
-            iconStyle={{width: 20, height: 20, fontSize: 20}}
             disabled={this.state.createAlertDisabled}
           >
-            add_alarm
+            <AddAlarmIcon />
           </IconButton>
 
           <IconButton
-            iconClassName="material-icons"
             tooltip="Save screen"
             style={{width: 40, height: 40, padding: 10, marginRight: 20}}
-            iconStyle={{width: 20, height: 20, fontSize: 20}}
             disabled={this.state.saveDisabled}
             onClick={this.handleSave}
           >
-            playlist_add
+            <PlaylistAddIcon />
           </IconButton>
 
-          <RaisedButton
-            label="Run Screen"
-            primary={true}
+          <Button
+            variant="contained"
+            color="primary"
             onClick={this.handleRun}
             style={{lineHeight: '24px'}}
-            icon={<ArrowIcon>play_arrow</ArrowIcon>}
-          />
+          >
+            <ArrowIcon>play_arrow</ArrowIcon>
+            Run screen
+          </Button>
         </Header>
 
-        <Form sidebar={this.props.sidebar}>
+        <Form>
           <Row>
             <div>Screen name</div>
             <div>
@@ -235,7 +242,7 @@ class ScreenComponent extends Component {
                 placeholder="Type a name..."
                 defaultValue={screen.name}
                 name="name"
-                ref={ref => this._name = ref}
+                inputRef={ref => this._name = ref}
                 onChange={e => this.handleChange('name', e.target.value)}
               />
             </div>
@@ -244,40 +251,40 @@ class ScreenComponent extends Component {
           <Row>
             <div>Timeframe</div>
             <div>
-              <RadioButtonGroup
-                name="timeframe"
-                valueSelected={screen.timeframe}
-                onChange={(t, v) => this.handleChange('timeframe', v)}
+              <Select
+                onChange={event => this.handleChange('timeframe', event.target.value)}
+                value={screen.timeframe}
+                autoWidth
+                inputProps={{
+                  name: 'timeframe',
+                }}
               >
-                {Lodash.map(Timeframes, (timeframe, key) =>
-                  <RadioButton
-                    key={key}
-                    value={key}
-                    label={timeframe.name}
-                    labelStyle={labelStyle}
-                  />
-                )}
-              </RadioButtonGroup>
+                {Lodash.map(Timeframes, ({ name }, key) => <MenuItem key={key} value={key}>{name}</MenuItem>)}
+              </Select>
             </div>
           </Row>
 
           <Row>
             <div>Exchanges</div>
             <div>
-              {Lodash.map(Exchanges, (exchange, key) =>
-                <Checkbox
+              {Lodash.map(Exchanges, ({ name, status }, key) =>
+                <FormControlLabel
                   key={key}
-                  label={exchange.name}
-                  disabled={exchange.status === 1}
-                  checked={Lodash.includes(screen.exchanges, key)}
-                  onCheck={(t, checked) => this.handleChange('exchanges',
-                    Lodash.uniq(
-                      checked ?
-                        Lodash.concat(screen.exchanges, key) :
-                        Lodash.without(screen.exchanges, key)
-                    )
-                  )}
-                  labelStyle={labelStyle}
+                  control={
+                    <Checkbox
+                      disabled={status === 1}
+                      checked={Lodash.includes(screen.exchanges, key)}
+                      onChange={(t, checked) => this.handleChange('exchanges',
+                        Lodash.uniq(
+                          checked ?
+                            Lodash.concat(screen.exchanges, key) :
+                            Lodash.without(screen.exchanges, key)
+                        )
+                      )}
+                      color="primary"
+                    />
+                  }
+                  label={name}
                 />
               )}
             </div>
@@ -286,20 +293,24 @@ class ScreenComponent extends Component {
           <Row>
             <div>Quote assets</div>
             <div>
-              {Lodash.map(QuoteAssets, (quoteAsset, key) =>
-                <Checkbox
+              {Lodash.map(QuoteAssets, ({ name, status }, key) =>
+                <FormControlLabel
                   key={key}
-                  label={quoteAsset.name}
-                  disabled={quoteAsset.status === 1}
-                  checked={Lodash.includes(screen.quoteAssets, key)}
-                  onCheck={(t, checked) => this.handleChange('quoteAssets',
-                    Lodash.uniq(
-                      checked ?
-                        Lodash.concat(screen.quoteAssets, key) :
-                        Lodash.without(screen.quoteAssets, key)
-                    )
-                  )}
-                  labelStyle={labelStyle}
+                  control={
+                    <Checkbox
+                      disabled={status === 1}
+                      checked={Lodash.includes(screen.quoteAssets, key)}
+                      onChange={(t, checked) => this.handleChange('quoteAssets',
+                        Lodash.uniq(
+                          checked ?
+                            Lodash.concat(screen.quoteAssets, key) :
+                            Lodash.without(screen.quoteAssets, key)
+                        )
+                      )}
+                      color="primary"
+                    />
+                  }
+                  label={name}
                 />
               )}
             </div>
@@ -319,7 +330,6 @@ class ScreenComponent extends Component {
                   max={100}
                   step={1}
                   onChange={(a, v) => this.handleChange('range', v)}
-                  sliderStyle={{margin: 0}}
                   style={{flexGrow: 100}}
                 />
 
@@ -330,7 +340,6 @@ class ScreenComponent extends Component {
 
           <Row>
             <div>Chart patterns</div>
-
             <div>
               <ChartPattern
                 selected={screen.chart.pattern}
@@ -361,7 +370,7 @@ class ScreenComponent extends Component {
 
     let query = '';
 
-    query += `name=${encodeURIComponent(this._name.input.value)}`;
+    query += `name=${encodeURIComponent(this._name.value)}`;
     query += `&timeframe=${screen.timeframe}`;
     query += `&exchanges=${screen.exchanges}`;
     query += `&quoteAssets=${screen.quoteAssets}`;
@@ -379,7 +388,7 @@ class ScreenComponent extends Component {
 
     const screen = {
       ...this.state.screen,
-      name: this._name.input.value,
+      name: this._name.value,
       slug: this.props.match.params.slug,
     };
 

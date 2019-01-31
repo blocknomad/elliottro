@@ -5,7 +5,7 @@ import config from '/imports/client/config';
 
 import {
 
-} from 'material-ui';
+} from '@material-ui/core';
 
 
 // Styled components

@@ -5,21 +5,24 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.36",
+    "@babel/runtime": "^7.2.0",
+    "@material-ui/core": "^3.9.0",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.28",
     "bcrypt": "^1.0.3",
     "binance": "^1.3.3",
     "compose-with-tracker": "^1.1.0",
     "dtw": "0.0.3",
-    "lodash": "^4.17.5",
-    "material-ui": "^0.20.0",
-    "meteor-node-stubs": "^0.3.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
+    "lodash": "^4.17.11",
+    "material-ui": "^0.20.2",
+    "meteor-node-stubs": "^0.3.3",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "recompose": "^0.26.0",
     "simpl-schema": "^1.5.3",
     "smoothscroll": "^0.4.0",
-    "styled-components": "^3.1.6"
+    "styled-components": "^3.4.10"
   }
 }

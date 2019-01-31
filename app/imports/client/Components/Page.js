@@ -56,7 +56,7 @@ class PageComponent extends Component {
          return <Redirect to="/" />;
         }
 
-        // otherwise, act naturally
+        // otherwise, just render it
 
         return (
           <App>

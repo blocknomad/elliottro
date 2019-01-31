@@ -13,9 +13,9 @@ import Background from '/imports/client/Components/Reusable/Background';
 import {
   Checkbox,
   TextField,
-  RaisedButton,
+  Button,
   Paper,
-} from 'material-ui';
+} from '@material-ui/core';
 
 
 // Styled components
@@ -54,12 +54,16 @@ const Buttons = Styled.div`
   align-items: center;
   margin-top: 20px;
 
-  span {
-    font-size: 13px;
-    color: ${config.colors.text};
-    margin-left: 10px;
+  & > * {
+    flex-shrink: 0;
   }
 `;
+
+const Terms = Styled.span`
+  font-size: 13px;
+  color: ${config.colors.text};
+  margin-left: 10px;
+`
 
 const Links = Styled.div`
   margin: 30px 0 0;
@@ -95,35 +99,37 @@ class SignUpComponent extends Component {
 
           <form onSubmit={this.handleSubmit}>
             <Input
-              floatingLabelText="Email"
-              innerRef={r => this._email = r}
-              errorText={this.state.errors.email}
+              label="Email"
+              inputRef={r => this._email = r}
+              error={this.state.errors.email}
               name="email"
             />
             <Input
-              floatingLabelText="Username"
-              innerRef={r => this._username = r}
-              errorText={this.state.errors.username}
+              label="Username"
+              inputRef={r => this._username = r}
+              error={this.state.errors.username}
               name="username"
             />
             <Input
-              floatingLabelText="Password"
+              label="Password"
               type="password"
-              innerRef={r => this._password = r}
-              errorText={this.state.errors.password}
+              inputRef={r => this._password = r}
+              error={this.state.errors.password}
               name="password"
             />
 
             <Buttons>
-              <RaisedButton
-                label="Sign up"
+              <Button
+                variant="contained"
                 type="submit"
-                primary={true}
-              />
+                color="primary"
+              >
+                Sign up
+              </Button>
 
-              <span>
+              <Terms>
                 By clicking on “Sign up” you are agreeing to the <Link to="/terms" target="_blank">Terms of Service.</Link>
-              </span>
+              </Terms>
             </Buttons>
           </form>
 
@@ -140,9 +146,9 @@ class SignUpComponent extends Component {
 
     const errors = {};
 
-    const email = this._email.input.value;
-    const username = this._username.input.value;
-    const password = this._password.input.value;
+    const email = this._email.value;
+    const username = this._username.value;
+    const password = this._password.value;
 
     if (Lodash.isEmpty(email)) {
       errors.email = 'This field is required.';
@@ -160,9 +166,9 @@ class SignUpComponent extends Component {
 
     if (Lodash.isEmpty(errors)) {
       Accounts.createUser({
-        email: this._email.input.value,
-        username: this._username.input.value,
-        password: this._password.input.value,
+        email: this._email.value,
+        username: this._username.value,
+        password: this._password.value,
       }, (error) => {
         if (error) {
           if (error.reason.includes('Email')) {
@@ -177,6 +183,7 @@ class SignUpComponent extends Component {
         }
       });
     } else {
+      console.log(errors)
       this.setState({ errors });
     }
   }

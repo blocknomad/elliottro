@@ -17,14 +17,17 @@ import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
 import {
-  RaisedButton,
+  Button,
   IconButton,
   Paper,
-} from 'material-ui';
+} from '@material-ui/core';
 
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SaveIcon from 'material-ui/svg-icons/av/playlist-add';
-import AddAlertIcon from 'material-ui/svg-icons/alert/add-alert';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SaveIcon from '@material-ui/icons/PlaylistAdd';
+import AddAlertIcon from '@material-ui/icons/AddAlarm';
+import EditIcon from '@material-ui/icons/Edit';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
 
 // Styled components
 
@@ -73,13 +76,6 @@ const ScreenName = Styled.span`
   span {
     font-style: italic;
   }
-`;
-
-const EditIcon = Styled.i.attrs({
-  className: 'material-icons',
-})`
-  color: #FFF;
-  vertical-align: text-top !important;
 `;
 
 const Criterias = Styled.div`
@@ -165,30 +161,24 @@ class ViewComponent extends Component {
             </HeaderTitle>
 
             <IconButton
-              iconClassName="material-icons"
               tooltip="Create alert"
-              style={{width: 40, height: 40, padding: 10, marginLeft: 20}}
-              iconStyle={{width: 20, height: 20, fontSize: 20}}
             >
-              add_alarm
+              <AddAlertIcon />
             </IconButton>
 
             <IconButton
-              iconClassName="material-icons"
               tooltip="Save screen"
-              style={{width: 40, height: 40, padding: 10, marginRight: 20}}
-              iconStyle={{width: 20, height: 20, fontSize: 20}}
             >
-              playlist_add
+              <SaveIcon />
             </IconButton>
 
-            <RaisedButton
-              label="Edit Screen"
-              primary={true}
+            <Button
+              color="primary"
+              variant="contained"
               onClick={this.handleEditScreen}
-              style={{lineHeight: '24px'}}
-              icon={<EditIcon>mode_edit</EditIcon>}
-            />
+            >
+              <EditIcon/> Edit screen
+            </Button>
           </Header>
 
           <Criterias>
@@ -228,11 +218,10 @@ class ViewComponent extends Component {
             </Stats>
 
             <IconButton
-              iconClassName="material-icons"
               tooltip={viewType === 'grid' ? 'Table view' : 'Grid view'}
               onClick={this.handleViewTypeChange}
             >
-              {viewType === 'grid' ? 'view_list' : 'view_module'}
+              {viewType === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
             </IconButton>
           </Controller>
         </Screen>

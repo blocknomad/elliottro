@@ -6,7 +6,10 @@ import config from '/imports/client/config';
 
 import Screens from './Screens';
 
-import { IconButton, Badge } from 'material-ui';
+import { IconButton, Badge } from '@material-ui/core';
+import WebAssetIcon from '@material-ui/icons/WebAsset';
+import AccessAlarmsIcon from '@material-ui/icons/AccessAlarms';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 // Styled components
 
@@ -47,13 +50,6 @@ const Tab = Styled.div`
   `};
 `;
 
-const Icon = Styled(IconButton).attrs({
-  iconClassName: 'material-icons',
-  style: { width: tabSize, height: tabSize, padding: tabSize / 4, opacity: .8 },
-  iconStyle: { width: tabSize / 2, height: tabSize / 2, fontSize: tabSize / 2 },
-  hoveredStyle: { opacity: 1 },
-})``;
-
 class SideBarComponent extends Component {
   state = {
     active: undefined,
@@ -74,7 +70,7 @@ class SideBarComponent extends Component {
             active={active === 'screens'}
             onClick={() => this.handleChange('screens')}
           >
-            <Icon>web_asset</Icon>
+            <IconButton><WebAssetIcon /></IconButton>
           </Tab>
 
           <Tab
@@ -82,7 +78,7 @@ class SideBarComponent extends Component {
             active={active === 'alerts'}
             onClick={() => this.handleChange('alerts')}
           >
-            <Icon>access_alarms</Icon>
+            <IconButton><AccessAlarmsIcon /></IconButton>
           </Tab>
 
           <Tab
@@ -90,14 +86,14 @@ class SideBarComponent extends Component {
             active={active === 'notifications'}
             onClick={() => this.handleChange('notifications')}
           >
-            <Badge
-              badgeContent={10}
-              style={{padding: 0}}
-              badgeStyle={{height: 18, width: 18, lineHeight: 1, fontSize: 10, top: 4, right: 4}}
-              secondary={true}
-            >
-              <Icon>notifications</Icon>
-            </Badge>
+            <IconButton>
+              <Badge
+                badgeContent={10}
+                color="secondary"
+              >
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </Tab>
         </Tabs>
       </SideBar>

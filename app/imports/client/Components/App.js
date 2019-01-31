@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { teal, cyan } from '@material-ui/core/colors';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { Tracker } from 'meteor/tracker';
 
@@ -21,13 +21,21 @@ import config from '/imports/client/config';
 
 // Customize mui theme
 
-const muiTheme = getMuiTheme({
+const theme = createMuiTheme({
   palette: {
-    primary1Color: config.colors.primary,
+    primary: {
+      light: config.colors.primaryLighter,
+      main: config.colors.primary,
+      dark: config.colors.primary,
+      contrastText: 'white',
+    },
     accent1Color: config.colors.accent,
     textColor: config.colors.text,
   },
-});
+  typography: {
+    useNextVariants: true,
+  },
+})
 
 export default class AppComponent extends Component {
   state = {
@@ -39,7 +47,7 @@ export default class AppComponent extends Component {
 
     return (
       <Router>
-        <MuiThemeProvider muiTheme={muiTheme}>
+        <MuiThemeProvider theme={theme}>
           <Switch>
             <Page exact path="/" component={Home} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />
             <Page path="/alerts" component={Alerts} sidebar={sidebar} handleSideBarToggle={this.hSBT} setSideBar={this.sSB} />

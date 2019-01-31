@@ -11,9 +11,9 @@ import Background from '/imports/client/Components/Reusable/Background';
 
 import {
   TextField,
-  RaisedButton,
+  Button,
   Paper,
-} from 'material-ui';
+} from '@material-ui/core';
 
 
 // Styled components
@@ -97,26 +97,28 @@ class SignInComponent extends Component {
             }
             <Input
               fullWidth={true}
-              floatingLabelText="Email or username"
+              label="Email or username"
               name="username"
-              innerRef={r => this._username = r}
-              errorText={this.state.errors.username}
+              inputRef={r => this._username = r}
+              error={Boolean(this.state.errors.username)}
             />
             <Input
               fullWidth={true}
-              floatingLabelText="Password"
+              label="Password"
               name="password"
               type="password"
-              innerRef={r => this._password = r}
-              errorText={this.state.errors.password}
+              inputRef={r => this._password = r}
+              error={Boolean(this.state.errors.password)}
             />
 
-            <RaisedButton
-              label="Sign in"
-              primary={true}
+            <Button
+              variant="contained"
+              color="primary"
               type="submit"
               style={{marginTop: 20}}
-            />
+            >
+              Sign in
+            </Button>
           </form>
 
           <Links>
@@ -133,19 +135,16 @@ class SignInComponent extends Component {
 
     const errors = {};
 
-    const user = this._username.input.value;
-    const password = this._password.input.value;
+    const user = this._username.value;
+    const password = this._password.value;
 
     if (Lodash.isEmpty(user)) errors.username = 'This field is required.';
     if (Lodash.isEmpty(password)) errors.password = 'This field is required.';
 
     if (Lodash.isEmpty(errors)) {
       Meteor.loginWithPassword(user, password, (error) => {
-        if (error) {
-          this.setState({ errors: { invalidUser: true }});
-        } else {
-          this.props.history.push('/');
-        }
+        if (error) return this.setState({ errors: { invalidUser: true }});
+        this.props.history.push('/')
       });
     } else {
       this.setState({ errors });
