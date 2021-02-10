@@ -93,14 +93,14 @@ class SignInComponent extends Component {
 
           <form onSubmit={this.handleSubmit}>
             {this.state.errors.invalidUser &&
-              <Error><i className="material-icons">error</i> Invalid username or password.</Error>
+              <Error><i className="material-icons">error</i> Invalid email or password.</Error>
             }
             <Input
               fullWidth={true}
-              label="Email or username"
-              name="username"
-              inputRef={r => this._username = r}
-              error={Boolean(this.state.errors.username)}
+              label="Email"
+              name="email"
+              inputRef={r => this._email = r}
+              error={Boolean(this.state.errors.email)}
             />
             <Input
               fullWidth={true}
@@ -135,10 +135,10 @@ class SignInComponent extends Component {
 
     const errors = {};
 
-    const user = this._username.value;
+    const user = this._email.value;
     const password = this._password.value;
 
-    if (Lodash.isEmpty(user)) errors.username = 'This field is required.';
+    if (Lodash.isEmpty(user)) errors.email = 'This field is required.';
     if (Lodash.isEmpty(password)) errors.password = 'This field is required.';
 
     if (Lodash.isEmpty(errors)) {

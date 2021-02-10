@@ -8,9 +8,10 @@ import config from '/imports/client/config';
 import UserContainer from '/imports/client/Containers/user';
 
 import {
-  Menu,
-  MenuItem,
-  Divider,
+	Menu,
+	MenuItem,
+	Divider,
+	Button,
 } from '@material-ui/core';
 
 // Styled components
@@ -21,8 +22,8 @@ const UserWidget = Styled.div`
 
 const User = Styled.div`
   cursor: pointer;
-  height: 33px;
-  width: 33px;
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
   font-size: 14px;
   text-transform: uppercase;
@@ -34,72 +35,68 @@ const User = Styled.div`
   justify-content: center;
 `;
 
-const SignIn = Styled(Link)`
-  margin-left: 30px;
-  color: #FFF;
-  font-size: 14px;
-  text-transform: uppercase;
-  line-height: 1;
-  text-decoration: none;
-
-  &:hover {
-  }
-`;
-
 class UserWidgetComponent extends Component {
-  state = {
-    open: false,
-  }
+	state = {
+		open: false,
+	}
 
-  render() {
-    const { user } = this.props;
+	render() {
+		const { user } = this.props;
 
-    const menuItemStyle = {
-      fontSize: 14,
-      minWidth: 170,
-    };
+		const menuItemStyle = {
+			fontSize: 14,
+			minWidth: 170,
+		};
 
-    return Lodash.isEmpty(user) ?
-      <SignIn to="/signin">
-        Sign in
-      </SignIn> :
+		return Lodash.isEmpty(user) ?
+			<div style={{ margin: '6px 0'}}>
+				<Link to="/signin" style={{ marginRight: 15 }}>
+					<Button color="secondary">
+						Sign in
+				</Button>
+				</Link>
+				<Link to="/signup">
+					<Button variant="contained" color="secondary">
+						Sign up
+				</Button>
+				</Link>
+			</div> :
 
-      <UserWidget>
-        <User
-          innerRef={r => this.userInfo = r}
-          onClick={this.handleClick}
-        >
-          {user.username.charAt(0)}
-        </User>
+			<UserWidget>
+				<User
+					innerRef={r => this.userInfo = r}
+					onClick={this.handleClick}
+				>
+					{user.emails[0].address.charAt(0)}
+				</User>
 
-        <Menu
-          desktop="true"
-          open={this.state.open}
-          anchorEl={this.userInfo}
-          onClose={this.handleRequestClose}
-        >
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>Settings</MenuItem>
-          <Divider />
-          <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
-        </Menu>
-      </UserWidget>
-  }
+				<Menu
+					desktop="true"
+					open={this.state.open}
+					anchorEl={this.userInfo}
+					onClose={this.handleRequestClose}
+				>
+					<MenuItem>Profile</MenuItem>
+					<MenuItem>Settings</MenuItem>
+					<Divider />
+					<MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
+				</Menu>
+			</UserWidget>
+	}
 
-  handleClick = event => {
-    event.preventDefault();
+	handleClick = event => {
+		event.preventDefault();
 
-    this.setState({ open: true });
-  }
+		this.setState({ open: true });
+	}
 
-  handleRequestClose = () => {
-    this.setState({ open: false });
-  }
+	handleRequestClose = () => {
+		this.setState({ open: false });
+	}
 
-  handleSignOut = () => {
-    Meteor.logout();
-    this.props.setSideBar(false);
-  }
+	handleSignOut = () => {
+		Meteor.logout();
+	}
 }
 
 export default UserContainer(UserWidgetComponent);

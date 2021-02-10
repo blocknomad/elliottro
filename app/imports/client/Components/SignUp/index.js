@@ -105,12 +105,6 @@ class SignUpComponent extends Component {
               name="email"
             />
             <Input
-              label="Username"
-              inputRef={r => this._username = r}
-              error={this.state.errors.username}
-              name="username"
-            />
-            <Input
               label="Password"
               type="password"
               inputRef={r => this._password = r}
@@ -147,7 +141,6 @@ class SignUpComponent extends Component {
     const errors = {};
 
     const email = this._email.value;
-    const username = this._username.value;
     const password = this._password.value;
 
     if (Lodash.isEmpty(email)) {
@@ -155,8 +148,6 @@ class SignUpComponent extends Component {
     } else if (SimpleSchema.RegEx.Email.test(email) === false) {
       errors.email = 'Please enter a valid email address.';
     }
-
-    if (Lodash.isEmpty(username)) errors.username = 'This field is required.';
 
     if (Lodash.isEmpty(password)) {
       errors.password = 'This field is required.';
@@ -167,14 +158,11 @@ class SignUpComponent extends Component {
     if (Lodash.isEmpty(errors)) {
       Accounts.createUser({
         email: this._email.value,
-        username: this._username.value,
         password: this._password.value,
       }, (error) => {
         if (error) {
           if (error.reason.includes('Email')) {
             this.setState({ errors: { email: error.reason }});
-          } else if (error.reason.includes('Username')) {
-            this.setState({ errors: { username: error.reason }});
           } else if (error.reason.includes('Password')) {
             this.setState({ errors: { password: error.reason }});
           }

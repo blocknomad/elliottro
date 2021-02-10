@@ -25,13 +25,15 @@ export default {
     HST: {
       name: 'Head and Shoulders Top',
       acronym: 'HST',
-      status: 1,
+      status: 2,
+			rule: 'PTPTPTP',
+			series: [6, 4, 6, 1, 6, 4, 6],
     },
 
     HSB: {
       name: 'Head and Shoulders Bottom',
       acronym: 'HSB',
-      status: 2,
+      status: 1,
       min: 1,
       max: 6,
       rule: 'PTPTPTP',

@@ -23,9 +23,9 @@ import { Meteor } from 'meteor/meteor';
 import Lodash from 'lodash';
 import dtw from 'dtw';
 
-import normalizeInput from './functions/normalizeInput';
-import normalizeTemplate from './functions/normalizeTemplate';
-import prepareInput from './functions/prepareInput';
+import normalizeInput from '../../functions/normalizeInput';
+import normalizeTemplate from '../../functions/normalizeTemplate';
+import prepareInput from '../../functions/prepareInput';
 
 import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
@@ -34,7 +34,8 @@ import Symbols from '/imports/both/collections/symbols';
 
 
 Meteor.methods({
-	screen({ timeframe, exchanges, quoteAssets, range = 100, chart = { type: 'reversal', pattern: 'HST' }}) {
+	'screen/run'({ timeframe, exchanges, quoteAssets, range = 100, chart = { type: 'reversal', pattern: 'HST' }}) {
+		console.log(timeframe, exchanges, quoteAssets)
 		// Create instance of DTW class
 
 		const DTW = new dtw();
@@ -51,6 +52,7 @@ Meteor.methods({
 		// Get selected pattern
 
 		const pattern = Patterns[chart.type][chart.pattern];
+
 
 		// Variable to measure processing time
 

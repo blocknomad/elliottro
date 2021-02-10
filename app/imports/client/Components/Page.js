@@ -6,7 +6,6 @@ import { Route, Redirect } from "react-router-dom";
 
 import Header from './Header';
 import Footer from './Footer';
-import SideBar from './SideBar';
 
 import config from '/imports/client/config';
 
@@ -15,15 +14,12 @@ import UserContainer from '/imports/client/Containers/user';
 // Styled components
 
 const App = Styled.section`
-  width: 100%;
+	width: 100%;
+	// background-color: ${config.colors.primary};
 `;
 
 const Main = Styled.div`
-  width: ${props =>
-    (props.sidebar === 'hidden' && '100%') ||
-    (props.sidebar === 'open' && 'calc(100% - 50px - 340px)') ||
-    (props.sidebar === 'closed' && 'calc(100% - 50px)')
-  };
+  width: 100%;
 `;
 
 class PageComponent extends Component {
@@ -33,9 +29,6 @@ class PageComponent extends Component {
       blank,
       onlyLoggedOut = false,
       onlyLoggedIn = false,
-      sidebar = false,
-      handleSideBarToggle = () => {},
-      setSideBar = () => {},
       user,
       isLoggingIn,
       ...props
@@ -60,15 +53,13 @@ class PageComponent extends Component {
 
         return (
           <App>
-            <Main sidebar={!isLoggedIn || blank ? 'hidden' : (sidebar ? 'open' : 'closed')}>
-              {!blank && <Header sidebar={sidebar} setSideBar={setSideBar} />}
+            <Main>
+              {!blank && <Header />}
 
-              <Component sidebar={sidebar} {...renderProps} />
+              <Component {...renderProps} />
 
-              {!blank && <Footer sidebar={sidebar} />}
+              {!blank && <Footer />}
             </Main>
-
-            {!blank && isLoggedIn && <SideBar handleSideBarToggle={handleSideBarToggle} visible={sidebar} />}
           </App>
         )
       }} />

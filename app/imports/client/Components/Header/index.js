@@ -17,14 +17,14 @@ const Header = Styled.header`
   width: 100%;
   box-sizing: border-box;
   background-color: ${config.colors.primary};
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.12) 0px 3px 4px;
-  z-index: 100;
+  // box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.12) 0px 3px 4px;
+	z-index: 100;
+	padding: 24px ${config.padding.horizontal};
 `;
 
 const Brand = Styled.div`
   display: flex;
   align-items: center;
-  padding: 16px ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
 `;
 
 const Logo = Styled.img`
@@ -32,17 +32,19 @@ const Logo = Styled.img`
   height: 22.5px;
 `;
 
-const Language = Styled.div`
+const State = Styled.div`
   color: #FFF;
-  font-size: 12px;
-  line-height: 26px;
-  width: 26px;
-  height: 26px;
+	font-size: 11px;
+	line-height: 1;
+	padding: 5px 10px
   text-transform: uppercase;
   margin: 0 20px;
-  border-radius: 3px;
-  text-align: center;
-  background-color: rgba(0, 0, 0, .06);
+  border-radius: 4px;
+	background-color: ${config.colors.primaryLighter};
+`;
+
+const Nav = Styled.nav`
+	flex-grow: 1;
 `;
 
 const Search = Styled.div`
@@ -85,7 +87,7 @@ const Search = Styled.div`
 
 const Menu = Styled.div`
   display: flex;
-  padding: 0 calc(${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal} - 20px);
+  padding: 0 calc(${config.padding.horizontal} - 20px);
   background-color: rgba(0, 0, 0, .06);
 
   a {
@@ -127,28 +129,29 @@ export default class HeaderComponent extends Component {
       return Boolean(match) || insideMatch;
     };
 
-    const { sidebar, setSideBar } = this.props;
-
     return (
       <Header>
-        <Brand sidebar={sidebar}>
+        <Brand>
           <Link to="/">
             <Logo src="/logo-brand.svg" />
           </Link>
 
-          <Language>
-            EN
-          </Language>
+          <State>
+            Beta
+          </State>
 
-          <Search>
+					<Nav>
+
+					</Nav>
+          {/* <Search>
             <div><i className="material-icons">search</i></div>
             <input placeholder="Search for symbols" />
-          </Search>
+          </Search> */}
 
-          <UserWidget setSideBar={setSideBar} />
+          <UserWidget />
         </Brand>
 
-        <Menu sidebar={sidebar}>
+        {/* <Menu>
           <NavLink
             to="/screen"
             isActive={(m, l) => insidePathnames(m, l, ['/view'])}
@@ -160,7 +163,7 @@ export default class HeaderComponent extends Component {
           <NavLink to="/alerts" activeClassName="active">
             <span>Alerts</span>
           </NavLink>
-        </Menu>
+        </Menu> */}
       </Header>
     );
   }

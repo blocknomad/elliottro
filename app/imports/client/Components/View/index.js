@@ -17,9 +17,9 @@ import Patterns from '/imports/both/fixtures/patterns';
 import Timeframes from '/imports/both/fixtures/timeframes';
 
 import {
-  Button,
-  IconButton,
-  Paper,
+	Button,
+	IconButton,
+	Paper,
 } from '@material-ui/core';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -28,6 +28,7 @@ import AddAlertIcon from '@material-ui/icons/AddAlarm';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import ScreenSimplified from '../ScreenSimplified';
 
 // Styled components
 
@@ -35,7 +36,7 @@ const View = Styled.section`
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  padding: ${config.padding.vertical} ${props => props.sidebar ? config.padding.horizontalMin : config.padding.horizontal};
+  padding: ${config.padding.vertical} ${config.padding.horizontal};
 `;
 
 const Results = Styled.section`
@@ -112,141 +113,137 @@ const Stats = Styled.p`
 `;
 
 class ViewComponent extends Component {
-  constructor(props) {
-    super();
+	constructor(props) {
+		super();
 
-    const { search } = props.history.location;
-    const params = new URLSearchParams(search);
+		const { search } = props.history.location;
+		const params = new URLSearchParams(search);
 
-    this.state = {
-      viewType: 'grid',
-      loading: true,
-      matches: [],
-      screen: {
-        name: decodeURIComponent(params.get('name')),
-        timeframe: params.get('timeframe'),
-        exchanges: params.get('exchanges') && params.get('exchanges').split(','),
-        quoteAssets: params.get('quoteAssets') && params.get('quoteAssets').split(','),
-        range: params.get('range') && Number(params.get('range')),
-        chart: {
-          type: params.get('chartType'),
-          pattern: params.get('chartPattern'),
-        },
-      },
-    };
+		this.state = {
+			viewType: 'grid',
+			loading: true,
+			matches: [],
+			screen: {
+				timeframe: params.get('timeframe'),
+				exchanges: params.get('exchanges') && params.get('exchanges').split(','),
+				quoteAssets: params.get('quoteAssets') && params.get('quoteAssets').split(','),
+			},
+		};
 
-    Meteor.call('screen', this.state.screen, (error, response) => {
-      this.setState({ loading: false, ...response });
-    });
-  }
+		Meteor.call('screen', this.state.screen, (error, response) => {
+			console.log(response)
+			this.setState({ loading: false, ...response });
+		});
+	}
 
 
-  render() {
-    const {
-      viewType,
-      loading,
-      matches,
-      screen,
-    } = this.state;
+	render() {
+		const {
+			viewType,
+			loading,
+			matches,
+			screen,
+		} = this.state;
 
-    return (
-      <View sidebar={this.props.sidebar}>
-        <Screen>
-          <Header>
-            <HeaderTitle>
-              Screen: &nbsp;
-              <ScreenName>
-                {screen.name ? screen.name : <span>Unnamed screen</span>}
-              </ScreenName>
-            </HeaderTitle>
+		return (
+			<>
+				<div style={{ backgroundColor: config.colors.primary, borderTop: '1px solid #00000022', padding: `20px ${config.padding.horizontal}` }}>
+					<ScreenSimplified />
+				</div>
+				<View>
+					{/* <Screen>
+						<Header>
+							<HeaderTitle>
+								Screen: &nbsp;
+								<ScreenName>
+									{screen.name ? screen.name : <span>Unnamed screen</span>}
+								</ScreenName>
+							</HeaderTitle>
 
-            <IconButton
-              tooltip="Create alert"
-            >
-              <AddAlertIcon />
-            </IconButton>
+							<IconButton
+								tooltip="Create alert"
+							>
+								<AddAlertIcon />
+							</IconButton>
 
-            <IconButton
-              tooltip="Save screen"
-            >
-              <SaveIcon />
-            </IconButton>
+							<IconButton
+								tooltip="Save screen"
+							>
+								<SaveIcon />
+							</IconButton>
 
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={this.handleEditScreen}
-            >
-              <EditIcon/> Edit screen
-            </Button>
-          </Header>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={this.handleEditScreen}
+							>
+								<EditIcon /> Edit screen
+							</Button>
+						</Header>
 
-          <Criterias>
-            <Criteria>
-              <div>Timeframe</div>
-              <div>{Timeframes[screen.timeframe].name}</div>
-            </Criteria>
+						<Criterias>
+							<Criteria>
+								<div>Timeframe</div>
+								<div>{Timeframes[screen.timeframe].name}</div>
+							</Criteria>
 
-            <Criteria>
-              <div>Exchanges</div>
-              <div>{(Lodash.map(screen.exchanges, e => Exchanges[e].name)).join(', ')}</div>
-            </Criteria>
+							<Criteria>
+								<div>Exchanges</div>
+								<div>{(Lodash.map(screen.exchanges, e => Exchanges[e].name)).join(', ')}</div>
+							</Criteria>
 
-            <Criteria>
-              <div>Quote assets</div>
-              <div>{(Lodash.map(screen.quoteAssets, q => QuoteAssets[q].name)).join(', ')}</div>
-            </Criteria>
+							<Criteria>
+								<div>Quote assets</div>
+								<div>{(Lodash.map(screen.quoteAssets, q => QuoteAssets[q].name)).join(', ')}</div>
+							</Criteria>
 
-            <Criteria>
-              <div>Range</div>
-              <div>Last {screen.range} candlesticks</div>
-            </Criteria>
+							<Criteria>
+								<div>Range</div>
+								<div>Last {screen.range} candlesticks</div>
+							</Criteria>
 
-            {
-              screen.chart.pattern && <Criteria>
-                <div>Chart pattern</div>
-                <div title={Patterns[screen.chart.type][screen.chart.pattern].name}>
-                  {IllustrateChartPattern(screen.chart.pattern)}
-                </div>
-              </Criteria>
-            }
-          </Criterias>
+							{
+								screen.chart.pattern && <Criteria>
+									<div>Chart pattern</div>
+									<div title={Patterns[screen.chart.type][screen.chart.pattern].name}>
+										{IllustrateChartPattern(screen.chart.pattern)}
+									</div>
+								</Criteria>
+							}
+						</Criterias>
 
-          <Controller>
-            <Stats>
-              {!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found</span>}
-            </Stats>
+						
+					</Screen> */}
+					<Controller>
+						<Stats>
+							{!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found</span>}
+						</Stats>
 
-            <IconButton
-              tooltip={viewType === 'grid' ? 'Table view' : 'Grid view'}
-              onClick={this.handleViewTypeChange}
-            >
-              {viewType === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
-            </IconButton>
-          </Controller>
-        </Screen>
+						<IconButton
+							tooltip={viewType === 'grid' ? 'Table view' : 'Grid view'}
+							onClick={this.handleViewTypeChange}
+						>
+							{viewType === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
+						</IconButton>
+					</Controller>
+					<Results>
+						{loading ?
+							<Spinner /> :
 
-        <Results>
-          {loading ?
-            <Spinner /> :
+							viewType === 'grid' ?
+								<Grid matches={matches} timeframe={screen.timeframe} /> :
+								<Table matches={matches} timeframe={screen.timeframe} />
+						}
+					</Results>
+				</View>
+			</>
+		);
+	}
 
-            viewType === 'grid' ?
-              <Grid matches={matches} timeframe={screen.timeframe} /> :
-              <Table matches={matches} timeframe={screen.timeframe} />
-          }
-        </Results>
-      </View>
-    );
-  }
-
-  handleViewTypeChange = () => {
-    const viewType = this.state.viewType === 'grid' ? 'list' : 'grid';
-    this.setState({ viewType });
-  }
-
-  handleEditScreen = () => {
-    this.props.history.push(`/screen/${this.props.history.location.search}`);
-  }
+	handleViewTypeChange = () => {
+		const viewType = this.state.viewType === 'grid' ? 'list' : 'grid';
+		this.setState({ viewType });
+	}
 };
 
 export default withRouter(ViewComponent);
