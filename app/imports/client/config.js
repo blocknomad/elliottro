@@ -18,6 +18,7 @@ export default {
     secondaryContrast: '#37474F',
     border: '#eee',
     text: 'white',
+    textSecondary: '#444',
     textLighter: '#333',
     icon: '#666',
   },

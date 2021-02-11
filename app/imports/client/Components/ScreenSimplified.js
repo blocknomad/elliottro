@@ -32,7 +32,6 @@ const Screen = Styled.section`
 
 const Form = Styled.form`
 	width: 100%;
-	// box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.12) 0px 3px 4px;
 	background-color: ${config.colors.primaryLighter};
 	box-sizing: border-box;
 	display: grid;
@@ -54,7 +53,7 @@ const Form = Styled.form`
 
 	[class*="MuiInput-underline"]:before {
 		border-color: rgba(0, 0, 0, .25) !important;
-	} 
+	}
 `;
 
 class ScreenComponent extends Component {
@@ -86,7 +85,6 @@ class ScreenComponent extends Component {
 					<Select
 						onChange={event => this.handleChange('timeframe', event.target.value)}
 						value={screen.timeframe}
-						autoWidth
 						inputProps={{
 							name: 'timeframe',
 						}}
@@ -105,7 +103,7 @@ class ScreenComponent extends Component {
 						IconComponent={AccountBalance}
 					>
 						<MenuItem value="" disabled>
-							Exchange
+							Exchanges
 							</MenuItem>
 						{Lodash.map(Exchanges, ({ name, status }, key) => (
 							<MenuItem key={key} value={key} disabled={status === 1}>

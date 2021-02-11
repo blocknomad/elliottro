@@ -46,7 +46,7 @@ const Title = Styled.h1`
   font-size: 18px;
   font-weight: 300;
   margin: 30px 0 10px;
-  color: ${config.colors.text};
+  color: ${config.colors.textSecondary};
 `;
 
 const Buttons = Styled.div`
@@ -61,14 +61,14 @@ const Buttons = Styled.div`
 
 const Terms = Styled.span`
   font-size: 13px;
-  color: ${config.colors.text};
+  color: ${config.colors.textSecondary};
   margin-left: 10px;
 `
 
 const Links = Styled.div`
   margin: 30px 0 0;
   font-size: 14px;
-  color: ${config.colors.text};
+  color: ${config.colors.textSecondary};
 
   p:not(:last-child) {
     margin-bottom: 4px;

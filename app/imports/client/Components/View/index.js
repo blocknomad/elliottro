@@ -37,7 +37,7 @@ const Controller = Styled.div`
 
 const Stats = Styled.p`
   font-size: 1rem;
-  color: #444;
+  color: ${config.colors.textSecondary};
   flex-grow: 100;
 `;
 
