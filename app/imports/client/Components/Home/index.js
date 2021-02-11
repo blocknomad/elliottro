@@ -25,7 +25,7 @@ const HeroTitle = Styled.h1`
 	font-size: 3rem;
 	color: ${config.colors.text};
 	text-align: center;
-	margin-bottom: 2rem;
+	margin-bottom: 1.5rem;
 `;
 
 const HeroSubtitle = Styled.p`
@@ -36,7 +36,7 @@ const HeroSubtitle = Styled.p`
 `;
 
 const Buttons = Styled.div`
-	margin-top: 3rem;
+	margin-top: 2.5rem;
 	display: flex;
 	justify-content: center;
 

@@ -71,6 +71,10 @@ class ViewComponent extends Component {
 		});
 	}
 
+	componentDidMount() {
+		window.scrollTo(0, 0);
+	}
+
 	componentWillReceiveProps(nextProps) {
 		const { search } = nextProps.history.location;
 		const params = new URLSearchParams(search);

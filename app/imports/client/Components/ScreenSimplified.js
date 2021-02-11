@@ -1,33 +1,23 @@
 import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
 import Styled from 'styled-components';
 import Lodash from 'lodash';
 import { withRouter } from 'react-router';
-import { Tracker } from 'meteor/tracker';
+import QueryBuilder from '@material-ui/icons/QueryBuilder';
+import AccountBalance from '@material-ui/icons/AccountBalance';
+import CompareArrows from '@material-ui/icons/CompareArrows';
 
-import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
-import Text from '/imports/client/Components/Reusable/Text';
 import config from '/imports/client/config';
 
 import QuoteAssets from '/imports/both/fixtures/quoteAssets';
 import Exchanges from '/imports/both/fixtures/exchanges';
 import Timeframes from '/imports/both/fixtures/timeframes';
-import Screens from '/imports/both/collections/screens';
 
 import {
 	Checkbox,
 	Button,
-	InputLabel,
-	IconButton,
-	Paper,
-	TextField,
-	Radio,
-	RadioGroup,
 	Select,
 	ListItemText,
 	MenuItem,
-	FormControl,
-	FormControlLabel,
 } from '@material-ui/core';
 
 // Styled components
@@ -59,8 +49,12 @@ const Form = Styled.form`
 
 	[class*="MuiSelect-icon"] {
 		fill: white !important;
-		margin-right: 10px;
+		margin-right: 20px;
 	}
+
+	[class*="MuiInput-underline"]:before {
+		border-color: rgba(0, 0, 0, .25) !important;
+	} 
 `;
 
 class ScreenComponent extends Component {
@@ -74,7 +68,7 @@ class ScreenComponent extends Component {
 			screen: {
 				timeframe: params.get('timeframe') || 'H1',
 				exchanges: params.get('exchanges') && params.get('exchanges').split(',') || ['BINA'],
-				quoteAssets: params.get('quoteAssets') && params.get('quoteAssets').split(',') || ['BTC', 'ETH', 'USD'],
+				quoteAssets: params.get('quoteAssets') && params.get('quoteAssets').split(',') || ['BTC'],
 			},
 		};
 	}
@@ -96,6 +90,7 @@ class ScreenComponent extends Component {
 						inputProps={{
 							name: 'timeframe',
 						}}
+						IconComponent={QueryBuilder}
 					>
 						<MenuItem value="" disabled>
 							Timeframe
@@ -106,8 +101,8 @@ class ScreenComponent extends Component {
 						multiple
 						value={screen.exchanges}
 						onChange={event => this.handleChange('exchanges', event.target.value)}
-						// MenuProps={MenuProps}
 						renderValue={(selected) => selected.map(exchange => Exchanges[exchange].name).join(', ')}
+						IconComponent={AccountBalance}
 					>
 						<MenuItem value="" disabled>
 							Exchange
@@ -123,8 +118,8 @@ class ScreenComponent extends Component {
 						multiple
 						value={screen.quoteAssets}
 						onChange={event => this.handleChange('quoteAssets', event.target.value)}
-						// MenuProps={MenuProps}
 						renderValue={(selected) => selected.map(quoteAsset => QuoteAssets[quoteAsset].name).join(', ')}
+						IconComponent={CompareArrows}
 					>
 						<MenuItem value="" disabled>
 							Quote assets
