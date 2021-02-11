@@ -79,35 +79,6 @@ class ScreenComponent extends Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		// empty form when slug disappears
-		if (
-			Lodash.isEmpty(nextProps.match.params.slug) &&
-			Lodash.isEmpty(this.props.match.params.slug) === false
-		) {
-			this.setState({
-				screen: {
-					name: null,
-					timeframe: 'H1',
-					exchanges: ['BINA'],
-					quoteAssets: ['BTC', 'ETH', 'USD'],
-					range: 50,
-					chart: {
-						type: 'reversal',
-						pattern: 'HSB',
-					},
-					candlestick: undefined,
-					indicators: [],
-					price: {},
-				},
-				saveDisabled: false,
-				createAlertDisabled: false,
-			});
-
-			this._name.value = null;
-		}
-	}
-
 	render() {
 		const { screen } = this.state;
 
@@ -173,7 +144,7 @@ class ScreenComponent extends Component {
 						onClick={this.handleRun}
 						style={{ lineHeight: '24px' }}
 					>
-						Run search
+						Search
 					</Button>
 				</Form>
 			</Screen>
