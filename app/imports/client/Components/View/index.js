@@ -214,18 +214,21 @@ class ViewComponent extends Component {
 
 						
 					</Screen> */}
-					<Controller>
-						<Stats>
-							{!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found</span>}
-						</Stats>
+					{loading ?
+						null :
+						<Controller>
+							<Stats>
+								{!loading && <span>{matches.length} match{matches.length !== 1 && 'es'} found</span>}
+							</Stats>
 
-						<IconButton
-							tooltip={viewType === 'grid' ? 'Table view' : 'Grid view'}
-							onClick={this.handleViewTypeChange}
-						>
-							{viewType === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
-						</IconButton>
-					</Controller>
+							<IconButton
+								tooltip={viewType === 'grid' ? 'Table view' : 'Grid view'}
+								onClick={this.handleViewTypeChange}
+							>
+								{viewType === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
+							</IconButton>
+						</Controller>}
+
 					<Results>
 						{loading ?
 							<Spinner /> :
