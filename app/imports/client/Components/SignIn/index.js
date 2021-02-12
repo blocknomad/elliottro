@@ -144,7 +144,7 @@ class SignInComponent extends Component {
     if (Lodash.isEmpty(errors)) {
       Meteor.loginWithPassword(user, password, (error) => {
         if (error) return this.setState({ errors: { invalidUser: true }});
-        this.props.history.push('/')
+        this.props.history.push('/view')
       });
     } else {
       this.setState({ errors });
