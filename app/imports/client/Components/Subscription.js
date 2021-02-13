@@ -40,7 +40,7 @@ class SubscriptionComponent extends Component {
 						Subscription
 					</Typography>
 					<Typography variant="subtitle1" style={{ marginTop: '15px' }} color="textSecondary">
-						${Meteor.settings.public.price} charged every 28th.
+						${Meteor.settings.public.price}/mo
 					</Typography>
 					<Button color="primary" variant="contained" style={{ marginTop: 30 }} onClick={this.handleOpen.bind(this)}>Cancel subscription</Button>
 				</Paper>
@@ -50,7 +50,7 @@ class SubscriptionComponent extends Component {
 					onClose={this.handleClose.bind(this)}
 					aria-labelledby="responsive-dialog-title"
 				>
-					<DialogTitle id="responsive-dialog-title">{this.state.cancelledSubscription ? 'Your subscription has been cancelled' : `Cancel${this.state.cancellingSubscription ? 'lling' : ''} subscription`}</DialogTitle>
+					<DialogTitle id="responsive-dialog-title">{this.state.cancelledSubscription ? 'Your subscription has been cancelled' : `Cancel${this.state.cancellingSubscription ? 'ling' : ''} subscription`}</DialogTitle>
 					<DialogContent>
 						{this.state.cancellingSubscription ?
 							<div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0'}}>

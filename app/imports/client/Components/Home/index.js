@@ -52,7 +52,7 @@ export default class HomeComponent extends Component {
 				<Home>
 					<HeroText>
 						<HeroTitle>Find Head and Shoulders in cryptocurrency charts</HeroTitle>
-						<HeroSubtitle>Sign up and screen real-time price data for $1.99/mo</HeroSubtitle>
+						<HeroSubtitle>Sign up and screen real-time price data for ${Meteor.settings.public.price}/mo</HeroSubtitle>
 						<Buttons>
 							<Link to="/signup">
 								<Button variant="contained" color="secondary" size="large">

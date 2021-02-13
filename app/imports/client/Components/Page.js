@@ -39,15 +39,17 @@ class PageComponent extends Component {
 
         const isLoggedIn = Lodash.isEmpty(user) === false || isLoggingIn;
 
+				console.log(isLoggedIn)
+
         // if the route is limited for logged out users and there's a logged in user, redirect
         // if the route is limited for logged in users and there's a logged out user, redirect
 
-        if (
-          (onlyLoggedOut && isLoggedIn) ||
-          (onlyLoggedIn && isLoggedIn === false)
-        ) {
-         return <Redirect to="/" />;
-        }
+        // if (
+        //   (onlyLoggedOut && isLoggedIn) ||
+        //   (onlyLoggedIn && isLoggedIn === false)
+        // ) {
+        // //  return <Redirect to="/" />;
+        // }
 
         // otherwise, just render it
 

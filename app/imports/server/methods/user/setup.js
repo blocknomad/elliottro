@@ -36,8 +36,6 @@ Meteor.methods({
 				],
 			});
 
-			console.log(subscription)
-
 			Meteor.users.update(userId, { $set: {
 				stripe: {
 					customerId: customer.id,

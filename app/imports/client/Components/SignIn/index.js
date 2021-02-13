@@ -65,7 +65,7 @@ const Input = Styled(TextField).attrs({
 const Error = Styled.div`
   color: rgb(244, 67, 54);
   font-size: 12px;
-  margin-top: 15px;
+  margin: 15px 0;
   display: flex;
   align-items: center;
 
@@ -132,6 +132,7 @@ class SignInComponent extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+		event.stopPropagation();
 
     const errors = {};
 
@@ -143,8 +144,12 @@ class SignInComponent extends Component {
 
     if (Lodash.isEmpty(errors)) {
       Meteor.loginWithPassword(user, password, (error) => {
-        if (error) return this.setState({ errors: { invalidUser: true }});
-        this.props.history.push('/view')
+				console.log(error)
+        if (error) {
+					this.setState({ errors: { invalidUser: true }});
+				} else {
+					this.props.history.push('/view');
+				}
       });
     } else {
       this.setState({ errors });

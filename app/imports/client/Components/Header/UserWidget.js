@@ -76,6 +76,7 @@ class UserWidgetComponent extends Component {
 					anchorEl={this.userInfo}
 					onClose={this.handleRequestClose}
 				>
+					<MenuItem disabled><strong>{user.emails[0].address}</strong></MenuItem>
 					<Link to="/subscription" onClick={() => this.setState({ open: false })}>
 						<MenuItem>Subscription</MenuItem>
 					</Link>

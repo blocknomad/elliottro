@@ -150,7 +150,7 @@ class SignUpComponent extends Component {
 								color="primary"
 								disabled={this.state.submitting}
 							>
-								Sign up for $1.99/mo
+								Sign up for ${Meteor.settings.public.price}/mo
               </Button>
 						</Buttons>
 					</form>
