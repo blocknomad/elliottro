@@ -76,8 +76,9 @@ class UserWidgetComponent extends Component {
 					anchorEl={this.userInfo}
 					onClose={this.handleRequestClose}
 				>
-					<MenuItem>Profile</MenuItem>
-					<MenuItem>Settings</MenuItem>
+					<Link to="/subscription" onClick={() => this.setState({ open: false })}>
+						<MenuItem>Subscription</MenuItem>
+					</Link>
 					<Divider />
 					<MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
 				</Menu>

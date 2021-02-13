@@ -3,13 +3,12 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Page from './Page';
-import Alerts from './Alerts';
 import ForgotPassword from './ForgotPassword';
 import Home from './Home';
 import ResetPassword from './ResetPassword';
-import Screen from './Screen';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Subscription from './Subscription';
 import Terms from './Terms';
 import View from './View';
 
@@ -45,9 +44,8 @@ export default class AppComponent extends Component {
 					<MuiThemeProvider theme={theme}>
 						<Switch>
 							<Page exact path="/" component={Home} />
-							<Page path="/alerts" component={Alerts} />
-							<Page path="/screen/:slug?" component={Screen} />
 							<Page path="/view/:slug?" component={View} />
+							<Page path="/subscription" component={Subscription} />
 
 							<Page path="/signin" component={SignIn} onlyLoggedOut blank />
 							<Page path="/signup" component={SignUp} onlyLoggedOut blank />

@@ -36,10 +36,13 @@ Meteor.methods({
 				],
 			});
 
+			console.log(subscription)
+
 			Meteor.users.update(userId, { $set: {
 				stripe: {
 					customerId: customer.id,
-					subscription: subscription.id,
+					subscriptionId: subscription.id,
+					subscriptionStatus: 'ongoing',
 					paymentMethodId: paymentMethod.id,
 					card: {
 						brand: paymentMethod.card.brand,
