@@ -1,11 +1,10 @@
-import { Meteor } from 'meteor/meteor';
-import { HTTP } from 'meteor/http';
-import BinanceAPI from 'binance';
-import Lodash from 'lodash';
+import { Meteor } from "meteor/meteor";
+import { HTTP } from "meteor/http";
+import BinanceAPI from "binance";
+import Lodash from "lodash";
 
-import Symbols from '/imports/both/collections/symbols';
-import Timeframes from '/imports/both/fixtures/timeframes';
-
+import Symbols from "/imports/both/collections/symbols";
+import Timeframes from "/imports/both/fixtures/timeframes";
 
 export default function fetchKlinesBinance(timeframe) {
   console.log(`START: Fetching BINANCE ${timeframe} klines`);
@@ -13,23 +12,21 @@ export default function fetchKlinesBinance(timeframe) {
   const Binance = new BinanceAPI.BinanceRest({});
   const BinanceSymbols = {};
 
-  Symbols.find({ exchange: 'BINA', timeframe }).forEach(symbol => {
+  Symbols.find({ exchange: "BINA", timeframe }).forEach((symbol) => {
     BinanceSymbols[symbol.baseAsset + symbol.quoteAsset] = symbol;
   });
 
-  const treatKlines = klines =>
-    Lodash.map(klines, kline => ({
-        open: Number(kline[1]),
-        high: Number(kline[2]),
-        low: Number(kline[3]),
-        close: Number(kline[4]),
-        openTime: kline[0],
-        closeTime: kline[6],
-      })
-    );
+  const treatKlines = (klines) =>
+    Lodash.map(klines, (kline) => ({
+      open: Number(kline[1]),
+      high: Number(kline[2]),
+      low: Number(kline[3]),
+      close: Number(kline[4]),
+      openTime: kline[0],
+      closeTime: kline[6],
+    }));
 
   new Promise(
-
     // 1 - Fetch exchange info
 
     (resolve, reject) =>
@@ -40,31 +37,26 @@ export default function fetchKlinesBinance(timeframe) {
           resolve(response);
         }
       })
+  )
+    .then(
+      // 2 - Treat exchange info and filter symbols with desired quote assets
 
-  ).then(
+      (data) =>
+        Lodash.filter(
+          data.symbols,
+          //symbol => Lodash.includes(['USDT'], symbol.quoteAsset)
+          (symbol) => Lodash.includes(["BTC", "ETH", "USDT"], symbol.quoteAsset)
+        )
+    )
+    .then(
+      // 3 - Create list of promises
 
-    // 2 - Treat exchange info and filter symbols with desired quote assets
-
-    data =>
-      Lodash.filter(
-        data.symbols,
-        //symbol => Lodash.includes(['USDT'], symbol.quoteAsset)
-        symbol => Lodash.includes(['BTC', 'ETH', 'USDT'], symbol.quoteAsset)
-      )
-
-  ).then(
-
-    // 3 - Create list of promises
-
-    data =>
-      Lodash.map(
-        data,
-        ({ symbol, baseAsset, quoteAsset }) =>
-          new Promise(resolve => {
-
+      (data) =>
+        Lodash.map(data, ({ symbol, baseAsset, quoteAsset }) =>
+          new Promise((resolve) => {
             let query = `symbol=${symbol}&interval=${Timeframes[timeframe].value}&limit=100`;
 
-            const currentKlines = Lodash.get(BinanceSymbols[symbol], 'klines');
+            const currentKlines = Lodash.get(BinanceSymbols[symbol], "klines");
 
             if (Lodash.isEmpty(currentKlines) === false) {
               query += `&startTime=${Lodash.last(currentKlines).closeTime + 1}`;
@@ -72,7 +64,7 @@ export default function fetchKlinesBinance(timeframe) {
 
             try {
               const response = HTTP.get(
-                'https://api.binance.com/api/v1/klines',
+                "https://api.binance.com/api/v1/klines",
                 { query }
               );
 
@@ -82,49 +74,46 @@ export default function fetchKlinesBinance(timeframe) {
                 quoteAsset,
                 klines: response.data,
               });
-            } catch(error) {
+            } catch (error) {
               console.log(error);
             }
-
-          }).catch(error => {
+          }).catch((error) => {
             console.log(error);
           })
-      )
+        )
+    )
+    .then(
+      // 4 - Run list of promises
 
-  ).then(
+      (data) => Promise.all(data)
+    )
+    .then(
+      // 5 - Store klines on Symbols collection
 
-    // 4 - Run list of promises
+      (data) => {
+        data.forEach(({ symbol, baseAsset, quoteAsset, klines }) => {
+          if (BinanceSymbols[symbol]) {
+            klines = BinanceSymbols[symbol].klines
+              .concat(treatKlines(klines))
+              .slice(-100);
 
-    data => Promise.all(data)
+            Symbols.update(BinanceSymbols[symbol]._id, { $set: { klines } });
+          } else if (Lodash.isEmpty(klines) === false) {
+            Symbols.insert({
+              baseAsset,
+              quoteAsset,
+              timeframe,
+              exchange: "BINA",
+              klines: treatKlines(klines),
+            });
+          }
+        });
 
-  ).then(
-
-    // 5 - Store klines on Symbols collection
-
-    data => {
-
-      data.forEach(({ symbol, baseAsset, quoteAsset, klines }) => {
-        if (BinanceSymbols[symbol]) {
-          klines = (BinanceSymbols[symbol].klines.concat(treatKlines(klines))).slice(-100);
-
-          Symbols.update(
-            BinanceSymbols[symbol]._id,
-            { $set: { klines } }
-          );
-        } else if (Lodash.isEmpty(klines) === false) {
-          Symbols.insert({
-            baseAsset,
-            quoteAsset,
-            timeframe,
-            exchange: 'BINA',
-            klines: treatKlines(klines),
-          });
-        }
-      });
-
-      console.log(`END: Fetching BINANCE ${timeframe} klines, ${(Lodash.map(data, 'klines')).length} klines fetched`);
-
-    }
-
-  );
-};
+        console.log(
+          `END: Fetching BINANCE ${timeframe} klines, ${
+            Lodash.map(data, "klines").length
+          } klines fetched`
+        );
+      }
+    );
+}

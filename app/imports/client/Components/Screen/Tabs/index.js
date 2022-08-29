@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import CandlestickPattern from './CandlestickPattern';
-import ChartPattern from './ChartPattern';
-import Indicators from './Indicators';
-import Price from './Price';
-import Volume from './Volume';
+import CandlestickPattern from "./CandlestickPattern";
+import ChartPattern from "./ChartPattern";
+import Indicators from "./Indicators";
+import Price from "./Price";
+import Volume from "./Volume";
 
 // Styled components
 
@@ -34,7 +34,9 @@ const Tab = Styled.div`
   cursor: pointer;
   margin-bottom: 3px;
 
-  ${props => props.active && `
+  ${(props) =>
+    props.active &&
+    `
     border-color: ${config.colors.primary};
     font-weight: 700;
   `}
@@ -46,29 +48,26 @@ const TabBody = Styled.div`
 
 export default class ScreenTabsComponent extends Component {
   state = {
-    tab: 'chart',
-  }
+    tab: "chart",
+  };
 
   render() {
-    const {
-      screen,
-      handleChange,
-    } = this.props;
+    const { screen, handleChange } = this.props;
 
     const { tab } = this.state;
 
     const TabsList = {
-      candlestick: 'Candlestick pattern',
-      chart: 'Chart pattern',
-      indicators: 'Indicators',
-      price: 'Price performance',
-      volume: 'Volume',
+      candlestick: "Candlestick pattern",
+      chart: "Chart pattern",
+      indicators: "Indicators",
+      price: "Price performance",
+      volume: "Volume",
     };
 
     return (
       <Tabs>
         <TabsColumn>
-          {Lodash.map(TabsList, (name, key) =>
+          {Lodash.map(TabsList, (name, key) => (
             <Tab
               key={key}
               active={tab === key}
@@ -76,20 +75,20 @@ export default class ScreenTabsComponent extends Component {
             >
               {name}
             </Tab>
-          )}
+          ))}
         </TabsColumn>
 
         <TabBody>
-          {tab === 'candlestick' && <CandlestickPattern />}
-          {tab === 'chart' &&
+          {tab === "candlestick" && <CandlestickPattern />}
+          {tab === "chart" && (
             <ChartPattern
               selected={screen.chart.pattern}
               handleChange={handleChange}
             />
-          }
-          {tab === 'indicators' && <Indicators />}
-          {tab === 'price' && <Price />}
-          {tab === 'volume' && <Volume />}
+          )}
+          {tab === "indicators" && <Indicators />}
+          {tab === "price" && <Price />}
+          {tab === "volume" && <Volume />}
         </TabBody>
       </Tabs>
     );

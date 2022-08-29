@@ -1,30 +1,30 @@
 export default {
   BINA: {
-    name: 'Binance',
+    name: "Binance",
     status: 2,
   },
   BTFX: {
-    name: 'Bitfinex',
+    name: "Bitfinex",
     status: 1,
   },
   BTRX: {
-    name: 'Bittrex',
+    name: "Bittrex",
     status: 1,
   },
   CPTO: {
-    name: 'Cryptopia',
+    name: "Cryptopia",
     status: 1,
   },
   HITB: {
-    name: 'HitBTC',
+    name: "HitBTC",
     status: 1,
   },
   LIQU: {
-    name: 'Liqui',
+    name: "Liqui",
     status: 1,
   },
   POLO: {
-    name: 'Poloniex',
+    name: "Poloniex",
     status: 1,
   },
 };

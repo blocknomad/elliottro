@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import { Meteor } from "meteor/meteor";
+import Styled from "styled-components";
+import Lodash from "lodash";
 import { Route, Redirect } from "react-router-dom";
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from "./Header";
+import Footer from "./Footer";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import UserContainer from '/imports/client/Containers/user';
+import UserContainer from "/imports/client/Containers/user";
 
 // Styled components
 
@@ -35,38 +35,40 @@ class PageComponent extends Component {
     } = this.props;
 
     return (
-      <Route {...props} render={renderProps => {
+      <Route
+        {...props}
+        render={(renderProps) => {
+          const isLoggedIn = Lodash.isEmpty(user) === false || isLoggingIn;
 
-        const isLoggedIn = Lodash.isEmpty(user) === false || isLoggingIn;
+          console.log(isLoggedIn);
 
-				console.log(isLoggedIn)
+          // if the route is limited for logged out users and there's a logged in user, redirect
+          // if the route is limited for logged in users and there's a logged out user, redirect
 
-        // if the route is limited for logged out users and there's a logged in user, redirect
-        // if the route is limited for logged in users and there's a logged out user, redirect
+          // if (
+          //   (onlyLoggedOut && isLoggedIn) ||
+          //   (onlyLoggedIn && isLoggedIn === false)
+          // ) {
+          // //  return <Redirect to="/" />;
+          // }
 
-        // if (
-        //   (onlyLoggedOut && isLoggedIn) ||
-        //   (onlyLoggedIn && isLoggedIn === false)
-        // ) {
-        // //  return <Redirect to="/" />;
-        // }
+          // otherwise, just render it
 
-        // otherwise, just render it
+          return (
+            <App>
+              <Main>
+                {!blank && <Header />}
 
-        return (
-          <App>
-            <Main>
-              {!blank && <Header />}
+                <Component {...renderProps} />
 
-              <Component {...renderProps} />
-
-              {!blank && <Footer />}
-            </Main>
-          </App>
-        )
-      }} />
+                {!blank && <Footer />}
+              </Main>
+            </App>
+          );
+        }}
+      />
     );
   }
-};
+}
 
 export default UserContainer(PageComponent);

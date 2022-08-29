@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor'
-import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router'
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import { Meteor } from "meteor/meteor";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Background from '/imports/client/Components/Reusable/Background';
+import Background from "/imports/client/Components/Reusable/Background";
 
-import {
-  TextField,
-  Button,
-  Paper,
-} from '@material-ui/core';
-
+import { TextField, Button, Paper } from "@material-ui/core";
 
 // Styled components
 
@@ -77,7 +72,7 @@ const Error = Styled.div`
 class SignInComponent extends Component {
   state = {
     errors: {},
-  }
+  };
 
   render() {
     return (
@@ -92,14 +87,17 @@ class SignInComponent extends Component {
           <Title>Sign in</Title>
 
           <form onSubmit={this.handleSubmit}>
-            {this.state.errors.invalidUser &&
-              <Error><i className="material-icons">error</i> Invalid email or password.</Error>
-            }
+            {this.state.errors.invalidUser && (
+              <Error>
+                <i className="material-icons">error</i> Invalid email or
+                password.
+              </Error>
+            )}
             <Input
               fullWidth={true}
               label="Email"
               name="email"
-              inputRef={r => this._email = r}
+              inputRef={(r) => (this._email = r)}
               error={Boolean(this.state.errors.email)}
             />
             <Input
@@ -107,7 +105,7 @@ class SignInComponent extends Component {
               label="Password"
               name="password"
               type="password"
-              inputRef={r => this._password = r}
+              inputRef={(r) => (this._password = r)}
               error={Boolean(this.state.errors.password)}
             />
 
@@ -115,15 +113,19 @@ class SignInComponent extends Component {
               variant="contained"
               color="primary"
               type="submit"
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
             >
               Sign in
             </Button>
           </form>
 
           <Links>
-            <p>Need an account? Click to <Link to="/signup">sign up.</Link></p>
-            <p><Link to="/forgot-password">Forgot your password?</Link></p>
+            <p>
+              Need an account? Click to <Link to="/signup">sign up.</Link>
+            </p>
+            <p>
+              <Link to="/forgot-password">Forgot your password?</Link>
+            </p>
           </Links>
         </Panel>
       </SignIn>
@@ -132,29 +134,29 @@ class SignInComponent extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-		event.stopPropagation();
+    event.stopPropagation();
 
     const errors = {};
 
     const user = this._email.value;
     const password = this._password.value;
 
-    if (Lodash.isEmpty(user)) errors.email = 'This field is required.';
-    if (Lodash.isEmpty(password)) errors.password = 'This field is required.';
+    if (Lodash.isEmpty(user)) errors.email = "This field is required.";
+    if (Lodash.isEmpty(password)) errors.password = "This field is required.";
 
     if (Lodash.isEmpty(errors)) {
       Meteor.loginWithPassword(user, password, (error) => {
-				console.log(error)
+        console.log(error);
         if (error) {
-					this.setState({ errors: { invalidUser: true }});
-				} else {
-					this.props.history.push('/view');
-				}
+          this.setState({ errors: { invalidUser: true } });
+        } else {
+          this.props.history.push("/view");
+        }
       });
     } else {
       this.setState({ errors });
     }
-  }
+  };
 }
 
 export default withRouter(SignInComponent);

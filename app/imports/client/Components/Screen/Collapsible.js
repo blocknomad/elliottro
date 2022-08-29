@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
 // Styled components
 
@@ -22,12 +22,12 @@ const Label = Styled.span`
   font-size: 13px;
   color: ${config.colors.text};
 
-`
+`;
 
 const Icon = Styled.i`
   color: ${config.colors.primary};
   transition: .3s ease-in-out;
-  ${props => props.toggled && 'transform: rotate(180deg);'}
+  ${(props) => props.toggled && "transform: rotate(180deg);"}
 `;
 
 const Content = Styled.div`
@@ -64,7 +64,7 @@ export default class CollapsibleComponent extends Component {
     this.props.toggled && this.handleToggle();
 
     Lodash.forEach(this.props.items, (item, key) => {
-      if (item.status === 2) this.props.handleToggle(this.props.name, key)
+      if (item.status === 2) this.props.handleToggle(this.props.name, key);
     });
   }
 
@@ -76,12 +76,14 @@ export default class CollapsibleComponent extends Component {
       <Collapsible>
         <Toggle onClick={this.handleToggle}>
           <Label>{label}</Label>
-          <Icon className="material-icons" toggled={toggled}>expand_more</Icon>
+          <Icon className="material-icons" toggled={toggled}>
+            expand_more
+          </Icon>
         </Toggle>
 
-        <Content toggled={toggled} innerRef={ref => this.content = ref}>
+        <Content toggled={toggled} innerRef={(ref) => (this.content = ref)}>
           <ContentInner>
-            {Lodash.map(items, (item, key) =>
+            {Lodash.map(items, (item, key) => (
               <div key={key}>
                 <input
                   type="checkbox"
@@ -94,7 +96,7 @@ export default class CollapsibleComponent extends Component {
                 />
                 &nbsp;<label htmlFor={key}>{item.name}</label>
               </div>
-            )}
+            ))}
           </ContentInner>
         </Content>
       </Collapsible>
@@ -102,9 +104,9 @@ export default class CollapsibleComponent extends Component {
   }
 
   handleToggle = () => {
-    this.content.style.height = this.state.toggled === false ?
-      `${this.content.scrollHeight}px` : 0;
+    this.content.style.height =
+      this.state.toggled === false ? `${this.content.scrollHeight}px` : 0;
 
     this.setState({ toggled: !this.state.toggled });
-  }
-};
+  };
+}

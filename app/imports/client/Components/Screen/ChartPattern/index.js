@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import ColumnTitle from '/imports/client/Components/Reusable/ColumnTitle';
-import Text from '/imports/client/Components/Reusable/Text';
-import Illustrate from '/imports/client/Components/Reusable/IllustrateChartPattern';
+import ColumnTitle from "/imports/client/Components/Reusable/ColumnTitle";
+import Text from "/imports/client/Components/Reusable/Text";
+import Illustrate from "/imports/client/Components/Reusable/IllustrateChartPattern";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Patterns from '/imports/both/fixtures/patterns';
+import Patterns from "/imports/both/fixtures/patterns";
 
-import {
-  IconButton,
-} from '@material-ui/core';
+import { IconButton } from "@material-ui/core";
 
 // Styled components
 
@@ -38,8 +36,13 @@ const GridItem = Styled.div`
   border: 1px solid #eee;
   position: relative;
 
-  ${props => props.disabled ? 'background-color: #eee;' : 'cursor: pointer; background-color: #FFF;'}
-  ${props => props.selected && `
+  ${(props) =>
+    props.disabled
+      ? "background-color: #eee;"
+      : "cursor: pointer; background-color: #FFF;"}
+  ${(props) =>
+    props.selected &&
+    `
     &::after {
       content: " ";
       position: absolute;
@@ -59,39 +62,47 @@ export default class ChartPatternComponent extends Component {
   }
 
   drawGrid(title, type, patterns) {
-    patterns = Lodash.filter(patterns, p => p.status !== 3);
+    patterns = Lodash.filter(patterns, (p) => p.status !== 3);
 
     return (
       <Grid>
-        <Text>
-          {title}
-        </Text>
+        <Text>{title}</Text>
 
         <GridItems>
-          {Lodash.map(patterns, pattern =>
+          {Lodash.map(patterns, (pattern) => (
             <GridItem
               key={pattern.acronym}
               disabled={pattern.status === 1}
               selected={pattern.acronym === this.props.selected}
-              onClick={pattern.status === 2 ?
-                () => this.props.handleChange('chart', { type, pattern: pattern.acronym}) :
-                () => {}
+              onClick={
+                pattern.status === 2
+                  ? () =>
+                      this.props.handleChange("chart", {
+                        type,
+                        pattern: pattern.acronym,
+                      })
+                  : () => {}
               }
-              title={`${pattern.name}${pattern.status === 1 ? ' (not yet available)' : ''}`}
+              title={`${pattern.name}${
+                pattern.status === 1 ? " (not yet available)" : ""
+              }`}
             >
-              {Illustrate(pattern.acronym, { width: 120 * 0.4, height: 100 * .4 })}
+              {Illustrate(pattern.acronym, {
+                width: 120 * 0.4,
+                height: 100 * 0.4,
+              })}
             </GridItem>
-          )}
+          ))}
         </GridItems>
       </Grid>
-    )
+    );
   }
 
   render() {
     return (
       <ChartPattern>
-        {this.drawGrid('Reversal', 'reversal', Patterns.reversal)}
-        {this.drawGrid('Continuation', 'continuation', Patterns.continuation)}
+        {this.drawGrid("Reversal", "reversal", Patterns.reversal)}
+        {this.drawGrid("Continuation", "continuation", Patterns.continuation)}
       </ChartPattern>
     );
   }

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Exchanges from '/imports/both/fixtures/exchanges';
+import Exchanges from "/imports/both/fixtures/exchanges";
 
-import formatDate from '../functions/formatDate';
+import formatDate from "../functions/formatDate";
 
 // Styled components
 
@@ -49,7 +49,7 @@ const Table = Styled.table`
   th:first-child, td:first-child {
     padding-right: 15px;
   }
-`
+`;
 
 const Visit = Styled.a`
   i {
@@ -57,14 +57,11 @@ const Visit = Styled.a`
     font-size: 17px;
     vertical-align: top;
   }
-`
+`;
 
 export default class TableResultsComponent extends Component {
   render() {
-    const {
-      matches,
-      timeframe,
-    } = this.props;
+    const { matches, timeframe } = this.props;
 
     return (
       <Table>
@@ -82,10 +79,9 @@ export default class TableResultsComponent extends Component {
 
         <tbody>
           {Lodash.map(
-
             matches,
 
-            (match, key) =>
+            (match, key) => (
               <tr key={key}>
                 <td>{key + 1}</td>
                 <td>{match.baseAsset}</td>
@@ -103,6 +99,7 @@ export default class TableResultsComponent extends Component {
                   </Visit>
                 </td>
               </tr>
+            )
           )}
         </tbody>
       </Table>

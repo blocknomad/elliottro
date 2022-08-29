@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Exchanges from '/imports/both/fixtures/exchanges';
-import drawKlines from './functions/drawKlines';
-import drawGridLines from './functions/drawGridLines';
-import drawPointerLines from './functions/drawPointerLines';
-import removePointerLines from './functions/removePointerLines';
-import formatDate from './../../functions/formatDate';
+import Exchanges from "/imports/both/fixtures/exchanges";
+import drawKlines from "./functions/drawKlines";
+import drawGridLines from "./functions/drawGridLines";
+import drawPointerLines from "./functions/drawPointerLines";
+import removePointerLines from "./functions/removePointerLines";
+import formatDate from "./../../functions/formatDate";
 
-import {
-  Paper,
-  IconButton,
-} from '@material-ui/core';
+import { Paper, IconButton } from "@material-ui/core";
 
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from "@material-ui/icons/Launch";
 
 // Styled components
 
@@ -75,7 +72,6 @@ const Title = Styled.div`
   }
 `;
 
-
 export default class GridTileComponent extends Component {
   constructor(props) {
     super(props);
@@ -88,17 +84,19 @@ export default class GridTileComponent extends Component {
 
   componentWillUnmount() {
     //window.removeEventListener('resize', this.drawChart);
-    this.pointerLines.removeEventListener('mousemove', this.handleMouseMove);
-    this.pointerLines.removeEventListener('mouseout', this.handleMouseOut);
+    this.pointerLines.removeEventListener("mousemove", this.handleMouseMove);
+    this.pointerLines.removeEventListener("mouseout", this.handleMouseOut);
   }
 
   drawChart() {
     const { match, timeframe } = this.props;
 
-    const maxInWindow = Lodash.maxBy(match.klines, 'high');
-    const minInWindow = Lodash.minBy(match.klines, 'low');
+    const maxInWindow = Lodash.maxBy(match.klines, "high");
+    const minInWindow = Lodash.minBy(match.klines, "low");
 
-    const verticalStepper = Number(((maxInWindow.high - minInWindow.low) / 5).toPrecision(1));
+    const verticalStepper = Number(
+      ((maxInWindow.high - minInWindow.low) / 5).toPrecision(1)
+    );
 
     const windowTop = maxInWindow.high * 1.007;
     const windowBottom = minInWindow.low - (minInWindow.low % verticalStepper);
@@ -107,7 +105,7 @@ export default class GridTileComponent extends Component {
     const labelsHeight = 24;
 
     const chartWidth = this.gridLines.parentElement.scrollWidth;
-    const chartHeight = chartWidth * .45;
+    const chartHeight = chartWidth * 0.45;
 
     this.gridLines.parentElement.style.height = `${chartHeight}px`;
 
@@ -120,7 +118,8 @@ export default class GridTileComponent extends Component {
     this.pointerLines.width = chartWidth;
     this.pointerLines.height = chartHeight;
 
-    const klineWidth = this.klines.width / (match.klines.length + (match.klines.length + 1) / 2);
+    const klineWidth =
+      this.klines.width / (match.klines.length + (match.klines.length + 1) / 2);
     const vRatio = this.klines.height / (windowTop - windowBottom);
 
     drawGridLines(
@@ -147,7 +146,7 @@ export default class GridTileComponent extends Component {
       windowBottom
     );
 
-    this.handleMouseMove = event => {
+    this.handleMouseMove = (event) => {
       drawPointerLines(
         this.pointerLines,
         event,
@@ -161,34 +160,35 @@ export default class GridTileComponent extends Component {
       );
     };
 
-    this.handleMouseOut = event => {
+    this.handleMouseOut = (event) => {
       removePointerLines(this.pointerLines);
     };
 
-    this.pointerLines.addEventListener('mousemove', this.handleMouseMove);
-    this.pointerLines.addEventListener('mouseout', this.handleMouseOut);
+    this.pointerLines.addEventListener("mousemove", this.handleMouseMove);
+    this.pointerLines.addEventListener("mouseout", this.handleMouseOut);
   }
 
   render() {
-    const {
-      match,
-      timeframe,
-    } = this.props;
+    const { match, timeframe } = this.props;
 
     return (
       <Tile>
         <Chart>
-          <Canvas innerRef={ref => this.gridLines = ref} />
-          <Canvas innerRef={ref => this.klines = ref} />
-          <Canvas innerRef={ref => this.pointerLines = ref} />
+          <Canvas innerRef={(ref) => (this.gridLines = ref)} />
+          <Canvas innerRef={(ref) => (this.klines = ref)} />
+          <Canvas innerRef={(ref) => (this.pointerLines = ref)} />
         </Chart>
 
         <Information>
           <Title>
-            <h3>{Exchanges[match.exchange].name}:<span>{match.baseAsset}</span>{match.quoteAsset}</h3>
+            <h3>
+              {Exchanges[match.exchange].name}:<span>{match.baseAsset}</span>
+              {match.quoteAsset}
+            </h3>
 
             <p>
-              {formatDate(match.start, timeframe)} - {formatDate(match.end, timeframe)}
+              {formatDate(match.start, timeframe)} -{" "}
+              {formatDate(match.end, timeframe)}
             </p>
           </Title>
 

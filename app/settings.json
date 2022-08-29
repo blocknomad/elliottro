@@ -1,9 +1,9 @@
 {
-	"ENV": "development",
-	"public": {
-		"stripe_pk": "pk_test_rwVTwOuLboNw983ZLmwubeoy",
-		"price": 19.99
-	},
-	"stripe_sk": "sk_test_vxLYmtJGy1g1aIJ0WLbEeCdc",
-	"stripe_price_id": "price_1IK7stLihwqMzSxxj1xfvXyj"
+  "ENV": "development",
+  "public": {
+    "stripe_pk": "pk_test_rwVTwOuLboNw983ZLmwubeoy",
+    "price": 19.99
+  },
+  "stripe_sk": "sk_test_vxLYmtJGy1g1aIJ0WLbEeCdc",
+  "stripe_price_id": "price_1IK7stLihwqMzSxxj1xfvXyj"
 }

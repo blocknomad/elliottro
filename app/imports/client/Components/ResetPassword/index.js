@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
-import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router'
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import { Meteor } from "meteor/meteor";
+import { Accounts } from "meteor/accounts-base";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Background from '/imports/client/Components/Reusable/Background';
+import Background from "/imports/client/Components/Reusable/Background";
 
-import {
-  TextField,
-  Button,
-  Paper,
-} from '@material-ui/core';
-
+import { TextField, Button, Paper } from "@material-ui/core";
 
 // Styled components
 
@@ -88,7 +83,7 @@ const Success = Styled.div`
 `;
 
 const HomeIcon = Styled.i.attrs({
-  className: 'material-icons',
+  className: "material-icons",
 })`
   color: #FFF;
 `;
@@ -101,7 +96,7 @@ class ForgotPasswordComponent extends Component {
     },
     errors: {},
     disabled: false,
-  }
+  };
 
   render() {
     return (
@@ -116,20 +111,25 @@ class ForgotPasswordComponent extends Component {
           <Title>Reset password</Title>
 
           <form onSubmit={this.handleSubmit}>
-            {this.state.main.type === 'error' &&
-              <Error><i className="material-icons">error</i> {this.state.main.text}</Error>
-            }
+            {this.state.main.type === "error" && (
+              <Error>
+                <i className="material-icons">error</i> {this.state.main.text}
+              </Error>
+            )}
 
-            {this.state.main.type === 'success' ?
-              <Success><i className="material-icons">done</i> {this.state.main.text}</Success> : [
-
+            {this.state.main.type === "success" ? (
+              <Success>
+                <i className="material-icons">done</i> {this.state.main.text}
+              </Success>
+            ) : (
+              [
                 <Input
                   fullWidth={true}
                   floatingLabelText="New password"
                   name="password"
                   type="password"
                   key={0}
-                  innerRef={r => this._password = r}
+                  innerRef={(r) => (this._password = r)}
                   errorText={this.state.errors.password}
                 />,
 
@@ -143,20 +143,17 @@ class ForgotPasswordComponent extends Component {
                   Reset password
                 </Button>,
               ]
-            }
+            )}
           </form>
 
           <Links>
-            {this.state.main.type === 'success' &&
+            {this.state.main.type === "success" && (
               <Link to="/">
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
+                <Button color="primary" variant="contained">
                   <HomeIcon>home</HomeIcon> Home
                 </Button>
               </Link>
-            }
+            )}
           </Links>
         </Panel>
       </ResetPassword>
@@ -175,22 +172,26 @@ class ForgotPasswordComponent extends Component {
 
     const password = this._password.input.value;
 
-    if (Lodash.isEmpty(password)) errors.password = 'This field is required.';
+    if (Lodash.isEmpty(password)) errors.password = "This field is required.";
 
     if (Lodash.isEmpty(errors)) {
       const { token } = this.props.match.params;
 
-      Accounts.resetPassword(token, password, error => {
+      Accounts.resetPassword(token, password, (error) => {
         if (error) {
-          this.setState({ main: {
-            text: `${error.reason}.`,
-            type: 'error',
-          }});
+          this.setState({
+            main: {
+              text: `${error.reason}.`,
+              type: "error",
+            },
+          });
         } else {
-          this.setState({ main: {
-            text: 'Successfully reset password and now you are logged in.',
-            type: 'success',
-          }});
+          this.setState({
+            main: {
+              text: "Successfully reset password and now you are logged in.",
+              type: "success",
+            },
+          });
         }
 
         this.setState({ disabled: false });
@@ -201,7 +202,7 @@ class ForgotPasswordComponent extends Component {
         disabled: false,
       });
     }
-  }
+  };
 }
 
 export default withRouter(ForgotPasswordComponent);

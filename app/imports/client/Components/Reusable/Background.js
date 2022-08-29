@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
-import Patterns from '/imports/both/fixtures/patterns';
+import config from "/imports/client/config";
+import Patterns from "/imports/both/fixtures/patterns";
 
-import Illustrate from './IllustrateChartPattern';
+import Illustrate from "./IllustrateChartPattern";
 
 // Styled components
 
@@ -29,32 +29,30 @@ const Background = Styled.div`
 `;
 
 export default function fBackground({ style, children }) {
-  const color = 'rgba(0, 0, 0, .12)';
-  const filterPatterns = ps => Lodash.filter(ps, p => p.status !== 3);
+  const color = "rgba(0, 0, 0, .12)";
+  const filterPatterns = (ps) => Lodash.filter(ps, (p) => p.status !== 3);
   const patterns = filterPatterns({
     ...Patterns.reversal,
-    ...Patterns.continuation
+    ...Patterns.continuation,
   });
 
   return (
     <Background>
-      {
-        (Lodash.shuffle(patterns)).map(({ acronym }) => {
-          const i = Math.ceil(Math.random() * 4);
+      {Lodash.shuffle(patterns).map(({ acronym }) => {
+        const i = Math.ceil(Math.random() * 4);
 
-          return (
-            <div key={acronym}>
-              {Illustrate(acronym, {
-                primary: color,
-                secondary: color,
-                width: 72 * i,
-                height: 60 * i,
-                props: {},
-              })}
-            </div>
-          );
-        })
-      }
+        return (
+          <div key={acronym}>
+            {Illustrate(acronym, {
+              primary: color,
+              secondary: color,
+              width: 72 * i,
+              height: 60 * i,
+              props: {},
+            })}
+          </div>
+        );
+      })}
     </Background>
   );
 }

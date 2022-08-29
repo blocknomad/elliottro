@@ -1,43 +1,43 @@
 module.exports = {
   servers: {
     one: {
-      host: '54.82.165.27',
-      username: 'ubuntu',
-      pem: '~/Documents/dev/Gagarin/Elliottro-PRE-ALPHA01.pem'
-    }
+      host: "54.82.165.27",
+      username: "ubuntu",
+      pem: "~/Documents/dev/Gagarin/Elliottro-PRE-ALPHA01.pem",
+    },
   },
 
   meteor: {
-    name: 'Elliottro',
-    path: '../',
+    name: "Elliottro",
+    path: "../",
     docker: {
-      image: 'zodern/meteor:root'
+      image: "zodern/meteor:root",
     },
     servers: {
-      one: {}
+      one: {},
     },
     buildOptions: {
-      serverOnly: true
+      serverOnly: true,
     },
     env: {
-      ROOT_URL: 'https://elliottro.com',
-      MONGO_URL: 'mongodb://localhost/meteor'
+      ROOT_URL: "https://elliottro.com",
+      MONGO_URL: "mongodb://localhost/meteor",
     },
-    enableUploadProgressBar: true
+    enableUploadProgressBar: true,
   },
 
   mongo: {
-    version: '3.4.1',
+    version: "3.4.1",
     servers: {
-      one: {}
-    }
+      one: {},
+    },
   },
 
   proxy: {
-    domains: 'elliottro.com,www.elliottro.com',
+    domains: "elliottro.com,www.elliottro.com",
     ssl: {
-      letsEncryptEmail: 'yuri.fabris@gmail.com',
-      forceSSL: true
-    }
-  }
+      letsEncryptEmail: "yuri.fabris@gmail.com",
+      forceSSL: true,
+    },
+  },
 };

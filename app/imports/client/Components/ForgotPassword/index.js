@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor'
-import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Lodash from 'lodash';
+import React, { Component } from "react";
+import { Meteor } from "meteor/meteor";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
+import Lodash from "lodash";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Background from '/imports/client/Components/Reusable/Background';
+import Background from "/imports/client/Components/Reusable/Background";
 
-import {
-  TextField,
-  Button,
-  Paper,
-} from '@material-ui/core';
-
+import { TextField, Button, Paper } from "@material-ui/core";
 
 // Styled components
 
@@ -86,7 +81,7 @@ const Success = Styled.div`
 `;
 
 const HomeIcon = Styled.i.attrs({
-  className: 'material-icons',
+  className: "material-icons",
 })`
   color: #FFF;
 `;
@@ -99,7 +94,7 @@ export default class ForgotPasswordComponent extends Component {
     },
     errors: {},
     disabled: false,
-  }
+  };
 
   render() {
     return (
@@ -114,19 +109,24 @@ export default class ForgotPasswordComponent extends Component {
           <Title>Forgot password</Title>
 
           <form onSubmit={this.handleSubmit}>
-            {this.state.main.type === 'error' &&
-              <Error><i className="material-icons">error</i> {this.state.main.text}</Error>
-            }
+            {this.state.main.type === "error" && (
+              <Error>
+                <i className="material-icons">error</i> {this.state.main.text}
+              </Error>
+            )}
 
-            {this.state.main.type === 'success' ?
-              <Success><i className="material-icons">done</i> {this.state.main.text}</Success> : [
-
+            {this.state.main.type === "success" ? (
+              <Success>
+                <i className="material-icons">done</i> {this.state.main.text}
+              </Success>
+            ) : (
+              [
                 <Input
                   fullWidth={true}
                   floatingLabelText="Email"
                   name="email"
                   key={0}
-                  inputRef={r => this._email = r}
+                  inputRef={(r) => (this._email = r)}
                   errorText={this.state.errors.email}
                 />,
 
@@ -136,26 +136,26 @@ export default class ForgotPasswordComponent extends Component {
                   variant="contained"
                   disabled={this.state.disabled}
                   type="submit"
-                  style={{marginTop: 20}}
+                  style={{ marginTop: 20 }}
                 >
                   Send me instructions
                 </Button>,
               ]
-            }
+            )}
           </form>
 
           <Links>
-            {this.state.main.type === 'success' ?
+            {this.state.main.type === "success" ? (
               <Link to="/">
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
+                <Button color="primary" variant="contained">
                   <HomeIcon>home</HomeIcon> Home
                 </Button>
-              </Link> :
-              <p><Link to="/signin">Cancel</Link></p>
-            }
+              </Link>
+            ) : (
+              <p>
+                <Link to="/signin">Cancel</Link>
+              </p>
+            )}
           </Links>
         </Panel>
       </ForgotPassword>
@@ -174,20 +174,24 @@ export default class ForgotPasswordComponent extends Component {
 
     const email = this._email.input.value;
 
-    if (Lodash.isEmpty(email)) errors.email = 'This field is required.';
+    if (Lodash.isEmpty(email)) errors.email = "This field is required.";
 
     if (Lodash.isEmpty(errors)) {
-      Meteor.call('user/forgotPassword', email, (error, res) => {
-        if (res === 'NotFound') {
-          this.setState({ main: {
-            text: 'There is no account associated with this email.',
-            type: 'error',
-          }});
+      Meteor.call("user/forgotPassword", email, (error, res) => {
+        if (res === "NotFound") {
+          this.setState({
+            main: {
+              text: "There is no account associated with this email.",
+              type: "error",
+            },
+          });
         } else {
-          this.setState({ main: {
-            text: 'An email was just sent to the inserted address.',
-            type: 'success',
-          }});
+          this.setState({
+            main: {
+              text: "An email was just sent to the inserted address.",
+              type: "success",
+            },
+          });
         }
 
         this.setState({ disabled: false });
@@ -198,5 +202,5 @@ export default class ForgotPasswordComponent extends Component {
         disabled: false,
       });
     }
-  }
+  };
 }

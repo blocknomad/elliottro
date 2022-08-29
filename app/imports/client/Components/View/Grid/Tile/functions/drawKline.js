@@ -1,5 +1,5 @@
-export default function drawKline({ context, body, wick, color, stroke}) {
-  const normalizeLine = (n) => Math.floor(n) + .5;
+export default function drawKline({ context, body, wick, color, stroke }) {
+  const normalizeLine = (n) => Math.floor(n) + 0.5;
 
   context.save();
 
@@ -7,12 +7,7 @@ export default function drawKline({ context, body, wick, color, stroke}) {
 
   body.height = body.height < 1 ? 1 : body.height;
 
-  context.rect(
-    body.startX,
-    body.startY,
-    body.width,
-    body.height
-  );
+  context.rect(body.startX, body.startY, body.width, body.height);
 
   if (stroke) {
     context.strokeStyle = color;
@@ -38,4 +33,4 @@ export default function drawKline({ context, body, wick, color, stroke}) {
   context.stroke();
 
   context.restore();
-};
+}

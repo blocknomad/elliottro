@@ -1,20 +1,28 @@
 /* CSS declarations go here */
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   position: absolute;
   width: 100%;
   min-width: 1000px;
-  font-family: 'Lato', 'Open Sans', sans-serif;
+  font-family: "Lato", "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   background-color: #f2f2f5;
 }
 
-h1, h2, h3, h4, h5, h6, p, input {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+input {
   margin: 0;
 }
 
 input {
-  font-family: 'Lato';
+  font-family: "Lato";
 }

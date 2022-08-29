@@ -1,13 +1,13 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
-import Lodash from 'lodash';
+import { Meteor } from "meteor/meteor";
+import { Mongo } from "meteor/mongo";
+import SimpleSchema from "simpl-schema";
+import Lodash from "lodash";
 
-import QuoteAssets from '../fixtures/quoteAssets';
-import Exchanges from '../fixtures/exchanges';
-import Timeframes from '../fixtures/timeframes';
+import QuoteAssets from "../fixtures/quoteAssets";
+import Exchanges from "../fixtures/exchanges";
+import Timeframes from "../fixtures/timeframes";
 
-const Screens = new Mongo.Collection('screens');
+const Screens = new Mongo.Collection("screens");
 
 const ScreenSchema = new SimpleSchema({
   name: {
@@ -21,16 +21,16 @@ const ScreenSchema = new SimpleSchema({
   exchanges: {
     type: Array,
   },
-  'exchanges.$': {
+  "exchanges.$": {
     type: String,
     allowedValues: Lodash.keys(Exchanges),
   },
   quoteAssets: {
     type: Array,
   },
-  'quoteAssets.$': {
+  "quoteAssets.$": {
     type: String,
-    allowedValues: Lodash.flatten(Lodash.map(QuoteAssets, 'value')),
+    allowedValues: Lodash.flatten(Lodash.map(QuoteAssets, "value")),
   },
   range: {
     type: Number,
@@ -38,10 +38,10 @@ const ScreenSchema = new SimpleSchema({
   chart: {
     type: Object,
   },
-  'chart.type': {
+  "chart.type": {
     type: String,
   },
-  'chart.pattern': {
+  "chart.pattern": {
     type: String,
   },
   slug: {
@@ -57,18 +57,18 @@ const ScreenSchema = new SimpleSchema({
     optional: true,
     autoValue() {
       if (this.isInsert) {
-        return new Date()
+        return new Date();
       } else if (this.isUpsert) {
-        return { $setOnInsert: new Date() }
+        return { $setOnInsert: new Date() };
       }
-      this.unset()
+      this.unset();
     },
   },
 });
 
 Screens.attachSchema(ScreenSchema);
 Screens.friendlySlugs({
-  slugFrom: 'name',
+  slugFrom: "name",
   updateSlug: true,
 });
 

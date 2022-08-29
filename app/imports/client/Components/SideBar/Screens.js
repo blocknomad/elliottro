@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Lodash from 'lodash';
-import { createContainer } from 'meteor/react-meteor-data';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
+import Lodash from "lodash";
+import { createContainer } from "meteor/react-meteor-data";
 
-import Screens from '/imports/both/collections/screens';
+import Screens from "/imports/both/collections/screens";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button } from "@material-ui/core";
 
-import SettingsIcon from '@material-ui/icons/Settings';
-import DeleteIcon from '@material-ui/icons/Delete';
-import PlayIcon from '@material-ui/icons/PlayArrow';
+import SettingsIcon from "@material-ui/icons/Settings";
+import DeleteIcon from "@material-ui/icons/Delete";
+import PlayIcon from "@material-ui/icons/PlayArrow";
 
 // Styled components
 
@@ -55,7 +55,7 @@ class ScreensComponent extends Component {
       <List>
         <Title>Screens</Title>
 
-        {Lodash.map(screens, screen => (
+        {Lodash.map(screens, (screen) => (
           <Item key={screen._id}>
             <Name title={screen.name}>{screen.name}</Name>
 
@@ -70,11 +70,7 @@ class ScreensComponent extends Component {
             </IconButton>
 
             <Link to={`/view/${screen.slug}`}>
-              <Button
-                color="primary"
-                variant="contained"
-                title="Run screen"
-              >
+              <Button color="primary" variant="contained" title="Run screen">
                 <PlayIcon />
               </Button>
             </Link>
@@ -83,10 +79,10 @@ class ScreensComponent extends Component {
       </List>
     );
   }
-};
+}
 
 export default createContainer(({ params }) => {
-  const subscription = Meteor.subscribe('screens.fromCurrentUser');
+  const subscription = Meteor.subscribe("screens.fromCurrentUser");
   const loading = !subscription.ready();
   const screens = Screens.find().fetch();
 

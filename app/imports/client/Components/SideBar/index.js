@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import { withRouter } from 'react-router';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import { withRouter } from "react-router";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import Screens from './Screens';
+import Screens from "./Screens";
 
-import { IconButton, Badge } from '@material-ui/core';
-import WebAssetIcon from '@material-ui/icons/WebAsset';
-import AccessAlarmsIcon from '@material-ui/icons/AccessAlarms';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import { IconButton, Badge } from "@material-ui/core";
+import WebAssetIcon from "@material-ui/icons/WebAsset";
+import AccessAlarmsIcon from "@material-ui/icons/AccessAlarms";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 // Styled components
 
@@ -28,7 +28,7 @@ const Content = Styled.div`
   box-sizing: border-box;
   border-left: 1px solid #eee;
 
-  ${props => props.visible === false && 'display: none;'}
+  ${(props) => props.visible === false && "display: none;"}
 `;
 
 const tabSize = 50;
@@ -45,7 +45,9 @@ const Tab = Styled.div`
   height: ${tabSize}px;
   border-bottom: 1px solid #ddd;
 
-  ${props => props.active && `
+  ${(props) =>
+    props.active &&
+    `
     background-color: #FFF;
   `};
 `;
@@ -53,7 +55,7 @@ const Tab = Styled.div`
 class SideBarComponent extends Component {
   state = {
     active: undefined,
-  }
+  };
 
   render() {
     const { active } = this.state;
@@ -61,36 +63,37 @@ class SideBarComponent extends Component {
     return (
       <SideBar>
         <Content visible={this.props.visible}>
-          {active === 'screens' && <Screens />}
+          {active === "screens" && <Screens />}
         </Content>
 
         <Tabs>
           <Tab
             title="Screens"
-            active={active === 'screens'}
-            onClick={() => this.handleChange('screens')}
+            active={active === "screens"}
+            onClick={() => this.handleChange("screens")}
           >
-            <IconButton><WebAssetIcon /></IconButton>
+            <IconButton>
+              <WebAssetIcon />
+            </IconButton>
           </Tab>
 
           <Tab
             title="Alerts"
-            active={active === 'alerts'}
-            onClick={() => this.handleChange('alerts')}
+            active={active === "alerts"}
+            onClick={() => this.handleChange("alerts")}
           >
-            <IconButton><AccessAlarmsIcon /></IconButton>
+            <IconButton>
+              <AccessAlarmsIcon />
+            </IconButton>
           </Tab>
 
           <Tab
             title="Notifications"
-            active={active === 'notifications'}
-            onClick={() => this.handleChange('notifications')}
+            active={active === "notifications"}
+            onClick={() => this.handleChange("notifications")}
           >
             <IconButton>
-              <Badge
-                badgeContent={10}
-                color="secondary"
-              >
+              <Badge badgeContent={10} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -111,7 +114,7 @@ class SideBarComponent extends Component {
         this.props.handleSideBarToggle();
       }
     }
-  }
-};
+  };
+}
 
 export default withRouter(SideBarComponent);

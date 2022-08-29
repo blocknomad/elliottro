@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-import { Link, NavLink } from 'react-router-dom';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import { Link, NavLink } from "react-router-dom";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import UserWidget from './UserWidget';
+import UserWidget from "./UserWidget";
 
-import {
-  FlatButton,
-  Button,
-} from '@material-ui/core';
+import { FlatButton, Button } from "@material-ui/core";
 
 // Styled components
 
@@ -114,17 +111,16 @@ const Menu = Styled.div`
   }
 `;
 
-
 export default class HeaderComponent extends Component {
   render() {
     const insidePathnames = (match, loc, pathnames = []) => {
       let insideMatch = false;
 
-      pathnames.forEach(pathname => {
+      pathnames.forEach((pathname) => {
         if (loc.pathname.includes(pathname)) {
           insideMatch = true;
         }
-      })
+      });
 
       return Boolean(match) || insideMatch;
     };
@@ -136,13 +132,9 @@ export default class HeaderComponent extends Component {
             <Logo src="/logo-brand.svg" />
           </Link>
 
-          <State>
-            Beta
-          </State>
+          <State>Beta</State>
 
-					<Nav>
-
-					</Nav>
+          <Nav></Nav>
           {/* <Search>
             <div><i className="material-icons">search</i></div>
             <input placeholder="Search for symbols" />

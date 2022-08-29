@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import Styled, { keyframes } from 'styled-components';
+import React, { Component } from "react";
+import Styled, { keyframes } from "styled-components";
 
-
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
 // Styled components
 
-const initialColor = '#ccc';
-const animationDuration = .9;
+const initialColor = "#ccc";
+const animationDuration = 0.9;
 
 const Transition = keyframes`
   0% { background-color: ${config.colors.primary} }
   28% { background-color: ${config.colors.primary} }
   33.33% { background-color: ${initialColor} }
-`
+`;
 
 const Spinner = Styled.div`
   width: 100%;
@@ -23,7 +22,7 @@ const Spinner = Styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%);
-`
+`;
 
 const Dot = Styled.div`
   width: 14px;
@@ -36,18 +35,19 @@ const Dot = Styled.div`
   animation: ${Transition} ${animationDuration}s infinite;
 
   &:nth-child(2) {
-    animation-delay: ${animationDuration * .33}s;
+    animation-delay: ${animationDuration * 0.33}s;
   }
 
   &:last-child {
-    animation-delay: ${animationDuration * .66}s;
+    animation-delay: ${animationDuration * 0.66}s;
     margin-right: 0;
   }
-`
+`;
 
-export default () =>
+export default () => (
   <Spinner>
     <Dot />
     <Dot />
     <Dot />
   </Spinner>
+);

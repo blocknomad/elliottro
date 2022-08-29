@@ -1,7 +1,7 @@
-import { Mongo } from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
+import { Mongo } from "meteor/mongo";
+import SimpleSchema from "simpl-schema";
 
-const Newsletter = new Mongo.Collection('newsletter');
+const Newsletter = new Mongo.Collection("newsletter");
 
 export const NewsletterSchema = new SimpleSchema({
   email: SimpleSchema.RegEx.Email,
@@ -10,11 +10,11 @@ export const NewsletterSchema = new SimpleSchema({
     optional: true,
     autoValue() {
       if (this.isInsert) {
-        return new Date()
+        return new Date();
       } else if (this.isUpsert) {
-        return { $setOnInsert: new Date() }
+        return { $setOnInsert: new Date() };
       }
-      this.unset()
+      this.unset();
     },
   },
 });

@@ -1,4 +1,3 @@
-
 /**
 
 	@function normalizeInput
@@ -25,12 +24,11 @@
 
 **/
 
-import Lodash from 'lodash';
-
+import Lodash from "lodash";
 
 export default function normalizeInput(series, a, b) {
   const Xmin = Lodash.min(series);
   const Xmax = Lodash.max(series);
 
-  return Lodash.map(series, X => a + (X - Xmin) * (b - a) / (Xmax - Xmin));
-};
+  return Lodash.map(series, (X) => a + ((X - Xmin) * (b - a)) / (Xmax - Xmin));
+}

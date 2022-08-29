@@ -1,4 +1,11 @@
-export default function drawGridLine(context, startX, startY, endX, endY, color) {
+export default function drawGridLine(
+  context,
+  startX,
+  startY,
+  endX,
+  endY,
+  color
+) {
   context.save();
   context.strokeStyle = color;
   context.beginPath();
@@ -6,4 +13,4 @@ export default function drawGridLine(context, startX, startY, endX, endY, color)
   context.lineTo(endX, endY);
   context.stroke();
   context.restore();
-};
+}

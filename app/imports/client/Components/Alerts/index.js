@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
+import React, { Component } from "react";
+import Styled from "styled-components";
 
-import config from '/imports/client/config';
+import config from "/imports/client/config";
 
-import {
-
-} from '@material-ui/core';
-
+import {} from "@material-ui/core";
 
 // Styled components
 
@@ -17,10 +14,6 @@ const Alerts = Styled.section`
 
 export default class AlertsComponent extends Component {
   render() {
-    return (
-      <Alerts>
-        Alerts
-      </Alerts>
-    );
+    return <Alerts>Alerts</Alerts>;
   }
 }
